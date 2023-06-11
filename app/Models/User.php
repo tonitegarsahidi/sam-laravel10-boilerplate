@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'roles',
     ];
 
     /**
@@ -40,6 +41,17 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'roles' => 'array',
     ];
+
+    // User.php
+    public function hasRole($role)
+    {
+        return in_array($role, $this->roles);
+    }
+
+    public function hasAnyRole($roles)
+    {
+        return !empty(array_intersect($this->roles, $roles));
+    }
 }

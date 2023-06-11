@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['cekstress.my.id', '*.cekstress.my.id', 'temansebayaperempuan.id', '*.temansebayaperempuan.id'],
 
     'allowed_origins_patterns' => [],
 
