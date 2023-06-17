@@ -1,5 +1,13 @@
 @extends('admin.template-blank')
 
+@section('header-code')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+    </script>
+@endsection
+
 @section('main-content')
     <div class="page-wrapper full-page-wrapper d-flex align-items-center justify-content-center">
         <main class="auth-page">
@@ -11,6 +19,24 @@
                     <div
                         class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
                         <div class="mdc-card">
+
+                            <h2 class="text-center">Hop on board!</h2>
+
+                            <!-- Notification element -->
+                            @if ($errors->any() || session('loginError'))
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        @if ($errors->any())
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        @endif
+                                        @if (session('loginError'))
+                                            <li>{{ session('loginError') }}</li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            @endif
                             <form method="POST" action="{{ route('register') }}">
 
                                 @csrf

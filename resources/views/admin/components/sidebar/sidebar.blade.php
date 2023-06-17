@@ -131,6 +131,7 @@
                     {{-- SPECIAL FOR LOGOUT ONLY --}}
                     <div class="mdc-list-item mdc-drawer-item">
                         <form method="POST" action="{{ route('logout') }}">
+                            @csrf
                         <a class="mdc-expansion-panel-link" href="#" onclick="event.preventDefault();
                         this.closest('form').submit();">
                             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"

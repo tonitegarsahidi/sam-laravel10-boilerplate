@@ -33,14 +33,19 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'agree' => 'accepted',
+        ], [
+            'agree.accepted' => 'You need to agree to our terms and conditions.',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'is_active' => config('constant.NEW_USER_STATUS_ACTIVE'),
+            'roles' => [config('constant.NEW_USER_DEFAULT_ROLES')],   //default created roles are users
         ]);
 
         event(new Registered($user));

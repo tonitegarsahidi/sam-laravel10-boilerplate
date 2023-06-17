@@ -17,11 +17,12 @@ class HomeController extends Controller
 
     public function index(Request $request){
 
-        if (!Auth::check()) {
-            return redirect()->route('login');
+        //will redirect to dashboard if user already logged in
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
         }
 
-        return view('admin.template-index', [
+        return view('landing.index', [
             'user' => $request->user(),
         ]);
 
