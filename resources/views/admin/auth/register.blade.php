@@ -44,7 +44,7 @@
                                     <div class="mdc-layout-grid__inner">
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                                             <div class="mdc-text-field w-100">
-                                                <input class="mdc-text-field__input" id="text-field-hero-input" name="name" required>
+                                                <input class="mdc-text-field__input" id="text-field-hero-input" value="{{old('name')}}" name="name" required>
                                                 <div class="mdc-line-ripple"></div>
                                                 <label for="text-field-hero-input"
                                                     class="mdc-floating-label">Name</label>
@@ -54,7 +54,7 @@
                                         <div
                                             class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
                                             <div class="mdc-text-field w-100">
-                                                <input class="mdc-text-field__input" id="text-field-hero-input" name="email" type="email" required>
+                                                <input class="mdc-text-field__input" id="text-field-hero-input" value="{{old('email')}}" name="email" type="email" required>
                                                 <div class="mdc-line-ripple"></div>
                                                 <label for="text-field-hero-input"
                                                     class="mdc-floating-label">Email</label>
@@ -64,7 +64,7 @@
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                                             <div class="mdc-text-field w-100">
                                                 <input class="mdc-text-field__input" type="password"
-                                                    id="text-field-hero-input" name="password" required>
+                                                    id="text-field-hero-input" name="password" value="{{old('password')}}" required>
                                                 <div class="mdc-line-ripple"></div>
                                                 <label for="text-field-hero-input"
                                                     class="mdc-floating-label">Password</label>
@@ -84,7 +84,7 @@
                                             <div class="mdc-form-field">
                                                 <div class="mdc-checkbox">
                                                     <input type="checkbox" class="mdc-checkbox__native-control"
-                                                        id="checkbox-1" name="agree" />
+                                                        id="checkbox-1" name="agree" value="{{old('agree')}}" />
                                                     <div class="mdc-checkbox__background">
                                                         <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                                                             <path class="mdc-checkbox__checkmark-path" fill="none"

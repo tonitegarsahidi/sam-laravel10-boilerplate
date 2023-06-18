@@ -20,7 +20,6 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        // return view('auth.register');
         return view('admin.auth.register');
     }
 
@@ -59,7 +58,4 @@ class RegisteredUserController extends Controller
         }
     }
 
-    public function verifyYourEmailPage(){
-        return view('admin.auth.verify-your-email');
-    }
 }

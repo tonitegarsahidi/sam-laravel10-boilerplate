@@ -48,7 +48,7 @@
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                                             <div class="mdc-text-field w-100">
                                                 <input class="mdc-text-field__input" name="email"
-                                                    id="text-field-hero-input">
+                                                    id="text-field-hero-input" value="{{old('email')}}">
                                                 <div class="mdc-line-ripple"></div>
                                                 <label for="text-field-hero-input"
                                                     class="mdc-floating-label">Username</label>
@@ -88,7 +88,7 @@
                                         {{-- FORGOT PASSWORD LINK --}}
                                         <div
                                             class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center justify-content-end">
-                                            <a href="#">Forgot Password</a>
+                                            <a href="{{route('password.request')}}">Forgot Password</a>
                                         </div>
 
                                         {{-- LOGIN BUTTON --}}
