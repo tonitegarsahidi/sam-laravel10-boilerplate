@@ -84,7 +84,7 @@
                                             <div class="mdc-form-field">
                                                 <div class="mdc-checkbox">
                                                     <input type="checkbox" class="mdc-checkbox__native-control"
-                                                        id="checkbox-1" name="agree" value="{{old('agree')}}" />
+                                                        id="checkbox-1" name="agree" />
                                                     <div class="mdc-checkbox__background">
                                                         <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                                                             <path class="mdc-checkbox__checkmark-path" fill="none"

@@ -56,7 +56,7 @@ class LoginRequest extends FormRequest
             if (auth()->check() && !auth()->user()->is_active) {
                 auth()->logout();
                 throw ValidationException::withMessages([
-                    'email' => 'Your email has not yet verified. Please verify it first, thank you. Check your email to verify',
+                    'email' => 'Admin will need to verify your account before it can be active. Please wait 2x24 hours before able to  login. ',
                 ]);
             }
         }
