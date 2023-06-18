@@ -49,6 +49,18 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        //if by default, new user is not active until verified
+        if(!config('constant.NEW_USER_STATUS_ACTIVE')){
+
+            //check user's status active
+            if (auth()->check() && !auth()->user()->is_active) {
+                auth()->logout();
+                throw ValidationException::withMessages([
+                    'email' => 'Your email has not yet verified. Please verify it first, thank you. Check your email to verify',
+                ]);
+            }
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

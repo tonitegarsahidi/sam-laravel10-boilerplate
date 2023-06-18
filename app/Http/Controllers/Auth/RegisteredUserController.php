@@ -50,8 +50,16 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        //jika user auto aktif
+        if(config('constant.NEW_USER_STATUS_ACTIVE')) {
+            Auth::login($user);
+            return redirect(RouteServiceProvider::HOME);
+        } else {
+            return redirect(RouteServiceProvider::VERIFY_EMAIL);
+        }
+    }
 
-        return redirect(RouteServiceProvider::HOME);
+    public function verifyYourEmailPage(){
+        return view('admin.auth.verify-your-email');
     }
 }
