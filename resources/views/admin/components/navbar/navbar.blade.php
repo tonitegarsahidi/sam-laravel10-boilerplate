@@ -1,188 +1,99 @@
-<header class="mdc-top-app-bar">
-    <div class="mdc-top-app-bar__row">
-      <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-        <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-        <span class="mdc-top-app-bar__title">Greetings {{ auth()->user()->name }}!</span>
-        <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon search-text-field d-none d-md-flex">
-          <i class="material-icons mdc-text-field__icon">search</i>
-          <input class="mdc-text-field__input" id="text-field-hero-input">
-          <div class="mdc-notched-outline">
-            <div class="mdc-notched-outline__leading"></div>
-            <div class="mdc-notched-outline__notch">
-              <label for="text-field-hero-input" class="mdc-floating-label">Search..</label>
-            </div>
-            <div class="mdc-notched-outline__trailing"></div>
-          </div>
-        </div>
-      </div>
-      <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
-        <div class="menu-button-container menu-profile d-none d-md-block">
-          <button class="mdc-button mdc-menu-button">
-            <span class="d-flex align-items-center">
-              <span class="figure">
-                <img src={{ asset("assets/images/faces/face1.jpg") }} alt="user" class="user">
-              </span>
-              <span class="user-name">{{ auth()->user()->name }}</span>
-            </span>
-          </button>
-          <div class="mdc-menu mdc-menu-surface" tabindex="-1">
-            <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon-only">
-                  <i class="mdi mdi-account-edit-outline text-primary"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Edit profile</h6>
-                </div>
-              </li>
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon-only">
-                  <i class="mdi mdi-settings-outline text-primary"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Logout</h6>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="divider d-none d-md-block"></div>
-        <div class="menu-button-container d-none d-md-block">
-          <button class="mdc-button mdc-menu-button">
-            <i class="mdi mdi-settings"></i>
-          </button>
-          <div class="mdc-menu mdc-menu-surface" tabindex="-1">
-            <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon-only">
-                  <i class="mdi mdi-alert-circle-outline text-primary"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Settings</h6>
-                </div>
-              </li>
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon-only">
-                  <i class="mdi mdi-progress-download text-primary"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Update</h6>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="menu-button-container">
-          <button class="mdc-button mdc-menu-button">
-            <i class="mdi mdi-bell"></i>
-          </button>
-          <div class="mdc-menu mdc-menu-surface" tabindex="-1">
-            <h6 class="title"> <i class="mdi mdi-bell-outline mr-2 tx-16"></i> Notifications</h6>
-            <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon">
-                  <i class="mdi mdi-email-outline"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">You received a new message</h6>
-                  <small class="text-muted"> 6 min ago </small>
-                </div>
-              </li>
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon">
-                  <i class="mdi mdi-account-outline"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">New user registered</h6>
-                  <small class="text-muted"> 15 min ago </small>
-                </div>
-              </li>
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon">
-                  <i class="mdi mdi-alert-circle-outline"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">System Alert</h6>
-                  <small class="text-muted"> 2 days ago </small>
-                </div>
-              </li>
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon">
-                  <i class="mdi mdi-update"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">You have a new update</h6>
-                  <small class="text-muted"> 3 days ago </small>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="menu-button-container">
-          <button class="mdc-button mdc-menu-button">
-            <i class="mdi mdi-email"></i>
-            <span class="count-indicator">
-              <span class="count">3</span>
-            </span>
-          </button>
-          <div class="mdc-menu mdc-menu-surface" tabindex="-1">
-            <h6 class="title"><i class="mdi mdi-email-outline mr-2 tx-16"></i> Messages</h6>
-            <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail">
-                  <img src={{ asset("assets/images/faces/face4.jpg") }} alt="user">
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Mark send you a message</h6>
-                  <small class="text-muted"> 1 Minutes ago </small>
-                </div>
-              </li>
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail">
-                  <img src={{ asset("assets/images/faces/face2.jpg") }} alt="user">
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Cregh send you a message</h6>
-                  <small class="text-muted"> 15 Minutes ago </small>
-                </div>
-              </li>
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail">
-                  <img src={{ asset("assets/images/faces/face3.jpg") }} alt="user">
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Profile picture updated</h6>
-                  <small class="text-muted"> 18 Minutes ago </small>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="menu-button-container d-none d-md-block">
-          <button class="mdc-button mdc-menu-button">
-            <i class="mdi mdi-arrow-down-bold-box"></i>
-          </button>
-          <div class="mdc-menu mdc-menu-surface" tabindex="-1">
-            <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon-only">
-                  <i class="mdi mdi-lock-outline text-primary"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Lock screen</h6>
-                </div>
-              </li>
-              <li class="mdc-list-item" role="menuitem">
-                <div class="item-thumbnail item-thumbnail-icon-only">
-                  <i class="mdi mdi-logout-variant text-primary"></i>
-                </div>
-                <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="item-subject font-weight-normal">Logout</h6>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+    id="layout-navbar">
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+        </a>
     </div>
-  </header>
+
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <!-- Search -->
+        <div class="navbar-nav align-items-center">
+            <div class="nav-item d-flex align-items-center">
+                <i class="bx bx-search fs-4 lh-0"></i>
+                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                    aria-label="Search..." />
+            </div>
+        </div>
+        <!-- /Search -->
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Place this tag where you want the button to render. -->
+            <li class="nav-item lh-1 me-3">
+                <a class="github-button" href="https://github.com/themeselection/sneat-html-admin-template-free"
+                    data-icon="octicon-star" data-size="large" data-show-count="true"
+                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+            </li>
+
+            <!-- User -->
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="avatar avatar-online">
+                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                            class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <span class="fw-semibold d-block">John Doe</span>
+                                    <small class="text-muted">Admin</small>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="bx bx-user me-2"></i>
+                            <span class="align-middle">My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="bx bx-cog me-2"></i>
+                            <span class="align-middle">Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <span class="d-flex align-items-center align-middle">
+                                <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
+                                <span class="flex-grow-1 align-middle">Billing</span>
+                                <span
+                                    class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+
+                            <a class="dropdown-item" ref="#"
+                                onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                                <i class="bx bx-power-off me-2"></i>
+                                <span class="align-middle">Log Out</span>
+                            </a>
+
+                        </form>
+                    </li>
+                </ul>
+            </li>
+            <!--/ User -->
+        </ul>
+    </div>
+</nav>

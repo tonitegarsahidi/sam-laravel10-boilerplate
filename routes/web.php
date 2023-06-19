@@ -26,7 +26,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 
 
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 
 // SAMPLE PAGES FOR THIS BOILER PLATE THING....
 // NO FUNCTIONALITY JUST FOR SOME DASHBOARD / CRUD PAGES REFERENCE
-    Route::middleware('verified')->group(function () {
+    // Route::middleware('verified')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/sample/chart', [SampleController::class, 'chartPages'])->name('sampleChart');
         Route::get('/sample/table', [SampleController::class, 'tablePages'])->name('sampleTable');
@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/sample/ui-button', [SampleController::class, 'uiButtonPages'])->name('sampleUiButton');
         Route::get('/sample/ui-typography', [SampleController::class, 'uiTypographyPages'])->name('sampleUiTypography');
         Route::get('/sample/documentation', [SampleController::class, 'documentationPages'])->name('sampleDocumentation');
-    });
+    // });
 
     //This One is for Demo Middleware Routing, so that only who has role can access it
     Route::get('/admin-page',       [AdminController::class, 'index'])      ->name('admin-page')    ->middleware('role:ROLE_ADMIN');
@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     })->middleware('role:ROLE_ADMIN', 'role:ROLE_OPERATOR');
 
 
-});
+// });
 
 
 
