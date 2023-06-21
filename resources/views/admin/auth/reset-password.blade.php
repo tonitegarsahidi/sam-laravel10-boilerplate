@@ -11,26 +11,25 @@
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner">
-                <!-- Register -->
+                <!-- Reset Password -->
                 <div class="card">
                     <div class="card-body">
 
                         @include('admin.auth.logo')
 
-                        <h4 class="mb-2">Welcome Back Ninja 👋</h4>
-                        <p class="mb-4">Please sign-in to your account and start the adventure</p>
+
+                        <h4 class="mb-2">Reset Password</h4>
+                        <p class="mb-4">Please create a new password, and make sure you remember it now</p>
+
 
                         <!-- Notification element -->
-                        @if ($errors->any() || session('loginError'))
+                        @if ($errors->any())
                             <div class="alert alert-danger" role="alert">
                                 <ul>
                                     @if ($errors->any())
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
-                                    @endif
-                                    @if (session('loginError'))
-                                        <li>{{ session('loginError') }}</li>
                                     @endif
                                 </ul>
                             </div>
@@ -43,25 +42,26 @@
                             </div>
                         @endif
 
-                        <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
+                        <form id="formResetPassword" class="mb-3" action="{{ route('password.store') }}" method="POST">
 
                             @csrf
 
+                            <!-- Password Reset Token -->
+                            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+
                             {{-- EMAIL as USERNAME --}}
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email or Username</label>
+                                <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email" value="{{ old('email') }}" autofocus />
+                                    placeholder="Enter your email" value="{{ old('email', $request->email) }}" required
+                                    autofocus />
                             </div>
 
 
                             {{-- PASSWORD --}}
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">Password</label>
-                                    <a href="{{ route('password.request') }}">
-                                        <small>Forgot Password?</small>
-                                    </a>
+                                    <label class="form-label" for="password">Your New Password</label>
                                 </div>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password" class="form-control" name="password"
@@ -71,27 +71,14 @@
                                 </div>
                             </div>
 
-
                             <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember-me" />
-                                    <label class="form-check-label" for="remember-me"> Remember Me </label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                                <button class="btn btn-primary d-grid w-100" type="submit">Reset Password</button>
                             </div>
                         </form>
 
-                        <p class="text-center">
-                            <span>New on our platform?</span>
-                            <a href="{{ route('register') }}">
-                                <span>Create an account</span>
-                            </a>
-                        </p>
                     </div>
                 </div>
-                <!-- /Register -->
+                <!-- /Reset Password -->
             </div>
         </div>
     </div>

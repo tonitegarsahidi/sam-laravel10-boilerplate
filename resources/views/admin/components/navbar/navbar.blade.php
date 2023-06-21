@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block">John Doe</span>
+                                    <span class="fw-semibold d-block">{{auth()->user()->name}}</span>
                                     <small class="text-muted">Admin</small>
                                 </div>
                             </div>
@@ -81,8 +81,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-
-                            <a class="dropdown-item" ref="#"
+                            <a class="dropdown-item" href="#"
                                 onclick="event.preventDefault();
                                     this.closest('form').submit();">
                                 <i class="bx bx-power-off me-2"></i>
