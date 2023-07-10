@@ -76,13 +76,27 @@
             {{-- USER ONLY MENU --}}
             @include('admin.components.sidebar.item', [
                 'menuId' => 'menu-user-pages',
-                'menuText' => 'User Management',
-                'menuUrl' => url('/user-page'),
+                'menuText' => 'Admin Management',
+                'menuUrl' => url('/admin-page'),
                 'menuIcon' => 'bx bx-group',
                 'subMenuData' => null,
             ])
         @endif
 
+
+        {{-- ROLE SPECIFIC MENU -- SUPERVISOR --}}
+        @if (auth()->user()->hasRole('ROLE_SUPERVISOR'))
+            {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
+            @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Supervisor Menu'])
+            {{-- OPERATOR ONLY MENU --}}
+            @include('admin.components.sidebar.item', [
+                'menuId' => 'menu-operator-pages',
+                'menuText' => 'Supervisor',
+                'menuUrl' => url('/supervisor-page'),
+                'menuIcon' => 'bx bx-briefcase-alt',
+                'subMenuData' => null,
+            ])
+        @endif
 
         {{-- ROLE SPECIFIC MENU -- OPERATOR --}}
         @if (auth()->user()->hasRole('ROLE_OPERATOR'))
@@ -91,9 +105,24 @@
             {{-- OPERATOR ONLY MENU --}}
             @include('admin.components.sidebar.item', [
                 'menuId' => 'menu-operator-pages',
-                'menuText' => 'Supervise',
+                'menuText' => 'Operator',
                 'menuUrl' => url('/operator-page'),
-                'menuIcon' => 'bx bx-factory',
+                'menuIcon' => 'bx bx-train',
+                'subMenuData' => null,
+            ])
+        @endif
+
+
+        {{-- ROLE SPECIFIC MENU -- USER --}}
+        @if (auth()->user()->hasRole('ROLE_USER'))
+            {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
+            @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'User Menu'])
+            {{-- OPERATOR ONLY MENU --}}
+            @include('admin.components.sidebar.item', [
+                'menuId' => 'menu-operator-pages',
+                'menuText' => 'User Management',
+                'menuUrl' => url('/user-page'),
+                'menuIcon' => 'bx bx-train',
                 'subMenuData' => null,
             ])
         @endif

@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     //This One is for Demo Middleware Routing, so that only who has role can access it
     Route::get('/admin-page',       [AdminController::class, 'index'])      ->name('admin-page')    ->middleware('role:ROLE_ADMIN');
     Route::get('/operator-page',    [OperatorController::class, 'index'])   ->name('operator-page') ->middleware('role:ROLE_OPERATOR');
+    Route::get('/supervisor-page',    [SupervisorController::class, 'index'])   ->name('supervisor-page') ->middleware('role:ROLE_SUPERVISOR');
     Route::get('/user-page',        [UserController::class, 'index'])       ->name('user-page')     ->middleware('role:ROLE_USER');
 
     Route::get('/operator', function () {

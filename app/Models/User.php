@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'roles',
+        'is_active'
     ];
 
     /**
@@ -44,14 +44,25 @@ class User extends Authenticatable
         'roles' => 'array',
     ];
 
-    // User.php
-    public function hasRole($role)
+    public function roles()
     {
-        return in_array($role, $this->roles);
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
 
-    public function hasAnyRole($roles)
+
+
+    public function hasRole($roleCode)
     {
-        return !empty(array_intersect($this->roles, $roles));
+        return $this->roles()->where('role_code', $roleCode)->exists();
+    }
+
+    public function hasAnyRole($roleCodes)
+    {
+        return $this->roles()->whereIn('role_code', $roleCodes)->exists();
+    }
+
+    public function printRoles()
+    {
+        return $this->roles()->pluck('role_name')->implode(', ');
     }
 }

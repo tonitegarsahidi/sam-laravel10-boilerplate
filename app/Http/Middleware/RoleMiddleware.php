@@ -16,11 +16,11 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (auth()->check() && auth()->user()->hasAnyRole($roles)) {
-            return $next($request);
+        // Check if the authenticated user has any of the required roles
+        if (!$request->user() || !$request->user()->hasAnyRole($roles)) {
+            abort(403, 'Unauthorized');
         }
 
-         abort(403, 'Unauthorized Access');
-
+        return $next($request);
     }
 }
