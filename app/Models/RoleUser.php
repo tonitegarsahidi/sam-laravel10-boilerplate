@@ -11,6 +11,8 @@ class RoleUser extends Model
 
     protected $table = 'role_user';
 
+    protected $fillable = ['user_id', 'role_id'];
+
     public function roleMaster()
     {
         return $this->belongsToMany(RoleUser::class, 'role_user');
