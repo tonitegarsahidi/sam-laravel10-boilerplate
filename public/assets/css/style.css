@@ -22,6 +22,10 @@ body {
     text-transform: lowercase;
 }
 
+a.action-icon{
+    color:#286cff;
+}
+
 /* ! For .layout-navbar-fixed added fix padding top tpo .layout-page */
 /* Detached navbar */
 .layout-navbar-fixed .layout-wrapper:not(.layout-horizontal):not(.layout-without-menu) .layout-page {

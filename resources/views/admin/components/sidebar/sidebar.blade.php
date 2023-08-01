@@ -69,70 +69,14 @@
             'subMenuData' => null,
         ])
 
-        {{-- ROLE SPECIFIC MENU -- BASIC USER --}}
-        @if (auth()->user()->hasRole('ROLE_ADMIN'))
-            {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-            @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Admin Menu'])
-            {{-- USER ONLY MENU --}}
-            @include('admin.components.sidebar.item', [
-                'menuId' => 'menu-user-pages',
-                'menuText' => 'Admin Management',
-                'menuUrl' => url('/admin-page'),
-                'menuIcon' => 'bx bx-group',
-                'subMenuData' => null,
-            ])
-        @endif
-
-
-        {{-- ROLE SPECIFIC MENU -- SUPERVISOR --}}
-        @if (auth()->user()->hasRole('ROLE_SUPERVISOR'))
-            {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-            @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Supervisor Menu'])
-            {{-- OPERATOR ONLY MENU --}}
-            @include('admin.components.sidebar.item', [
-                'menuId' => 'menu-operator-pages',
-                'menuText' => 'Supervisor',
-                'menuUrl' => url('/supervisor-page'),
-                'menuIcon' => 'bx bx-briefcase-alt',
-                'subMenuData' => null,
-            ])
-        @endif
-
-        {{-- ROLE SPECIFIC MENU -- OPERATOR --}}
-        @if (auth()->user()->hasRole('ROLE_OPERATOR'))
-            {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-            @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Operator Menu'])
-            {{-- OPERATOR ONLY MENU --}}
-            @include('admin.components.sidebar.item', [
-                'menuId' => 'menu-operator-pages',
-                'menuText' => 'Operator',
-                'menuUrl' => url('/operator-page'),
-                'menuIcon' => 'bx bx-train',
-                'subMenuData' => null,
-            ])
-        @endif
-
-
-        {{-- ROLE SPECIFIC MENU -- USER --}}
-        @if (auth()->user()->hasRole('ROLE_USER'))
-            {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-            @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'User Menu'])
-            {{-- OPERATOR ONLY MENU --}}
-            @include('admin.components.sidebar.item', [
-                'menuId' => 'menu-operator-pages',
-                'menuText' => 'User Management',
-                'menuUrl' => url('/user-page'),
-                'menuIcon' => 'bx bx-train',
-                'subMenuData' => null,
-            ])
-        @endif
-
-
-
+        @include('admin.components.sidebar.admin-only-menu')
+        @include('admin.components.sidebar.supervisor-only-menu')
+        @include('admin.components.sidebar.operator-only-menu')
+        @include('admin.components.sidebar.user-only-menu')
 
 
         {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'User Menu'])
+        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'All Got This Menu'])
 
         {{-- EXAMPLE MENU WITH SUB MENU --}}
         @include('admin.components.sidebar.item', [

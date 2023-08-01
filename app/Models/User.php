@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -49,8 +51,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
 
-
-
     public function hasRole($roleCode)
     {
         return $this->roles()->where('role_code', $roleCode)->exists();
@@ -65,4 +65,10 @@ class User extends Authenticatable
     {
         return $this->roles()->pluck('role_name')->implode(', ');
     }
+
+    public function listRoles()
+    {
+        return $this->roles()->pluck('role_name');
+    }
+
 }
