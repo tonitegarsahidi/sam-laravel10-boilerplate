@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -12,9 +13,14 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function listAllUser(int $perPage): LengthAwarePaginator
+    public function listAllUser(int $perPage, string $sortField, string $sortOrder): LengthAwarePaginator
     {
-        return $this->userRepository->getAllUsers($perPage);
+        return $this->userRepository->getAllUsers($perPage, $sortField, $sortOrder);
+    }
+
+    public function getUserDetail(int $userId): User
+    {
+        return $this->userRepository->getUserById($userId);
     }
 
 }
