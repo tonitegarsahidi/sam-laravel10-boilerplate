@@ -13,7 +13,7 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function listAllUser(int $perPage, string $sortField, string $sortOrder): LengthAwarePaginator
+    public function listAllUser(int $perPage, string $sortField=null, string $sortOrder=null): LengthAwarePaginator
     {
         return $this->userRepository->getAllUsers($perPage, $sortField, $sortOrder);
     }

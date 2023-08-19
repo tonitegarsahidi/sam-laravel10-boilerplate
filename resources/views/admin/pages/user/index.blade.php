@@ -19,6 +19,8 @@
                         <option value="250" {{ $perPage == 250 ? 'selected' : '' }}>250</option>
                         <option value="500" {{ $perPage == 500 ? 'selected' : '' }}>500</option>
                     </select>
+                    <input type="hidden" name="sort_order" value="{{ request()->input('sort_order') }}" />
+                    <input type="hidden" name="sort_field" value="{{ request()->input('sort_field') }}" />
                 </form>
             </div>
             <div class="table-responsive text-nowrap">
@@ -50,11 +52,11 @@
                     </thead>
                     <tbody>
                         @php
-                            $nomor = 1;
+                            $startNumber = ($perPage * ($page-1)) + 1;
                         @endphp
                         @foreach ($users as $user)
                             <tr>
-                                <td>{{ $nomor++ }}</td>
+                                <td>{{ $startNumber++ }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
@@ -67,7 +69,11 @@
                                 <td>
 
                                     @foreach ($user->listRoles() as $role)
-                                        <span class="badge rounded-pill bg-label-danger"> {{ $role }} </span>
+                                        @if (strcasecmp($role, 'ADMINISTRATOR') == 0)
+                                            <span class="badge rounded-pill bg-label-danger"> {{ $role }} </span>
+                                        @else
+                                            <span class="badge rounded-pill bg-label-primary"> {{ $role }} </span>
+                                        @endif
                                     @endforeach
 
                                 </td>

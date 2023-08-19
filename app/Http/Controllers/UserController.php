@@ -20,6 +20,7 @@ class UserController extends Controller
     {
         $sortField = $request->input('sort_field', 'id');
         $sortOrder = $request->input('sort_order', 'asc');
+        $page = $request->input('page', '1');
         $perPage = $request->input('per_page', session('per_page', config('constant.DEFAULT_PAGINATION_PERPAGE')));
         session(['per_page' => $perPage]);
         $users = $this->userService->listAllUser($perPage, $sortField, $sortOrder);
@@ -29,7 +30,7 @@ class UserController extends Controller
             "level2text"   => "User Management",
         ];
 
-        return view('admin.pages.user.index', compact('users', 'breadcrumb', 'sortField', 'sortOrder', 'perPage'));
+        return view('admin.pages.user.index', compact('users', 'breadcrumb', 'sortField', 'sortOrder', 'perPage', 'page'));
     }
 
     public function add(Request $request)
