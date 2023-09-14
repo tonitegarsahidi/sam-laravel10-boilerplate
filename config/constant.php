@@ -2,7 +2,7 @@
 
 return [
 
-    'DEFAULT_PAGINATION_PERPAGE'    => 50,
+    'DEFAULT_PAGINATION_PERPAGE'    => 25,
     'keytoken' => env('KEY_TOKEN'),
 
     'NEW_USER_STATUS_ACTIVE'    => TRUE,

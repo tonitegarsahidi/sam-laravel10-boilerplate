@@ -22,12 +22,19 @@
                         </select>
                         <input type="hidden" name="sort_order" value="{{ request()->input('sort_order') }}" />
                         <input type="hidden" name="sort_field" value="{{ request()->input('sort_field') }}" />
+                        <input type="hidden" name="keyword" value="{{ request()->input('keyword') }}" />
                     </form>
                 </div>
                 <div class="p-2 d-flex align-items-center">
-                    <i class="bx bx-search fs-4 lh-0"></i>
-                    <input type="text" class="form-control border-1 shadow-none bg-light bg-gradient" placeholder="Search..."
-                        aria-label="Search..." />
+                    <form action="{{ url()->full() }}" method="get" class="d-flex align-items-center">
+                        <i class="bx bx-search fs-4 lh-0"></i>
+                        <input type="text" class="form-control border-1 shadow-none bg-light bg-gradient"
+                            placeholder="Search name or email.." aria-label="Search name or email..." name="keyword" />
+                        <input type="hidden" name="sort_order" value="{{ request()->input('sort_order') }}" />
+                        <input type="hidden" name="sort_field" value="{{ request()->input('sort_field') }}" />
+                        <input type="hidden" name="per_page" value="{{ request()->input('per_page') }}" />
+                    </form>
+                    </form>
                 </div>
             </div>
             <div class="table-responsive text-nowrap">

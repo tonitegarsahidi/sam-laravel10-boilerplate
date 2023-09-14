@@ -21,8 +21,8 @@ class UserController extends Controller
         $sortField = $request->input('sort_field', 'id');
         $sortOrder = $request->input('sort_order', 'asc');
         $page = $request->input('page', '1');
-        $perPage = $request->input('per_page', session('per_page', config('constant.DEFAULT_PAGINATION_PERPAGE')));
-        session(['per_page' => $perPage]);
+
+        $perPage = $request->input('per_page', config('constant.DEFAULT_PAGINATION_PERPAGE'));
         $users = $this->userService->listAllUser($perPage, $sortField, $sortOrder);
 
         $breadcrumb = [
