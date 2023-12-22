@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\Request;
+    $currentUrl = parse_url(url()->current(), PHP_URL_PATH);
+@endphp
+
 @include('admin.components.header.header')
 <div class="body-wrapper">
 
