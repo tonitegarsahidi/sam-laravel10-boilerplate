@@ -56,6 +56,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/user/{id}/edit',        [UserController::class, 'edit'])->name('admin-user-edit')->middleware('role:ROLE_ADMIN');
     Route::get('/admin/user/{id}/delete',        [UserController::class, 'delete'])->name('admin-user-delete')->middleware('role:ROLE_ADMIN');
 
+    Route::get('/admin/user',        [UserController::class, 'index'])->name('admin-user')->middleware('role:ROLE_ADMIN');
+    Route::get('/admin/user/create',        [UserController::class, 'create'])->name('admin-user-create')->middleware('role:ROLE_ADMIN');
+    Route::post('/admin/user',        [UserController::class, 'store'])->name('admin-user-store')->middleware('role:ROLE_ADMIN');
+    Route::get('/admin/user/{id}',        [UserController::class, 'show'])->name('admin-user-detail')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
+    Route::get('/admin/user/{id}/edit',        [UserController::class, 'show'])->name('admin-user-edit')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
+    Route::post('/admin/user/{id}/edit',        [UserController::class, 'store'])->name('admin-user-update')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
+    Route::get('/admin/user/{id}/delete',        [UserController::class, 'destroy'])->name('admin-user-delete')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
+    Route::post('/admin/user/{id}/add-role',        [UserController::class, 'add_role'])->name('admin-user-add-role')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
+    Route::get('/admin/user/{id}/role/{role_id}/delete-role',        [UserController::class, 'delete_role'])->name('admin-user-delete-role')->where(['id' => '[0-9]+', 'role_id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
 
 
     Route::prefix('/admin')->group(function () {

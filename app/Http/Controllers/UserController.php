@@ -33,7 +33,7 @@ class UserController extends Controller
         return view('admin.pages.user.index', compact('users', 'breadcrumb', 'sortField', 'sortOrder', 'perPage', 'page'));
     }
 
-    public function add(Request $request)
+    public function create(Request $request)
     {
         $breadcrumb = [
             "level1text"   => "Admin",
