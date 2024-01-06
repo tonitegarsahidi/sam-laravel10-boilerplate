@@ -6,11 +6,11 @@
         <script>
           document.write(new Date().getFullYear());
         </script>
-        , made with ❤️ by
-        <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+        Template by ThemeSelection, and SamLaravel Boilerplate made with ❤️ by
+        <a href="https://ruangrimbun.com" target="_blank" class="footer-link fw-bolder">RuangRimbun</a>
       </div>
       <div>
-        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">Theme License</a>
         <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
         <a

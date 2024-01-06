@@ -51,32 +51,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/supervisor-page',    [SupervisorController::class, 'index'])->name('supervisor-page')->middleware('role:ROLE_SUPERVISOR');
     Route::get('/user-page',        [UserController::class, 'userDemoPage'])->name('user-page')->middleware('role:ROLE_USER');
 
-    // Route::get('/admin/user',        [UserController::class, 'index'])->name('admin-user')->middleware('role:ROLE_ADMIN');
-    Route::get('/admin/user/{id}',        [UserController::class, 'index'])->name('admin-user-detail')->middleware('role:ROLE_ADMIN');
-    Route::get('/admin/user/{id}/edit',        [UserController::class, 'edit'])->name('admin-user-edit')->middleware('role:ROLE_ADMIN');
-    Route::get('/admin/user/{id}/delete',        [UserController::class, 'delete'])->name('admin-user-delete')->middleware('role:ROLE_ADMIN');
-
-    Route::get('/admin/user',        [UserController::class, 'index'])->name('admin-user')->middleware('role:ROLE_ADMIN');
-    Route::get('/admin/user/create',        [UserController::class, 'create'])->name('admin-user-create')->middleware('role:ROLE_ADMIN');
-    Route::post('/admin/user',        [UserController::class, 'store'])->name('admin-user-store')->middleware('role:ROLE_ADMIN');
-    Route::get('/admin/user/{id}',        [UserController::class, 'show'])->name('admin-user-detail')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
-    Route::get('/admin/user/{id}/edit',        [UserController::class, 'show'])->name('admin-user-edit')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
-    Route::post('/admin/user/{id}/edit',        [UserController::class, 'store'])->name('admin-user-update')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
-    Route::get('/admin/user/{id}/delete',        [UserController::class, 'destroy'])->name('admin-user-delete')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
-    Route::post('/admin/user/{id}/add-role',        [UserController::class, 'add_role'])->name('admin-user-add-role')->where(['id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
-    Route::get('/admin/user/{id}/role/{role_id}/delete-role',        [UserController::class, 'delete_role'])->name('admin-user-delete-role')->where(['id' => '[0-9]+', 'role_id' => '[0-9]+'])->middleware('role:ROLE_ADMIN');
-
-
+    // Only users with the 'ROLE_ADMIN' can access this route group
     Route::prefix('/admin')->group(function () {
-        // Only users with the 'ROLE_ADMIN' can access this route
-        Route::get('/user',                     [UserController::class, 'index'])->name('admin-user.index');
-        Route::get('/user/add/new',             [UserController::class, 'add'])->name('admin-user.add');
-        Route::post('/user/add/new',            [UserController::class, 'add'])->name('admin-user.add-do');
-        Route::get('/user/detail/{id}',         [UserController::class, 'detail'])->name('admin-user.detail');
-        Route::get('/user/edit/{id}',           [UserController::class, 'index'])->name('admin-user.edit');
-        Route::put('/user/edit/{id}',           [UserController::class, 'index'])->name('admin-user.edit-do');
-        Route::get('/user/delete/{id}',         [UserController::class, 'index'])->name('admin-user.delete');
-        Route::delete('/user/delete/{id}',      [UserController::class, 'index'])->name('admin-user.delete-do');
+
+        // MANAGE USERS ON SYSTEM
+        Route::get('/user',                     [UserController::class, 'index'])->name('admin.user.index');
+        Route::get('/user/add/new',             [UserController::class, 'add'])->name('admin.user.add');
+        Route::post('/user/add/new',            [UserController::class, 'add'])->name('admin.user.add-do');
+        Route::get('/user/detail/{id}',         [UserController::class, 'detail'])->name('admin.user.detail');
+        Route::get('/user/edit/{id}',           [UserController::class, 'index'])->name('admin.user.edit');
+        Route::put('/user/edit/{id}',           [UserController::class, 'index'])->name('admin.user.edit-do');
+        Route::get('/user/delete/{id}',         [UserController::class, 'index'])->name('admin.user.delete');
+        Route::delete('/user/delete/{id}',      [UserController::class, 'index'])->name('admin.user.delete-do');
+
+
+
     })->middleware('role:ROLE_ADMIN');
 
     Route::prefix('/operator')->group(function () {

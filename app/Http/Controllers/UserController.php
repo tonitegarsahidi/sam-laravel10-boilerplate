@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserListRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -12,25 +13,31 @@ class UserController extends Controller
 
     public function __construct(UserService $userService)
     {
-
         $this->userService = $userService;
     }
 
-    public function index(Request $request)
+    //SHOWING LIST OF USERS
+    public function index(UserListRequest $request)
     {
+        //RETRIEVE THE PARAMS
         $sortField = $request->input('sort_field', 'id');
         $sortOrder = $request->input('sort_order', 'asc');
-        $page = $request->input('page', '1');
+        $keyword = $request->input('keyword');
+        $perPage = !is_null($request->input('per_page')) ? $request->input('per_page') : config('constant.CRUD.PER_PAGE');
+        $page = !is_null($request->input('page')) ? $request->input('page') : config('constant.CRUD.PAGE');
 
-        $perPage = $request->input('per_page', config('constant.DEFAULT_PAGINATION_PERPAGE'));
-        $users = $this->userService->listAllUser($perPage, $sortField, $sortOrder);
+        //RETRIEVE THE DATA
+        $users = $this->userService->listAllUser($perPage, $sortField, $sortOrder, $keyword);
 
-        $breadcrumb = [
-            "level1text"   => "Admin",
-            "level2text"   => "User Management",
+        //BREAD CRUMBS
+        $breadcrumbs = [
+            'Admin'             => route('admin.user.index'), // Replace 'admin.dashboard' with your actual admin route
+            'User Management'   => route('admin.user.index'), // Replace 'user.index' with your actual user index route
+            'Detail'            => null, // Replace null with your actual detail URL if available
         ];
 
-        return view('admin.pages.user.index', compact('users', 'breadcrumb', 'sortField', 'sortOrder', 'perPage', 'page'));
+        //DISPLAY THE VIEW
+        return view('admin.pages.user.index', compact('users', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword'));
     }
 
     public function create(Request $request)
@@ -46,20 +53,21 @@ class UserController extends Controller
         return view('admin.pages.user.add', compact('breadcrumb'));
     }
 
-    public function detail(Request $request)
+    public function detail(UserListRequest $request)
     {
-        $userId = $request->input('id');
-        $users = $this->userService->listUserDetail($userId);
+        $userId = $request->id;
 
-        $breadcrumb = [
-            "level1text"   => "Admin",
-            "level2text"   => "User Management",
-            "level3text"   => "Detail",
+
+        $data = $this->userService->getUserDetail($userId);
+
+         //BREAD CRUMBS
+         $breadcrumbs = [
+            'Admin'             => route('admin.user.index'), // Replace 'admin.dashboard' with your actual admin route
+            'User Management'   => route('admin.user.index'), // Replace 'user.index' with your actual user index route
+            'Detail'            => null, // Replace null with your actual detail URL if available
         ];
 
-        // $userDetail = $this->userService->getUserDetail($request->id);
-
-        return view('admin.pages.user.index', compact('breadcrumb'));
+        return view('admin.pages.user.detail', compact('breadcrumbs', 'data'));
     }
 
     public function userDemoPage(Request $request)

@@ -10,6 +10,7 @@ return [
 
     'CRUD' => [
         'PER_PAGE' => 25,
+        'PAGE' => 1,
         'SORT_BY'=> 'id',
     ],
 ];

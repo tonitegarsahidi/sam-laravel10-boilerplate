@@ -6,16 +6,27 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserRepository
 {
-    public function getAllUsers(int $perPage = 10, string $sortField = null, string $sortOrder = null): LengthAwarePaginator
+    public function getAllUsers(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null): LengthAwarePaginator
     {
-        if(!is_null($sortField) && !is_null($sortOrder)){
-            $queryResult =  User::orderBy($sortField, $sortOrder)->orderBy("is_active")->with('roles')->paginate($perPage)->withQueryString();
-        }
-        else{
-            $queryResult =  User::orderBy("is_active", "desc")->with('roles')->paginate($perPage)->withQueryString();
+        $queryResult = User::query();
+
+        if (!is_null($sortField) && !is_null($sortOrder)) {
+            $queryResult->orderBy($sortField, $sortOrder);
+        } else {
+            $queryResult->orderBy("is_active", "desc");
         }
 
-        return $queryResult;
+        $queryResult->with('roles');
+
+        if (!is_null($keyword)) {
+            $queryResult->whereRaw('lower(name) LIKE ?',['%'.strtolower($keyword).'%'])
+                ->orWhereRaw('lower(email) LIKE ?',['%'.strtolower($keyword).'%']);
+        }
+
+        $paginator = $queryResult->paginate($perPage);
+        $paginator->withQueryString();
+
+        return $paginator;
     }
 
     public function getUserById(int $userId): ?User
