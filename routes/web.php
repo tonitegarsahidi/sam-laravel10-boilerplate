@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
 
         // MANAGE USERS ON SYSTEM
         Route::get('/user',                     [UserController::class, 'index'])->name('admin.user.index');
-        Route::get('/user/add/new',             [UserController::class, 'add'])->name('admin.user.add');
+        Route::get('/user/add/new',             [UserController::class, 'create'])->name('admin.user.add');
         Route::post('/user/add/new',            [UserController::class, 'add'])->name('admin.user.add-do');
         Route::get('/user/detail/{id}',         [UserController::class, 'detail'])->name('admin.user.detail');
         Route::get('/user/edit/{id}',           [UserController::class, 'index'])->name('admin.user.edit');

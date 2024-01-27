@@ -23,4 +23,9 @@ class UserService
         return $this->userRepository->getUserById($userId);
     }
 
+    public function deleteConfirm(int $userId): User
+    {
+        return $this->userRepository->getUserById($userId);
+    }
+
 }

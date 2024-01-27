@@ -52,6 +52,9 @@
             </div>
 
             {{-- THIRD ROW, FOR THE MAIN DATA PART --}}
+            {{-- //to display any error if any --}}
+            @include('admin.components.notification.error')
+
             <div class="table-responsive text-nowrap">
                 <!-- Table data with Striped Rows -->
                 <table class="table table-striped table-hover align-middle">

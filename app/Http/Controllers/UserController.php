@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserDetailRequest;
 use App\Http\Requests\UserListRequest;
+use App\Services\RoleMasterService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -10,10 +12,12 @@ class UserController extends Controller
 {
 
     private $userService;
+    private $roleMasterService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, RoleMasterService $roleMasterService)
     {
         $this->userService = $userService;
+        $this->roleMasterService = $roleMasterService;
     }
 
     //SHOWING LIST OF USERS
@@ -42,18 +46,35 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        $breadcrumb = [
-            "level1text"   => "Admin",
-            "level2text"   => "User Management",
-            "level3text"   => "Add",
+         //BREAD CRUMBS
+         $breadcrumbs = [
+            'Admin'             => route('admin.user.index'), // Replace 'admin.dashboard' with your actual admin route
+            'User Management'   => route('admin.user.index'), // Replace 'user.index' with your actual user index route
+            'Add'            => null, // Replace null with your actual detail URL if available
         ];
 
-        dd("hello sam");
+        //GET LIST OF AVAILABLE ROLES
+        $roles = $this->roleMasterService->getAllRoles();
 
-        return view('admin.pages.user.add', compact('breadcrumb'));
+        return view('admin.pages.user.add', compact('breadcrumbs', 'roles'));
     }
 
-    public function detail(UserListRequest $request)
+    public function detail(Request $request)
+    {
+        $data = $this->userService->getUserDetail($request->id);
+
+         //BREAD CRUMBS
+         $breadcrumbs = [
+            'Admin'             => route('admin.user.index'), // Replace 'admin.dashboard' with your actual admin route
+            'User Management'   => route('admin.user.index'), // Replace 'user.index' with your actual user index route
+            'Detail'            => null, // Replace null with your actual detail URL if available
+        ];
+
+        return view('admin.pages.user.detail', compact('breadcrumbs', 'data'));
+    }
+
+
+    public function deleteView(UserListRequest $request)
     {
         $userId = $request->id;
 
@@ -69,6 +90,7 @@ class UserController extends Controller
 
         return view('admin.pages.user.detail', compact('breadcrumbs', 'data'));
     }
+
 
     public function userDemoPage(Request $request)
     {
