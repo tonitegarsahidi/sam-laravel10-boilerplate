@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserAddRequest;
 use App\Http\Requests\UserDetailRequest;
 use App\Http\Requests\UserListRequest;
+use App\Models\User;
 use App\Services\RoleMasterService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -44,6 +46,12 @@ class UserController extends Controller
         return view('admin.pages.user.index', compact('users', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword'));
     }
 
+    /**
+     * ===========================================
+     * ADD NEW USER FUNCTIONALY HERE
+     * ===========================================
+     */
+    // DISPLAY THE ADD NEW USER FORM
     public function create(Request $request)
     {
          //BREAD CRUMBS
@@ -59,11 +67,54 @@ class UserController extends Controller
         return view('admin.pages.user.add', compact('breadcrumbs', 'roles'));
     }
 
+    // PROCESS THE REQUEST
+    public function store(UserAddRequest $request){
+        // Validation passed, create and store the user
+        $result = $this->userService->addNewUser($request);
+        if(!is_null($result)){
+            $alert = [
+                "type" => "success",
+                "message" => "data ".$result->name." berhasil dimasukkan"
+            ];
+        }
+        else{
+            $alert = [
+                "type" => "danger",
+                "message" => "data ".$request->name." gagal ditambahkan"
+            ];
+        }
+
+        // Redirect or do something else after storing the user
+        //RETRIEVE THE DATA
+
+
+        //BREAD CRUMBS
+        $breadcrumbs = [
+            'Admin'             => route('admin.user.index'), // Replace 'admin.dashboard' with your actual admin route
+            'User Management'   => route('admin.user.index'), // Replace 'user.index' with your actual user index route
+            'Detail'            => null, // Replace null with your actual detail URL if available
+        ];
+
+        $sortField = $request->input('sort_field', 'id');
+        $sortOrder = $request->input('sort_order', 'asc');
+        $perPage =  config('constant.CRUD.PER_PAGE');
+        $page =  config('constant.CRUD.PAGE');
+        $keyword = '';
+
+        //RETRIEVE THE DATA
+        $users = $this->userService->listAllUser($perPage, $sortField, $sortOrder, $keyword);
+
+        //DISPLAY THE VIEW
+        return view('admin.pages.user.index', compact('users', 'breadcrumbs', 'perPage', 'sortField', 'sortOrder', 'keyword', 'page', 'alert'));
+    }
+
+
+
     public function detail(Request $request)
     {
         $data = $this->userService->getUserDetail($request->id);
 
-         //BREAD CRUMBS
+        //BREAD CRUMBS
          $breadcrumbs = [
             'Admin'             => route('admin.user.index'), // Replace 'admin.dashboard' with your actual admin route
             'User Management'   => route('admin.user.index'), // Replace 'user.index' with your actual user index route
@@ -72,6 +123,8 @@ class UserController extends Controller
 
         return view('admin.pages.user.detail', compact('breadcrumbs', 'data'));
     }
+
+
 
 
     public function deleteView(UserListRequest $request)

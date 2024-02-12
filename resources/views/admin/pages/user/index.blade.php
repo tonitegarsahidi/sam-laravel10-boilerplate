@@ -53,7 +53,9 @@
 
             {{-- THIRD ROW, FOR THE MAIN DATA PART --}}
             {{-- //to display any error if any --}}
-            @include('admin.components.notification.error')
+            @if(isset($alert))
+                @include('admin.components.notification.general', $alert)
+            @endif
 
             <div class="table-responsive text-nowrap">
                 <!-- Table data with Striped Rows -->

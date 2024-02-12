@@ -37,6 +37,10 @@
                                     <td>{{ $data->email }}</td>
                                 </tr>
                                 <tr>
+                                    <th scope="col" class="bg-dark text-white">Phone Number</th>
+                                    <td>{{ $data->phone_number }}</td>
+                                </tr>
+                                <tr>
                                     <th scope="col" class="bg-dark text-white">Is Active</th>
                                     <td>
                                         @if ($data->is_active)
