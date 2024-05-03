@@ -17,11 +17,30 @@
             <div class="d-flex justify-content-between">
 
                 <div class="bd-highlight">
-                    <h3 class="card-header">Detail of User with id : {{ $data->id }}</h3>
+                    <h3 class="card-header">Are you sure want to delete this User?</h3>
                 </div>
 
             </div>
 
+
+
+            {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
+            <div class="m-4">
+
+                <form action="{{ route('admin.user.delete', $data->id) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
+                        class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
+
+                    <button type="submit" class="btn btn-danger me-2" href="{{ route('admin.user.edit', ['id' => $data->id]) }}"
+                        title="delete user">
+                        <i class='tf-icons bx bx-trash me-2'></i>Confirm Delete
+                    </button>
+                </form>
+            </div>
+
+            {{-- DETAIL OF THE DATA WHICH WANT TO BE DELETED --}}
             <div class="row m-2">
 
                 <div class="col-md-8 col-xs-12">
@@ -29,15 +48,15 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Name</th>
+                                    <th scope="col" class="bg-secondary text-white">Name</th>
                                     <td>{{ $data->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Email</th>
+                                    <th scope="col" class="bg-secondary text-white">Email</th>
                                     <td>{{ $data->email }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Is Active</th>
+                                    <th scope="col" class="bg-secondary text-white">Is Active</th>
                                     <td>
                                         @if ($data->is_active)
                                             <span class="badge rounded-pill bg-success"> Yes </span>
@@ -47,7 +66,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Role</th>
+                                    <th scope="col" class="bg-secondary text-white">Role</th>
                                     <td>
                                         @foreach ($data->listRoles() as $role)
                                             @if (strcasecmp($role, 'ADMINISTRATOR') == 0)
@@ -57,16 +76,16 @@
                                                 <span class="badge rounded-pill bg-label-primary m-1"> {{ $role }}
                                                 </span>
                                             @endif
-                                            <br/>
+                                            <br />
                                         @endforeach
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Created At</th>
+                                    <th scope="col" class="bg-secondary text-white">Created At</th>
                                     <td>{{ $data->created_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Updated At</th>
+                                    <th scope="col" class="bg-secondary text-white">Updated At</th>
                                     <td>{{ $data->updated_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
                                 </tr>
                             </tbody>
@@ -78,19 +97,6 @@
             </div>
 
 
-
-
-            {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
-            <div class="m-4">
-                <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
-                        class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
-                <a class="btn btn-primary me-2" href="{{ route('admin.user.edit', ['id' => $data->id]) }}"
-                    title="update this user">
-                    <i class='tf-icons bx bx-pencil me-2'></i>Edit</a>
-                <a class="btn btn-danger me-2" href="{{ route('admin.user.edit', ['id' => $data->id]) }}"
-                    title="delete user">
-                    <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
-            </div>
 
         </div>
     </div>

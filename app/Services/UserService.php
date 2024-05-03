@@ -4,19 +4,22 @@ namespace App\Services;
 
 use App\Http\Requests\UserAddRequest;
 use App\Models\User;
-use App\Repositories\UserRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use App\Repositories\UserRepository;
+use App\Repositories\RoleUserRepository;
+use Illuminate\Http\Request;
 
 class UserService
 {
     private $userRepository;
+    private $roleUserRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, RoleUserRepository $roleUserRepository)
     {
         $this->userRepository = $userRepository;
+        $this->roleUserRepository = $roleUserRepository;
     }
 
     public function listAllUser(int $perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
@@ -29,39 +32,49 @@ class UserService
         return $this->userRepository->getUserById($userId);
     }
 
-    public function addNewUser($request)
+    public function addNewUser(UserAddRequest $request)
     {
         DB::beginTransaction();
         try {
-            // Validation passed, create and store the user
-            $user = new User();
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->password);
-            $user->phone_number = $request->input('phone_number');
-            $user->is_active = $request->input('is_active');
-            $user->save();
-
-            // Attach roles
-            $user->roles()->sync($request->input('roles'));
-
+            $user = $this->userRepository->createUser($request->validated());
+            $this->userRepository->syncRoles($user, $request->input('roles'));
             DB::commit();
             return $user;
         } catch (\Exception $exception) {
-            //throw $th;
             DB::rollBack();
-
-            Log::error("Failed to save new users to database : ", [
-                "request" => $request,
-                "caused" => $exception->getMessage()
-            ]);
-
+            Log::error("Failed to save new user to database: {$exception->getMessage()}");
             return null;
         }
     }
 
-    public function deleteConfirm(int $userId): User
+    public function updateUser(Request $request, $id)
     {
-        return $this->userRepository->getUserById($userId);
+        DB::beginTransaction();
+        try {
+            $user = User::findOrFail($id);
+            $user->update($request->validated());
+            $user->roles()->sync($request->input('roles'));
+            DB::commit();
+            return $user;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to update user in the database: {$exception->getMessage()}");
+            return null;
+        }
+    }
+
+    public function deleteUser(int $userId): ?bool
+    {
+        DB::beginTransaction();
+        try {
+            $this->roleUserRepository->deleteRoleUserByUserId($userId);
+            $this->userRepository->deleteUserById($userId);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to delete user with id $userId: {$exception->getMessage()}");
+            return false;
+        }
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SampleController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,10 +61,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/user/add/new',            [UserController::class, 'store'])->name('admin.user.add-do');
 
         Route::get('/user/detail/{id}',         [UserController::class, 'detail'])->name('admin.user.detail');
-        Route::get('/user/edit/{id}',           [UserController::class, 'index'])->name('admin.user.edit');
-        Route::put('/user/edit/{id}',           [UserController::class, 'index'])->name('admin.user.edit-do');
-        Route::get('/user/delete/{id}',         [UserController::class, 'index'])->name('admin.user.delete');
-        Route::delete('/user/delete/{id}',      [UserController::class, 'index'])->name('admin.user.delete-do');
+        Route::put('/user/edit/{id}',           [UserController::class, 'update'])->name('admin.user.update');
+        Route::get('/user/edit/{id}',           [UserController::class, 'edit'])->name('admin.user.edit');
+        Route::get('/user/delete/{id}',         [UserController::class, 'deleteConfirm'])->name('admin.user.delete');
+        Route::delete('/user/delete/{id}',      [UserController::class, 'destroy'])->name('admin.user.destroy');
 
 
 

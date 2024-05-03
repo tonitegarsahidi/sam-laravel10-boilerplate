@@ -21,7 +21,7 @@
                 </div>
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{route('admin.user.add')}}">
-                        <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp;
+                        <span class="tf-icons bx bx-plus"></span>&nbsp;
                          Tambah User
                     </a>
                 </div>

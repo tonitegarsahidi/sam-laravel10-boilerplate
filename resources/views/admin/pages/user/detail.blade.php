@@ -91,7 +91,7 @@
                 <a class="btn btn-primary me-2" href="{{ route('admin.user.edit', ['id' => $data->id]) }}"
                     title="update this user">
                     <i class='tf-icons bx bx-pencil me-2'></i>Edit</a>
-                <a class="btn btn-danger me-2" href="{{ route('admin.user.edit', ['id' => $data->id]) }}"
+                <a class="btn btn-danger me-2" href="{{ route('admin.user.delete', ['id' => $data->id]) }}"
                     title="delete user">
                     <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
             </div>

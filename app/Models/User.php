@@ -17,7 +17,7 @@ class User extends Authenticatable
     protected $table = 'users';
 
 
-	public $sortable = ['id', 'name', 'email', 'status'];
+	public $sortable = ['id', 'name', 'email','phone_number', 'status'];
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone_number',
         'is_active'
     ];
 
