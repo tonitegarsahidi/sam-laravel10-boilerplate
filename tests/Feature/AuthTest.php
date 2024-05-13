@@ -6,9 +6,46 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ProfileTest extends TestCase
+class AuthTest extends TestCase
 {
     use RefreshDatabase;
+
+     /** @test */
+     public function test_login_page_is_accessible()
+     {
+         $response = $this->get('/login');
+
+         $response->assertStatus(200);
+     }
+
+
+     public function test_register_page_is_accessible()
+     {
+         $response = $this->get('/register');
+
+         $response->assertStatus(200);
+     }
+
+     public function test_forgot_password_page_is_accessible()
+     {
+         $response = $this->get('/forgot-password');
+
+         $response->assertStatus(200);
+     }
+
+    //  public function test_reset_password_page_is_accessible()
+    //  {
+    //      $response = $this->get('/reset-password');
+
+    //      $response->assertStatus(200);
+    //  }
+
+    //  public function test_verify_your_email_page_is_accessible()
+    //  {
+    //      $response = $this->get('/verify-your-email');
+
+    //      $response->assertStatus(200);
+    //  }
 
     // public function test_profile_page_is_displayed(): void
     // {

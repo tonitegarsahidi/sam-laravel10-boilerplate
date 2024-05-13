@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use App\Models\RoleMaster;
 use App\Models\RoleUser;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -57,7 +57,7 @@ class RegisteredUserController extends Controller
             ]);
 
             //find the roles ID
-            $roleId = Role::where('role_code', '=', config('constant.NEW_USER_DEFAULT_ROLES'))->first("id")->id;
+            $roleId = RoleMaster::where('role_code', '=', config('constant.NEW_USER_DEFAULT_ROLES'))->first("id")->id;
 
             //add the default role to the new user
             RoleUser::create([

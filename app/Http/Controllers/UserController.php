@@ -1,71 +1,133 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserAddRequest;
+use App\Http\Requests\UserDetailRequest;
+use App\Http\Requests\UserEditRequest;
+use App\Http\Requests\UserListRequest;
+use App\Models\User;
+use App\Services\RoleMasterService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-
     private $userService;
+    private $roleMasterService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, RoleMasterService $roleMasterService)
     {
-
         $this->userService = $userService;
+        $this->roleMasterService = $roleMasterService;
     }
 
-    public function index(Request $request)
+    public function index(UserListRequest $request)
     {
         $sortField = $request->input('sort_field', 'id');
         $sortOrder = $request->input('sort_order', 'asc');
-        $page = $request->input('page', '1');
-        $perPage = $request->input('per_page', session('per_page', config('constant.DEFAULT_PAGINATION_PERPAGE')));
-        session(['per_page' => $perPage]);
-        $users = $this->userService->listAllUser($perPage, $sortField, $sortOrder);
+        $perPage = $request->input('per_page', config('constant.CRUD.PER_PAGE'));
+        $page = $request->input('page', config('constant.CRUD.PAGE'));
+        $keyword = $request->input('keyword');
 
-        $breadcrumb = [
-            "level1text"   => "Admin",
-            "level2text"   => "User Management",
+        $users = $this->userService->listAllUser($perPage, $sortField, $sortOrder, $keyword);
+
+        $breadcrumbs = [
+            'Admin' => route('admin.user.index'),
+            'User Management' => route('admin.user.index'),
+            'List' => null,
         ];
 
-        return view('admin.pages.user.index', compact('users', 'breadcrumb', 'sortField', 'sortOrder', 'perPage', 'page'));
+        return view('admin.pages.user.index', compact('users', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword'));
     }
 
-    public function add(Request $request)
+    public function create(Request $request)
     {
-        $breadcrumb = [
-            "level1text"   => "Admin",
-            "level2text"   => "User Management",
-            "level3text"   => "Add",
+        $breadcrumbs = [
+            'Admin' => route('admin.user.index'),
+            'User Management' => route('admin.user.index'),
+            'Add' => null,
         ];
 
-        dd("hello sam");
+        $roles = $this->roleMasterService->getAllRoles();
 
-        return view('admin.pages.user.add', compact('breadcrumb'));
+        return view('admin.pages.user.add', compact('breadcrumbs', 'roles'));
+    }
+
+    public function store(UserAddRequest $request)
+    {
+        $result = $this->userService->addNewUser($request);
+
+        $alert = $result ? ['type' => 'success', 'message' => 'Data ' . $result->name . ' berhasil dimasukkan'] :
+                           ['type' => 'danger', 'message' => 'Data ' . $request->name . ' gagal ditambahkan'];
+
+        return redirect()->route('admin.user.index')->with('alert', $alert);
     }
 
     public function detail(Request $request)
     {
-        $userId = $request->input('id');
-        $users = $this->userService->listUserDetail($userId);
+        $data = $this->userService->getUserDetail($request->id);
 
-        $breadcrumb = [
-            "level1text"   => "Admin",
-            "level2text"   => "User Management",
-            "level3text"   => "Detail",
+        $breadcrumbs = [
+            'Admin' => route('admin.user.index'),
+            'User Management' => route('admin.user.index'),
+            'Detail' => null,
         ];
 
-        // $userDetail = $this->userService->getUserDetail($request->id);
+        return view('admin.pages.user.detail', compact('breadcrumbs', 'data'));
+    }
 
-        return view('admin.pages.user.index', compact('breadcrumb'));
+    public function edit(Request $request, $id)
+    {
+        $user = $this->userService->getUserDetail($id);
+        $user->load('roles');
+        $roles = $this->roleMasterService->getAllRoles();
+
+        $breadcrumbs = [
+            'Admin' => route('admin.user.index'),
+            'User Management' => route('admin.user.index'),
+            'Edit' => null,
+        ];
+
+        return view('admin.pages.user.edit', compact('breadcrumbs', 'user', 'roles'));
+    }
+
+    public function update(UserEditRequest $request, $id)
+    {
+        $result = $this->userService->updateUser($request, $id);
+
+        $alert = $result ? ['type' => 'success', 'message' => 'Data user ' . $result->name . ' berhasil diperbarui'] :
+                           ['type' => 'danger', 'message' => 'Data user ' . $request->name . ' gagal diperbarui'];
+
+        return redirect()->route('admin.user.index')->with('alert', $alert);
+    }
+
+    public function deleteConfirm(UserListRequest $request)
+    {
+        $data = $this->userService->getUserDetail($request->id);
+
+        $breadcrumbs = [
+            'Admin' => route('admin.user.index'),
+            'User Management' => route('admin.user.index'),
+            'Delete' => null,
+        ];
+
+        return view('admin.pages.user.delete-confirm', compact('breadcrumbs', 'data'));
+    }
+
+    public function destroy(UserListRequest $request)
+    {
+        $user = $this->userService->getUserDetail($request->id);
+        $result = $this->userService->deleteUser($request->id);
+
+        $alert = $result ? ['type' => 'success', 'message' => 'Data user ' . $user->name . ' berhasil dihapus'] :
+                           ['type' => 'danger', 'message' => 'Data user ' . $user->name . ' gagal dihapus'];
+
+        return $this->index($request)->with('alert', $alert);
     }
 
     public function userDemoPage(Request $request)
     {
-        return view('admin.pages.user.useronlypage', [
-            'message' => "Hello User, Thanks for using our products",
-        ]);
+        return view('admin.pages.user.useronlypage', ['message' => 'Hello User, Thanks for using our products']);
     }
 }

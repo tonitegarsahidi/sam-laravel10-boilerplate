@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RoleMasterSeeder::class,
             RoleUserSeeder::class,
-            FakeUserSeeder::class,
+            // FakeUserSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();
