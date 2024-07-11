@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserSettingController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SampleController;
 use Illuminate\Support\Facades\Route;
@@ -74,6 +75,16 @@ Route::middleware('auth')->group(function () {
         // Only users with the 'ROLE_ADMIN' or 'ROLE_OPERATOR' role can access this route
         Route::get('/list', [OperatorController::class, 'index'])->name('operator-page');
     })->middleware('role:ROLE_ADMIN', 'role:ROLE_OPERATOR');
+
+    Route::prefix('/user-setting')->group(function () {
+        // Only users with the 'ROLE_USER' or 'ROLE_OPERATOR' role can access this route
+        Route::get('/', [UserSettingController::class, 'index'])->name('user.setting.index');
+        Route::get('/change-password', [UserSettingController::class, 'changePasswordPage'])->name('user.setting.changePassword');
+        Route::post('/change-password', [UserSettingController::class, 'changePassword'])->name('user.setting.changePassword.do');
+
+        Route::get('/profile', [UserSettingController::class, 'changePasswordPage'])->name('user.setting.changeProfile');
+        Route::post('/profile', [UserSettingController::class, 'changePasswordPage'])->name('user.setting.changeProfile.do');
+    })->middleware('role:ROLE_ADMIN', 'role:ROLE_OPERATOR', 'role:ROLE_SUPERVISOR', 'role:ROLE_USER');
 
 
 });
