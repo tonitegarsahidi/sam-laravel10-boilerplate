@@ -22,7 +22,7 @@
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{route('admin.user.add')}}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
-                         Tambah User
+                         Add New User
                     </a>
                 </div>
 
@@ -53,8 +53,8 @@
 
             {{-- THIRD ROW, FOR THE MAIN DATA PART --}}
             {{-- //to display any error if any --}}
-            @if(isset($alert))
-                @include('admin.components.notification.general', $alert)
+            @if(isset($alerts))
+                @include('admin.components.notification.general', $alerts)
             @endif
 
             <div class="table-responsive text-nowrap">
@@ -64,7 +64,9 @@
                     {{-- TABLE HEADER --}}
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>
+                                    No
+                            </th>
                             <th>
                                 <a
                                     href="{{ route('admin.user.index', [

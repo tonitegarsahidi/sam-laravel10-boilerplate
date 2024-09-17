@@ -1,6 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Exceptions\IncorrectPasswordException;
+use App\Helpers\AlertHelper;
+use App\Helpers\ErrorHelper;
 use App\Http\Requests\User\UserChangePasswordRequest;
 use App\Http\Requests\UserAddRequest;
 use App\Http\Requests\UserDetailRequest;
@@ -9,127 +12,82 @@ use App\Http\Requests\UserListRequest;
 use App\Models\User;
 use App\Services\RoleMasterService;
 use App\Services\UserService;
+use App\Services\UserSettingService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserSettingController extends Controller
 {
     private $userService;
+    private $userSettingService;
     private $roleMasterService;
+    private $mainBreadcrumbs;
 
-    public function __construct(UserService $userService, RoleMasterService $roleMasterService)
+    public function __construct(UserService $userService,
+                                UserSettingService $userSettingService,
+                                RoleMasterService $roleMasterService)
     {
         $this->userService = $userService;
+        $this->userSettingService = $userSettingService;
         $this->roleMasterService = $roleMasterService;
+
+        // Store common breadcrumbs in the constructor
+        $this->mainBreadcrumbs = [
+            'User Setting' => route('user.setting.index')
+        ];
     }
 
 
     public function index()
     {
-        $breadcrumbs = [
-            'User Setting' => route('user.setting.index'),
-        ];
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Setting' => null]);
 
         return view('admin.pages.setting.index', compact('breadcrumbs'));
     }
 
+    /**
+     * =======================================
+     * Load change passsword Page
+     * =======================================
+     */
     public function changePasswordPage()
     {
 
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Change Password' => null]);
+
+        $alerts = AlertHelper::getAlerts();
+
+        return view('admin.pages.setting.change-password', compact('breadcrumbs', 'alerts'));
+    }
+
+    /**
+     * =======================================
+     * Do action change password is here
+     * =======================================
+     */
+    public function changePasswordDo(UserChangePasswordRequest $request)
+    {
         $breadcrumbs = [
-            'User Setting' => route('user.setting.main'),
+            'User Setting' => route('user.setting.index'),
             'Change Password' => null,
         ];
 
-        return view('admin.pages.setting.change-password', compact('breadcrumbs'));
+        try {
+            $this->userSettingService->changePassword($request->currentpassword, $request->newpassword);
+            $alert = AlertHelper::createAlert('success', 'Your password successfully changed');
+
+        } catch (IncorrectPasswordException $e) {
+            // Handle the custom exception by returning a view with a custom error
+            $alert = AlertHelper::createAlert('danger', ErrorHelper::makeErrorsText('WRONG_CURRENT_PASSWORD'));
+        } catch (\Exception $e) {
+            // Handle other exceptions
+            Log::error(ErrorHelper::makeErrorsText('GENERIC_ERROR')." Caused by ".$e);
+            $alert = AlertHelper::createAlert('danger', ErrorHelper::makeErrorsText('GENERIC_ERROR'));
+        }
+
+        return redirect()->back()->with(['alerts' => [$alert]]);
+
     }
 
-    public function doChangePassword(UserChangePasswordRequest $request)
-    {
-        $breadcrumbs = [
-            'Admin' => route('admin.user.index'),
-            'User Management' => route('admin.user.index'),
-            'Add' => null,
-        ];
-
-        $roles = $this->roleMasterService->getAllRoles();
-
-        return view('admin.pages.user.add', compact('breadcrumbs', 'roles'));
-    }
-
-    public function store(UserAddRequest $request)
-    {
-        $result = $this->userService->addNewUser($request);
-
-        $alert = $result ? ['type' => 'success', 'message' => 'Data ' . $result->name . ' berhasil dimasukkan'] :
-                           ['type' => 'danger', 'message' => 'Data ' . $request->name . ' gagal ditambahkan'];
-
-        return redirect()->route('admin.user.index')->with('alert', $alert);
-    }
-
-    public function detail(Request $request)
-    {
-        $data = $this->userService->getUserDetail($request->id);
-
-        $breadcrumbs = [
-            'Admin' => route('admin.user.index'),
-            'User Management' => route('admin.user.index'),
-            'Detail' => null,
-        ];
-
-        return view('admin.pages.user.detail', compact('breadcrumbs', 'data'));
-    }
-
-    public function edit(Request $request, $id)
-    {
-        $user = $this->userService->getUserDetail($id);
-        $user->load('roles');
-        $roles = $this->roleMasterService->getAllRoles();
-
-        $breadcrumbs = [
-            'Admin' => route('admin.user.index'),
-            'User Management' => route('admin.user.index'),
-            'Edit' => null,
-        ];
-
-        return view('admin.pages.user.edit', compact('breadcrumbs', 'user', 'roles'));
-    }
-
-    public function update(UserEditRequest $request, $id)
-    {
-        $result = $this->userService->updateUser($request, $id);
-
-        $alert = $result ? ['type' => 'success', 'message' => 'Data user ' . $result->name . ' berhasil diperbarui'] :
-                           ['type' => 'danger', 'message' => 'Data user ' . $request->name . ' gagal diperbarui'];
-
-        return redirect()->route('admin.user.index')->with('alert', $alert);
-    }
-
-    public function deleteConfirm(UserListRequest $request)
-    {
-        $data = $this->userService->getUserDetail($request->id);
-
-        $breadcrumbs = [
-            'Admin' => route('admin.user.index'),
-            'User Management' => route('admin.user.index'),
-            'Delete' => null,
-        ];
-
-        return view('admin.pages.user.delete-confirm', compact('breadcrumbs', 'data'));
-    }
-
-    public function destroy(UserListRequest $request)
-    {
-        $user = $this->userService->getUserDetail($request->id);
-        $result = $this->userService->deleteUser($request->id);
-
-        $alert = $result ? ['type' => 'success', 'message' => 'Data user ' . $user->name . ' berhasil dihapus'] :
-                           ['type' => 'danger', 'message' => 'Data user ' . $user->name . ' gagal dihapus'];
-
-        return $this->index($request)->with('alert', $alert);
-    }
-
-    public function userDemoPage(Request $request)
-    {
-        return view('admin.pages.user.useronlypage', ['message' => 'Hello User, Thanks for using our products']);
-    }
 }

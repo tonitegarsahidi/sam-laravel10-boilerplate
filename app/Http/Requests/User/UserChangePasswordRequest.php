@@ -11,7 +11,7 @@ class UserChangePasswordRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,24 +22,24 @@ class UserChangePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'old' => 'required|string',
-            'password' => 'required|string|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
-            'confirmpassword' => 'required|string|same:password',
+            'currentpassword' => 'required|string',
+            'newpassword' => 'required|string|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
+            'confirmnewpassword' => 'required|string|same:newpassword',
         ];
     }
 
     public function messages()
     {
         return [
-            'oldpassword.required' => 'The old password field is required.',
-            'oldpassword.string' => 'The old password must be a string.',
-            'password.required' => 'The password field is required.',
-            'password.string' => 'The password must be a string.',
-            'password.min' => 'The password must be at least 8 characters long.',
-            'password.regex' => 'The password must contain a combination of letters and numbers.',
-            'confirmpassword.required' => 'The confirmation password field is required.',
-            'confirmpassword.string' => 'The confirmation password must be a string.',
-            'confirmpassword.same' => 'The confirmation password must match the password field.',
+            'currentpassword.required' => 'The old password field is required.',
+            'currentpassword.string' => 'The old password must be a string.',
+            'newpassword.required' => 'The password field is required.',
+            'newpassword.string' => 'The password must be a string.',
+            'newpassword.min' => 'The password must be at least 8 characters long.',
+            'newpassword.regex' => 'The password must contain a combination of letters and numbers.',
+            'confirmnewpassword.required' => 'The confirmation password field is required.',
+            'confirmnewpassword.string' => 'The confirmation password must be a string.',
+            'confirmnewpassword.same' => 'The confirmation password must match the password field.',
         ];
     }
 }
