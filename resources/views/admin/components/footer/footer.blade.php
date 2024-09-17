@@ -7,7 +7,7 @@
           document.write(new Date().getFullYear());
         </script>
         Template by ThemeSelection, and SamLaravel Boilerplate made with ❤️ by
-        <a href="https://ruangrimbun.com" target="_blank" class="footer-link fw-bolder">RuangRimbun</a>
+        <a href="https://ruangrimbun.com" target="_blank" class="footer-link fw-bolder">SamToni</a>
       </div>
       <div>
         <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">Theme License</a>

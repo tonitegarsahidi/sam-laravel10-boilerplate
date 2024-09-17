@@ -31,6 +31,10 @@ class UserRepository
         return $paginator;
     }
 
+    public function isUsernameExist(String $username){
+        return User::where('email', $username)->exists();
+    }
+
     public function getUserById(int $userId): ?User
     {
         return User::with('roles')->find($userId);

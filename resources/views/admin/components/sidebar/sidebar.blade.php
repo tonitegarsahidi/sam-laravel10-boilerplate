@@ -96,20 +96,20 @@
 
                 [
                     'subMenuText' => 'Change Password',
-                    'subMenuUrl' => route('sampleUiTypography'),
+                    'subMenuUrl' => route('user.setting.changePassword'),
                 ],
             ],
         ])
 
 
         {{-- EXAMPLE MENU WITHOUT SUBMENU --}}
-        @include('admin.components.sidebar.item', [
+        {{-- @include('admin.components.sidebar.item', [
             'menuId' => 'menu-settings', // or you can use Str::random(10),
             'menuText' => 'Change password',
             'menuUrl' => '#',
             'menuIcon' => 'bx bx-key', //check here for the icons https://boxicons.com/cheatsheet
             'subMenuData' => null,
-        ])
+        ]) --}}
 
 
 

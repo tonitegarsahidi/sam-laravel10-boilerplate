@@ -17,6 +17,23 @@
             <directory suffix=".php">./app</directory>
         </include>
     </source>
+
+    <!-- TO RUN COVERAGE REPORT USE THIS COMMAND -->
+    <!-- ./vendor/bin/phpunit DASHDASHcoverage-html coverage-report -->
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory>./app</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./app/Exceptions</directory>
+            <directory suffix=".php">./app/Console</directory>
+            <directory suffix=".php">./app/Providers</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="coverage-report"/>
+        </report>
+    </coverage>
+
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
