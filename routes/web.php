@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DemoController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingController;
@@ -84,11 +85,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/change-password', [UserSettingController::class, 'changePasswordPage'])->name('user.setting.changePassword');
         Route::post('/change-password', [UserSettingController::class, 'changePasswordDo'])->name('user.setting.changePassword.do');
 
-        Route::get('/profile', [UserSettingController::class, 'changePasswordPage'])->name('user.setting.changeProfile');
-        Route::post('/profile', [UserSettingController::class, 'changePasswordPage'])->name('user.setting.changeProfile.do');
+        Route::get('/profile', [UserSettingController::class, 'changeProfilePage'])->name('user.setting.changeProfile');
+        Route::post('/profile', [UserSettingController::class, 'changeProfileDo'])->name('user.setting.changeProfile.do');
     })->middleware('role:ROLE_ADMIN', 'role:ROLE_OPERATOR', 'role:ROLE_SUPERVISOR', 'role:ROLE_USER');
 
 
+    Route::prefix('/demo')->group(function () {
+        // Only users with the 'ROLE_ADMIN' or 'ROLE_OPERATOR' role can access this route
+        Route::get('/', [DemoController::class, 'index'])->name('demo');
+        Route::get('/print', [DemoController::class, 'print'])->name('demo.print');
+    })->middleware('role:ROLE_USER');
 });
 
 

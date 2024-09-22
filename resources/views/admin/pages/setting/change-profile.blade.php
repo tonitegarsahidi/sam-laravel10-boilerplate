@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-between">
 
                 <div class="bd-highlight">
-                    <h3 class="card-header">USER CONFIGURATION</h3>
+                    <h3 class="card-header">CHANGE PROFILE</h3>
                 </div>
 
             </div>
@@ -26,7 +26,7 @@
 
                 <div class="col-md-8 col-xs-12">
                     <div class="table-responsive text-nowrap">
-                        HELLO USER SETTING
+                        CHANGE PROFILE HERE
                     </div>
 
                 </div>

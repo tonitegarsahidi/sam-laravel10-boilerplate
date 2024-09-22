@@ -90,4 +90,35 @@ class UserSettingController extends Controller
 
     }
 
+      /**
+     * =======================================
+     * Load change PROFILE Page
+     * =======================================
+     */
+    public function changeProfilePage()
+    {
+
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Change Profile' => null]);
+
+        $alerts = AlertHelper::getAlerts();
+
+        return view('admin.pages.setting.change-profile', compact('breadcrumbs', 'alerts'));
+    }
+
+
+      /**
+     * =======================================
+     * Load change PROFILE Page
+     * =======================================
+     */
+    public function changeProfileDo()
+    {
+
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Change Profile DO' => null]);
+
+        $alerts = AlertHelper::getAlerts();
+
+        return view('admin.pages.setting.change-profile', compact('breadcrumbs', 'alerts'));
+    }
+
 }

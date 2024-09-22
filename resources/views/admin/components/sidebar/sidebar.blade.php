@@ -86,12 +86,12 @@
             'menuIcon' => 'bx bx-cog', //check here for the icons https://boxicons.com/cheatsheet
             'subMenuData' => [
                 [
-                    'subMenuText' => 'Profile',
-                    'subMenuUrl' => route('sampleUiButton'),
+                    'subMenuText' => 'User Configuration',
+                    'subMenuUrl' => route('user.setting.index'),
                 ],
                 [
-                    'subMenuText' => 'Subscription',
-                    'subMenuUrl' => route('sampleUiButton'),
+                    'subMenuText' => 'Profile',
+                    'subMenuUrl' => route('user.setting.changeProfile'),
                 ],
 
                 [
