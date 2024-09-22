@@ -25,9 +25,16 @@
                         <!-- Notification element -->
                         @if (session('status'))
                             <div class="alert alert-primary" role="alert">
-                                {{session('status')}}
+                                {{ session('status') }}
                             </div>
                         @endif
+
+                        <!-- Error message for email -->
+                        @error('email')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
 
 
                         <form id="formAuthentication" class="mb-3" action="{{ route('password.email') }}" method="POST">
