@@ -1,4 +1,4 @@
-@extends('admin.template-blank', ['searchNavbar' => false])
+@extends('admin.template-base', ['searchNavbar' => false])
 
 @section('page-title', 'Detail of User')
 
@@ -82,20 +82,6 @@
         }
     </style>
 
-    <script>
-        function printPdf() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'mm', 'a4');
-
-    html2canvas(document.querySelector('.printable-content-a4-portrait')).then(canvas => {
-        let imgData = canvas.toDataURL('image/png');
-        doc.addImage(imgData, 'PNG', 10, 10, 190, 297);  // Adjust these dimensions as needed
-        doc.save('user-detail.pdf');
-    });
-}
-
-    </script>
-
 @endsection
 
 {{-- MAIN CONTENT PART --}}
@@ -105,15 +91,13 @@
         {{-- FOR BREADCRUMBS --}}
 
 
-        {{-- Print and PDF buttons --}}
+        {{-- Print buttons --}}
         <div class="mb-1">
             @include('admin.components.breadcrumb.simple', $breadcrumbs)
             <button class="btn btn-primary no-print" onclick="window.print()">Print A4</button>
-            <button class="btn btn-secondary no-print" id="downloadPdfBtn" onclick="printPdf()">Download PDF</button>
         </div>
-    </div>
 
-    {{-- Printable Content --}}
+            {{-- Printable Content --}}
     <div class="printable-content-a4-portrait">
 
         {{-- FIRST ROW,  FOR TITLE --}}
@@ -184,38 +168,15 @@
 
         </div>
     </div>
+    </div>
+
+
 
     </div>
 
 @endsection
 
 @section('footer-code')
-    <script>
-        function printPdf() {
-            const {
-                jsPDF
-            } = window.jspdf;
-
-            // Create a new jsPDF document
-            const doc = new jsPDF('p', 'mm', 'a4');
-
-            // Select the printable content
-            let printableContent = document.querySelector('.printable-content-a4-portrait').innerHTML;
-
-            // Sanitize the content using DOMPurify to prevent XSS
-            let sanitizedContent = DOMPurify.sanitize(printableContent);
-
-            // Use the sanitized content to generate the PDF
-            doc.html(sanitizedContent, {
-                callback: function(doc) {
-                    doc.save('user-detail.pdf');
-                },
-                x: 10,
-                y: 10,
-                width: 190
-            });
-        }
-    </script>
 
 
 @endsection
