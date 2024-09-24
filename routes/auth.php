@@ -17,6 +17,10 @@ Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
+    //register confirmation - need verification
+    Route::get('need-activation', [RegisteredUserController::class, 'needActivation'])
+        ->name('register.needactivation');
+
     Route::post('register', [RegisteredUserController::class, 'store']);
 
     //Verify Your Email
@@ -46,17 +50,33 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
+
+Route::get('email/verification-notification', [EmailVerificationNotificationController::class, 'showForm'])
+    ->middleware('throttle:6,1')
+    ->name('verification.sendForm');
+
+Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    ->middleware('throttle:6,1')
+    ->name('verification.send');
+
+Route::get('email/verification-success', [EmailVerificationNotificationController::class, 'showVerificationSuccess'])
+    ->middleware('throttle:6,1')
+    ->name('verification.success');
+
+Route::get('email/verification-failed', [EmailVerificationNotificationController::class, 'showVerificationFailed'])
+    ->middleware('throttle:6,1')
+    ->name('verification.failed');
+
+Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
+    ->name('verification.notice');
+
+Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
-        ->name('verification.notice');
 
-    Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
-
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
         ->name('password.confirm');

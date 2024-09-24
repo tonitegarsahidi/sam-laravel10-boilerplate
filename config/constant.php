@@ -7,7 +7,7 @@ return [
 
     'NEW_USER_STATUS_ACTIVE'        => TRUE,
     'NEW_USER_DEFAULT_ROLES'        => "ROLE_USER",
-    'NEW_USER_NEED_VERIFY_EMAIL'    => FALSE,
+    'NEW_USER_NEED_VERIFY_EMAIL'    => TRUE,
 
     'CRUD' => [
         'PER_PAGE' => 25,

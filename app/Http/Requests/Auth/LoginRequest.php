@@ -39,6 +39,7 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
+
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
@@ -49,8 +50,20 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        //if email verification is mandatory, and user not yet verifiy their email
+        if (config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
+
+            //check user's status active
+            if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
+                auth()->logout();
+                throw ValidationException::withMessages([
+                    'email' => 'Ooops! You need to verify your email before able to login',
+                ]);
+            }
+        }
+
         //if by default, new user is not active until verified
-        if(!config('constant.NEW_USER_STATUS_ACTIVE')){
+        if (!config('constant.NEW_USER_STATUS_ACTIVE')) {
 
             //check user's status active
             if (auth()->check() && !auth()->user()->is_active) {
@@ -92,6 +105,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 }
