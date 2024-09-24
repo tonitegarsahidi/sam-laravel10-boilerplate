@@ -89,7 +89,6 @@ class RegisteredUserController extends Controller
 
                 return redirect(route('register.needactivation'));
             } else if (config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
-                // return redirect(RouteServiceProvider::VERIFY_EMAIL);
 
                 return redirect(route('verification.notice'));
             }

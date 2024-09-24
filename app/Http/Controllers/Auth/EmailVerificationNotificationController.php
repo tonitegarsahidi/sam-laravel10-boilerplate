@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailVerifyEmailJob;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\View\View;
@@ -60,7 +61,7 @@ class EmailVerificationNotificationController extends Controller
 
         if ($user) {
             // Send email verification notification
-            $user->sendEmailVerificationNotification();
+            SendEmailVerifyEmailJob::dispatch($user);
             return back()->with('status', 'Verification link sent to your email.');
         }
 

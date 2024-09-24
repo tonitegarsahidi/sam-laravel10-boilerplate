@@ -4,13 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Jobs\SendEmailVerifyEmailJob;
+use App\Notifications\VerifyEmailWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Sortable;
-
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -77,6 +79,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function listRoles()
     {
         return $this->roles()->pluck('role_name');
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        SendEmailVerifyEmailJob::dispatch($this);
+        // $this->notify(new VerifyEmailWithQueue()); // Use your custom notification
     }
 
 }

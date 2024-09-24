@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -52,12 +53,12 @@ class LoginRequest extends FormRequest
 
         //if email verification is mandatory, and user not yet verifiy their email
         if (config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
-
+            // dd(auth()->user()->hasVerifiedEmail());
             //check user's status active
-            if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
+            if (auth()->check() && !auth()->user()->hasVerifiedEmail()) {
                 auth()->logout();
                 throw ValidationException::withMessages([
-                    'email' => 'Ooops! You need to verify your email before able to login',
+                    'email' => new HtmlString('Ooops! You need to verify your email before you can log in. Didn\'t get an email? <a href="'.route('verification.sendForm').'">Click Here</a> to Resend Verification Email'),
                 ]);
             }
         }
