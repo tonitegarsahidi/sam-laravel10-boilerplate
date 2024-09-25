@@ -18,7 +18,10 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+    public const LOGIN = '/login';
+    public const NEED_ACTIVATION = '/need-activation';
     public const VERIFY_EMAIL = '/verify-your-email';
+    public const VERIFY_EMAIL_SUCCESS = '/email/verification-success';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

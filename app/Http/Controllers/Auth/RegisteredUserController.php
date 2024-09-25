@@ -29,6 +29,14 @@ class RegisteredUserController extends Controller
     }
 
     /**
+     * Display the neecActivation view.
+     */
+    public function needActivation(): View
+    {
+        return view('admin.auth.need-activation');
+    }
+
+    /**
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -71,13 +79,23 @@ class RegisteredUserController extends Controller
 
 
 
-            //jika user auto aktif
-            if (config('constant.NEW_USER_STATUS_ACTIVE')) {
+            //if user auto active and no need to verify email
+            if (config('constant.NEW_USER_STATUS_ACTIVE') && !config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
                 Auth::login($user);
                 return redirect(RouteServiceProvider::HOME);
-            } else {
-                return redirect(RouteServiceProvider::VERIFY_EMAIL);
             }
+            //if new user mechanism not auto active (need admin activation)
+             else  if (!config('constant.NEW_USER_STATUS_ACTIVE')){
+
+                return redirect(route('register.needactivation'));
+            } else if (config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
+
+                return redirect(route('verification.notice'));
+            }
+            else{
+                return redirect(route('login'));
+            }
+
 
 
         } catch (Exception $e) {
