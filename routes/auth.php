@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -76,12 +75,6 @@ Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'
 
 
 Route::middleware('auth')->group(function () {
-
-
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-        ->name('password.confirm');
-
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     //ubah password
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
