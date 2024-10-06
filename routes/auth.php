@@ -22,10 +22,6 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    // //Verify Your Email
-    // Route::get('verify-your-email', [RegisteredUserController::class, 'verifyYourEmailPage'])
-    //     ->name('verify-your-email');
-
 
     //Login
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
