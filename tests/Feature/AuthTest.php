@@ -33,6 +33,7 @@ class AuthTest extends TestCase
          $response->assertStatus(200);
      }
 
+
     //  public function test_reset_password_page_is_accessible()
     //  {
     //      $response = $this->get('/reset-password');
