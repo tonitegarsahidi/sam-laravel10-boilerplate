@@ -35,7 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-
     // SAMPLE PAGES FOR THIS BOILER PLATE THING....
     // NO FUNCTIONALITY JUST FOR SOME DASHBOARD / CRUD PAGES REFERENCE
     // Route::middleware('verified')->group(function () {
@@ -55,7 +54,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-page',        [UserController::class, 'userDemoPage'])->name('user-page')->middleware('role:ROLE_USER');
 
     // Only users with the 'ROLE_ADMIN' can access this route group
-    Route::prefix('/admin')->group(function () {
+    Route::prefix('/admin')
+    ->middleware('role:ROLE_ADMIN')
+    ->group(function () {
 
         // MANAGE USERS ON SYSTEM
         Route::get('/user',                     [UserController::class, 'index'])->name('admin.user.index');
@@ -67,17 +68,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/edit/{id}',           [UserController::class, 'edit'])->name('admin.user.edit');
         Route::get('/user/delete/{id}',         [UserController::class, 'deleteConfirm'])->name('admin.user.delete');
         Route::delete('/user/delete/{id}',      [UserController::class, 'destroy'])->name('admin.user.destroy');
+    });
 
-
-
-    })->middleware('role:ROLE_ADMIN');
-
-    Route::prefix('/operator')->group(function () {
+    Route::prefix('/operator')
+    ->middleware('role:ROLE_ADMIN', 'role:ROLE_OPERATOR')
+    ->group(function () {
         // Only users with the 'ROLE_ADMIN' or 'ROLE_OPERATOR' role can access this route
         Route::get('/list', [OperatorController::class, 'index'])->name('operator-page');
-    })->middleware('role:ROLE_ADMIN', 'role:ROLE_OPERATOR');
+    });
 
-    Route::prefix('/user-setting')->group(function () {
+    Route::prefix('/user-setting')
+    ->middleware('role:ROLE_ADMIN', 'role:ROLE_OPERATOR', 'role:ROLE_SUPERVISOR', 'role:ROLE_USER')
+    ->group(function () {
         // Only users with the 'ROLE_USER' or 'ROLE_OPERATOR' role can access this route
         Route::get('/', [UserSettingController::class, 'index'])->name('user.setting.index');
 
@@ -87,14 +89,16 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/profile', [UserSettingController::class, 'changeProfilePage'])->name('user.setting.changeProfile');
         Route::post('/profile', [UserSettingController::class, 'changeProfileDo'])->name('user.setting.changeProfile.do');
-    })->middleware('role:ROLE_ADMIN', 'role:ROLE_OPERATOR', 'role:ROLE_SUPERVISOR', 'role:ROLE_USER');
+    });
 
 
-    Route::prefix('/demo')->group(function () {
+    Route::prefix('/demo')
+    ->middleware('role:ROLE_USER')
+    ->group(function () {
         // Only users which has the 'ROLE_USER'can access this route
         Route::get('/', [DemoController::class, 'index'])->name('demo');
         Route::get('/print', [DemoController::class, 'print'])->name('demo.print');
-    })->middleware('role:ROLE_USER');
+    });
 });
 
 

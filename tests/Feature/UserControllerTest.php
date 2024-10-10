@@ -1,12 +1,13 @@
 <?php
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
 
 class UserControllerTest extends TestCase
 {
-    use DatabaseTruncation; // This trait resets the database after each test
+    use DatabaseTransactions; // This trait resets the database after each test
 
     protected function setUp(): void
     {

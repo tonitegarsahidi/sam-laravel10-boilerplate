@@ -11,7 +11,7 @@ use Tests\TestCase;
 class AdminControllerTest extends TestCase
 {
     use DatabaseTransactions;
- /**
+    /**
      * Test if a user without ROLE_ADMIN is redirected to the home page.
      */
     public function test_user_without_admin_role_is_redirected(): void

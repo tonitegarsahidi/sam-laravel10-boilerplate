@@ -53,7 +53,6 @@ class LoginRequest extends FormRequest
 
         //if email verification is mandatory, and user not yet verifiy their email
         if (config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
-            // dd(auth()->user()->hasVerifiedEmail());
             //check user's status active
             if (auth()->check() && !auth()->user()->hasVerifiedEmail()) {
                 auth()->logout();
