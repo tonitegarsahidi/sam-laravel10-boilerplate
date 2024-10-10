@@ -91,14 +91,11 @@ Route::middleware('auth')->group(function () {
 
 
     Route::prefix('/demo')->group(function () {
-        // Only users with the 'ROLE_ADMIN' or 'ROLE_OPERATOR' role can access this route
+        // Only users which has the 'ROLE_USER'can access this route
         Route::get('/', [DemoController::class, 'index'])->name('demo');
         Route::get('/print', [DemoController::class, 'print'])->name('demo.print');
     })->middleware('role:ROLE_USER');
 });
-
-
-
 
 
 require __DIR__ . '/auth.php';

@@ -3,6 +3,15 @@
 {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
 @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Admin Menu'])
 {{-- ADMIN ONLY MENU --}}
+
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-user-pages',
+    'menuText' => 'Admin Pages',
+    'menuUrl' => url('/admin-page'),
+    'menuIcon' => 'bx bx-cog',
+    'subMenuData' => null,
+])
+
 @include('admin.components.sidebar.item', [
     'menuId' => 'menu-user-pages',
     'menuText' => 'Program Settings',
