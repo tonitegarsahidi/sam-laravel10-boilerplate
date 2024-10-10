@@ -12,6 +12,5 @@ class DashboardController extends Controller
         return view('admin.pages.dashboard.index', [
             'user' => $request->user(),
         ]);
-
     }
 }

@@ -18,3 +18,8 @@ edit the .env
     php artisan serve
 
 
+
+# testing
+    php artisan test
+    php artisan test --coverage
+    ./vendor/bin/phpunit --coverage-html coverage-report --coverage-min=80
