@@ -34,6 +34,10 @@ class UserController extends Controller
     {
         $sortField = session()->get('sort_field', $request->input('sort_field', 'id'));
         $sortOrder = session()->get('sort_order', $request->input('sort_order', 'asc'));
+
+        Log::debug('Sort Field: ', ['sort_field' => $sortField]);
+Log::debug('Sort Order: ', ['sort_order' => $sortOrder]);
+
         $perPage = $request->input('per_page', config('constant.CRUD.PER_PAGE'));
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
@@ -68,7 +72,7 @@ class UserController extends Controller
 
         return redirect()->route('admin.user.index')->with(['alerts'        => [$alert],
                                                             'sort_order'    => 'desc']);
-                                                            }
+    }
 
     public function detail(Request $request)
     {

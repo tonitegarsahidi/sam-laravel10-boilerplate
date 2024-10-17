@@ -25,7 +25,7 @@ class UserListRequest extends FormRequest
             "per_page" => "nullable|integer",
             "page" => "nullable|integer",
             "sort_order" => "nullable|string|in:ASC,DESC,asc,desc",
-            "sort_field" => "nullable|string|in:NAME,name,email,is_active,created_at",
+            "sort_field" => "nullable|string|in:NAME,id,name,email,is_active,created_at",
             "keyword" => "nullable|string",
         ];
     }

@@ -7,13 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function checkAuth(Request $request){
-
-        return view('admin.template-index', [
-            'user' => $request->user(),
-        ]);
-
-    }
 
     public function index(Request $request){
 
@@ -28,11 +21,4 @@ class HomeController extends Controller
 
     }
 
-    public function blank(Request $request){
-
-        return view('admin.pages.blank.index', [
-            'user' => $request->user(),
-        ]);
-
-    }
 }

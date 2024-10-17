@@ -44,12 +44,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/sample')
         ->middleware('role:ROLE_USER')
         ->group(function () {
-            Route::get('/sample/cards',         [SampleController::class, 'cards'])             ->name('sample.cards');
-            Route::get('/sample/table',         [SampleController::class, 'tablePage'])         ->name('sample.table');
-            Route::get('/sample/form1',         [SampleController::class, 'formPage1'])         ->name('sample.form1');
-            Route::get('/sample/form2',         [SampleController::class, 'formPage2'])         ->name('sample.form2');
-            Route::get('/sample/textdivider',   [SampleController::class, 'textDivider'])       ->name('sample.textdivider');
-            Route::get('/sample/blank',         [SampleController::class, 'blank'])             ->name('sample.blank');
+            Route::get('cards',         [SampleController::class, 'cards'])             ->name('sample.cards');
+            Route::get('table',         [SampleController::class, 'tablePage'])         ->name('sample.table');
+            Route::get('form1',         [SampleController::class, 'formPage1'])         ->name('sample.form1');
+            Route::get('form2',         [SampleController::class, 'formPage2'])         ->name('sample.form2');
+            Route::get('textdivider',   [SampleController::class, 'textDivider'])       ->name('sample.textdivider');
+            Route::get('blank',         [SampleController::class, 'blank'])             ->name('sample.blank');
             // });
 
         });
@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
             // MANAGE USERS ON SYSTEM
             Route::get('/user',                     [UserController::class, 'index'])->name('admin.user.index');
             Route::get('/user/add/new',             [UserController::class, 'create'])->name('admin.user.add');
-            Route::post('/user/add/new',            [UserController::class, 'store'])->name('admin.user.add-do');
+            Route::post('/user/add/new',            [UserController::class, 'store'])->name('admin.user.store');
 
             Route::get('/user/detail/{id}',         [UserController::class, 'detail'])->name('admin.user.detail');
             Route::put('/user/edit/{id}',           [UserController::class, 'update'])->name('admin.user.update');

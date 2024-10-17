@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('admin.user.add-do') }}">
+                        <form method="POST" action="{{ route('admin.user.store') }}">
                             @csrf
 
                             {{-- NAME FIELD --}}
