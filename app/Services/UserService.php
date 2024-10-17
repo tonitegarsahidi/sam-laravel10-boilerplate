@@ -27,7 +27,7 @@ class UserService
         return $this->userRepository->getAllUsers($perPage, $sortField, $sortOrder, $keyword);
     }
 
-    public function getUserDetail(int $userId): User
+    public function getUserDetail(int $userId): ?User
     {
         return $this->userRepository->getUserById($userId);
     }

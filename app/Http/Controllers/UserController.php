@@ -121,12 +121,18 @@ Log::debug('Sort Order: ', ['sort_order' => $sortOrder]);
     public function destroy(UserListRequest $request)
     {
         $user = $this->userService->getUserDetail($request->id);
-        $result = $this->userService->deleteUser($request->id);
+        if(!is_null($user)){
+            $result = $this->userService->deleteUser($request->id);
+        }
+        else{
+            $result = false;
+        }
+
 
 
         $alert = $result
         ? AlertHelper::createAlert('success', 'Data ' . $user->name . ' berhasil dihapus')
-        : AlertHelper::createAlert('danger', 'Oops! Data ' . $user->name . ' gagal dihapus');
+        : AlertHelper::createAlert('danger', 'Oops! Data gagal dihapus');
 
         return redirect()->route('admin.user.index')->with('alerts', [$alert]);
     }

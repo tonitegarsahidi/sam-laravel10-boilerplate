@@ -95,12 +95,14 @@ class UserControllerTest extends TestCase
         // $response->assertRedirectToRoute('login');
     }
 
-    private function populateNewUser(){
-          // Create users filling
-          User::factory()->count(5)->create();
+    private function populateNewUser()
+    {
+        // Create users filling
+        User::factory()->count(5)->create();
     }
 
-    private function createAdminUser(){
+    private function createAdminUser()
+    {
         // Create role for testing if not available
         $adminRole = RoleMaster::factory()->create([
             'role_name' => 'admin',
@@ -115,6 +117,24 @@ class UserControllerTest extends TestCase
         ]);
 
         return $adminUser;
+    }
+
+    private function createUserRoleUser()
+    {
+        // Create role for testing if not available
+        $userRole = RoleMaster::factory()->create([
+            'role_name' => 'user',
+            'role_code' => 'ROLE_USER',
+        ]);
+
+        $user = User::first(); // obtain first a user
+
+        $roleUser = RoleUser::create([
+            'user_id' => $user->id,
+            'role_id' => $userRole->id,
+        ]);
+
+        return $user;
     }
 
     public function test_access_adminuserindex_with_admin_role_return_200()
@@ -167,7 +187,7 @@ class UserControllerTest extends TestCase
 
         //find roles
         $roles = RoleMaster::first();
-        Log::debug("current user count ".$countUser);
+        Log::debug("current user count " . $countUser);
         // Create a new user
         $userData = [
             'name' => 'New Test User',
@@ -212,7 +232,7 @@ class UserControllerTest extends TestCase
 
         //find roles
         $roles = RoleMaster::first();
-        Log::debug("current user count ".$countUser);
+        Log::debug("current user count " . $countUser);
         // Create a new user
         $userData = [
             'name' => 'New Test User',
@@ -234,7 +254,7 @@ class UserControllerTest extends TestCase
 
         //assert failed new record not adding the entry
         $newCountUser = User::count();
-        Log::debug("current new user count ".$newCountUser);
+        Log::debug("current new user count " . $newCountUser);
         $this->assertTrue($countUser == $newCountUser);
 
         // Assert session contains 'alerts'
@@ -248,27 +268,28 @@ class UserControllerTest extends TestCase
         });
     }
 
-    public function test_access_user_detail_contain_correct_data() {
+    public function test_access_user_detail_contain_correct_data()
+    {
         //ARRANGE
         $firstUser = User::first();
 
         //ACT
-        $response = $this->actingAs($this->createAdminUser())->get(route('admin.user.detail' ,["id" => $firstUser->id]));
+        $response = $this->actingAs($this->createAdminUser())->get(route('admin.user.detail', ["id" => $firstUser->id]));
 
         //ASSERT
         $response->assertStatus(200);
         $response->assertViewIs('admin.pages.user.detail');
         $response->assertSee($firstUser->name);
         $response->assertSee($firstUser->email);
-
     }
 
-    public function test_access_user_delete_contain_correct_data() {
+    public function test_access_user_delete_contain_correct_data()
+    {
         //ARRANGE
         $firstUser = User::first();
 
         //ACT
-        $response = $this->actingAs($this->createAdminUser())->get(route('admin.user.delete' ,["id" => $firstUser->id]));
+        $response = $this->actingAs($this->createAdminUser())->get(route('admin.user.delete', ["id" => $firstUser->id]));
 
         //ASSERT
         $response->assertStatus(200);
@@ -277,7 +298,8 @@ class UserControllerTest extends TestCase
         $response->assertSee($firstUser->email);
     }
 
-    public function test_delete_successfully_delete_data(){
+    public function test_delete_successfully_delete_data()
+    {
         //ARRANGE
         $newUserData = [
             'name' => 'New Test User',
@@ -293,7 +315,7 @@ class UserControllerTest extends TestCase
         $countBeforeDelete = User::count();
 
         //ACT
-        $response = $this->actingAs($this->createAdminUser())->delete(route('admin.user.destroy' ,["id" => $newUser->id]));
+        $response = $this->actingAs($this->createAdminUser())->delete(route('admin.user.destroy', ["id" => $newUser->id]));
 
         //ASSERT
         $response->assertSessionHas('alerts');  // check if 'alerts' key exists
@@ -301,7 +323,7 @@ class UserControllerTest extends TestCase
 
         //assert count on database
         $countAfterDelete = User::count();
-        $this->assertEquals($countBeforeDelete, ($countAfterDelete+1));
+        $this->assertEquals($countBeforeDelete, ($countAfterDelete + 1));
 
         //assert redirect to back
         $response->assertRedirect(route('admin.user.index'));
@@ -316,26 +338,142 @@ class UserControllerTest extends TestCase
         });
     }
 
-        public function test_failed_delete_data_remains(){
-            //ARRANGE
-            $countBeforeDelete = User::count();
+    public function test_failed_delete_data_remains()
+    {
+        //ARRANGE
+        $countBeforeDelete = User::count();
 
-            //ACT
-            $response = $this->actingAs($this->createAdminUser())->delete(route('admin.user.destroy' ,["id" => 99999]));
+        //ACT
+        $response = $this->actingAs($this->createAdminUser())->delete(route('admin.user.destroy', ["id" => 99999]));
 
-            //ASSERT
-            $countAfterDelete = User::count();
-            $response->assertStatus(302);
-            $response->assertSessionHas('alerts');  // check if 'alerts' key exists
-            $response->assertSessionHas('alerts.0.type', 'danger');  // check the first alert type is 'danger since it is failed'
-            //assert redirect to back
-            $response->assertRedirect(route('admin.user.index'));
-            //assert delete user by count
-            $this->assertEquals($countBeforeDelete, $countAfterDelete);
+        //ASSERT
+        $countAfterDelete = User::count();
+        $response->assertStatus(302);
+        $response->assertSessionHas('alerts');  // check if 'alerts' key exists
+        $response->assertSessionHas('alerts.0.type', 'danger');  // check the first alert type is 'danger since it is failed'
+        //assert redirect to back
+        $response->assertRedirect(route('admin.user.index'));
+        //assert delete user by count
+        $this->assertEquals($countBeforeDelete, $countAfterDelete);
 
-            //assert contain alerts
-            $response->assertSessionHas('alerts.0.message', function ($message) {
-                return str_contains($message, 'gagal dihapus');
-            });
+        //assert contain alerts
+        $response->assertSessionHas('alerts.0.message', function ($message) {
+            return str_contains($message, 'gagal dihapus');
+        });
+    }
+
+    public function test_open_edit_page_contain_correct_data()
+    {
+       //find roles
+       $roles = RoleMaster::first();
+
+       // Create a new user
+       $userData = [
+           'name' => 'New Test User',
+           'email' => 'newtestuser@example.com',
+           'password' => 'password123',
+           'confirmpassword' => 'password123',
+           'phone_number' => '1234567890',
+
+           'roles' => [$roles->id],  //null
+           'is_active' => true,
+       ];
+
+        $sampleUser = User::create($userData);
+
+
+       //ACT
+        $response = $this->actingAs($this->createAdminUser())->get(route('admin.user.edit', ["id" => $sampleUser->id]));
+
+
+        //ASSERT
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.pages.user.edit');
+        $response->assertViewHas('user');
+        $response->assertViewHas('roles');
+        $response->assertSee('New Test User');
+        $response->assertSee('newtestuser@example.com');
+        $response->assertSee('1234567890');
+    }
+
+    public function test_do_edit_page_updated_data_contain_correct_data()
+    {
+       //find roles
+       $originalRoles = RoleMaster::first();
+
+       // Create a new user
+       $userData = [
+           'name' => 'New Test User',
+           'email' => 'randomtest@example.com',
+           'password' => 'password123',
+           'phone_number' => null,
+           'confirmpassword' => 'password123',
+           'roles' => [$originalRoles->id],  //null
+           'is_active' => true,
+       ];
+
+        //create the test user
+        $sampleUser = User::create($userData);
+
+        //prepare the update data payload
+        //prepare the roles, we set all
+        $rolesArrayId = RoleMaster::all(['id'])->pluck('id')->toArray(); ;
+
+        Log::debug("ISINYA ROLESARRAYID" , ["rolesArrayId" => $rolesArrayId]);
+
+        $payloadUpdatedUser = [
+            'name' => 'UPDATED USER',
+            'email' => 'updateduser@halokes.id',
+            'phone_number' => '081234567890',
+            'roles' => $rolesArrayId,
+            'is_active' => false,
+        ];
+
+
+
+
+
+       //ACT
+        $response = $this->actingAs($this->createAdminUser())->put(route('admin.user.update', ["id" => $sampleUser->id]), $payloadUpdatedUser);
+
+
+        //ASSERT
+        $response->assertStatus(302);
+        $response->assertRedirectToRoute('admin.user.index');
+        // Assert session contains 'alerts'
+        $response->assertSessionHas('alerts');  // check if 'alerts' key exists
+        $response->assertSessionHas('alerts.0.type', 'success');  // check the first alert type is 'success'
+        $response->assertSessionHas('sort_order', 'desc');  // check if 'sort_order' is set to 'desc'
+
+        // Assert that the failure message "gagal ditambahkan" is present in the session alert message
+        $response->assertSessionHas('alerts.0.message', function ($message) {
+            return str_contains($message, 'berhasil diperbarui');
+        });
+
+        //ACT 2
+        $payloadUpdatedUserFailed = [
+            'name' => 'UPDATED USER',
+            'email' => 'updateduser@halokes.id',
+            'phone_number' => '081234567890',
+            'roles' => null,
+            'is_active' => false,
+        ];
+        $response2 = $this->actingAs($this->createAdminUser())->put(route('admin.user.update', ["id" => -1]), $payloadUpdatedUserFailed);
+        $response2->assertStatus(302);
+        $response2->assertRedirectToRoute('admin.user.index');
+        // Assert session contains 'alerts'
+        $response2->assertSessionHas('alerts');  // check if 'alerts' key exists
+        $response2->assertSessionHas('alerts.0.type', 'danger');  //
+
+    }
+
+    function test_access_user_demo_page(){
+
+        // Act
+        $response = $this->actingAs($this->createAdminUser())->get('/user-page');
+
+        // Assert
+        $response->assertStatus(200);
+        $response->assertSee("Thanks for using our products");
     }
 }
