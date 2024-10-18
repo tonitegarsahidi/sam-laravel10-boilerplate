@@ -86,7 +86,7 @@ class UserSettingController extends Controller
             $alert = AlertHelper::createAlert('danger', ErrorHelper::makeErrorsText('GENERIC_ERROR'));
         }
 
-        return redirect()->back()->with(['alerts' => [$alert]]);
+        return redirect(route('user.setting.changePassword'))->with(['alerts' => [$alert]]);
 
     }
 
