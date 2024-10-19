@@ -12,32 +12,34 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
 
-    //register
+    //============= REGISTER PAGE
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
-
-    //register confirmation - need verification
-    Route::get('need-activation', [RegisteredUserController::class, 'needActivation'])
-        ->name('register.needactivation');
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
 
-    //Login
+    //============= LOGIN PAGE
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
 
-    //lupa password
+    //============= REGISTER CONFIRMATION : NEED ACTIVATION
+    // this page will show user if manual activation is needed
+    //register confirmation - need verification
+    Route::get('need-activation', [RegisteredUserController::class, 'needActivation'])
+        ->name('register.needactivation');
+
+    //============= FORGOT PASSWORD
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
 
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
 
-    //reset password
+    //RESET PASSWORD CONFIRMATION
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
 

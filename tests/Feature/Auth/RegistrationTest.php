@@ -151,5 +151,14 @@ class RegistrationTest extends TestCase
         Event::assertDispatched(Registered::class);
     }
 
+    public function testDisplayNeedActivation(){
+        $response = $this->get(route('register.needactivation'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.auth.need-activation');
+
+
+    }
+
 
 }
