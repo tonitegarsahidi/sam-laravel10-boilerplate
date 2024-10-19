@@ -111,14 +111,14 @@ class UserSettingController extends Controller
      * Load change PROFILE Page
      * =======================================
      */
-    public function changeProfileDo()
-    {
+    // public function changeProfileDo()
+    // {
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Change Profile DO' => null]);
+    //     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Change Profile DO' => null]);
 
-        $alerts = AlertHelper::getAlerts();
+    //     $alerts = AlertHelper::getAlerts();
 
-        return view('admin.pages.setting.change-profile', compact('breadcrumbs', 'alerts'));
-    }
+    //     return view('admin.pages.setting.change-profile', compact('breadcrumbs', 'alerts'));
+    // }
 
 }

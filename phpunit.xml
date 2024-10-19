@@ -12,26 +12,31 @@
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <source>
+
+    <!-- Coverage settings -->
+    <coverage>
+        <!-- Directories to include in code coverage report -->
         <include>
             <directory suffix=".php">./app</directory>
         </include>
-    </source>
 
-    <!-- TO RUN COVERAGE REPORT USE THIS COMMAND -->
-    <!-- ./vendor/bin/phpunit DASHDASHcoverage-html coverage-report -->
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory>./app</directory>
-        </include>
+        <!-- Exclude certain directories from coverage report -->
         <exclude>
             <directory suffix=".php">./app/Exceptions</directory>
             <directory suffix=".php">./app/Console</directory>
             <directory suffix=".php">./app/Providers</directory>
         </exclude>
+
+        <!-- Output HTML coverage report -->
         <report>
             <html outputDirectory="coverage-report"/>
         </report>
+
+        <!-- Set coverage thresholds for reporting -->
+        <thresholds>
+            <low upperBound="60"/>
+            <high lowerBound="80"/>
+        </thresholds>
     </coverage>
 
     <php>

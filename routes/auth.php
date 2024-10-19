@@ -48,6 +48,7 @@ Route::middleware('guest')->group(function () {
 });
 
 
+
 Route::get('email/verification-notification', [EmailVerificationNotificationController::class, 'showForm'])
     ->middleware('throttle:6,1')
     ->name('verification.sendForm');
@@ -73,10 +74,6 @@ Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'
 
 
 Route::middleware('auth')->group(function () {
-
-    //ubah password
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-
     //logout
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
