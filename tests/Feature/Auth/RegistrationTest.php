@@ -96,7 +96,7 @@ class RegistrationTest extends TestCase
         $responseLogin->assertSessionHasErrors('email');
             // Optionally, you can assert that the validation message contains the expected string
         $this->assertStringContainsString(
-            'Admin will need to verify your account',
+            'Yours account is not active',
             session('errors')->first('email')
         );
 

@@ -63,16 +63,15 @@ class LoginRequest extends FormRequest
         }
 
         //if by default, new user is not active until verified
-        if (!config('constant.NEW_USER_STATUS_ACTIVE')) {
-
             //check user's status active
             if (auth()->check() && !auth()->user()->is_active) {
                 auth()->logout();
                 throw ValidationException::withMessages([
-                    'email' => 'Admin will need to verify your account before it can be active. Please wait 2x24 hours before able to  login. ',
+                    'email' => 'Yours account is not active. If you are new, Please wait 2x24 hours before able to  login or until admin activate your account. ',
                 ]);
             }
-        }
+
+
 
         RateLimiter::clear($this->throttleKey());
     }

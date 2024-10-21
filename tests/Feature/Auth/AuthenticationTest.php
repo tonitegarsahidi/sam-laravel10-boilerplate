@@ -24,6 +24,8 @@ class AuthenticationTest extends TestCase
         Config::set('constant.NEW_USER_STATUS_ACTIVE', true);
         Config::set('constant.NEW_USER_NEED_VERIFY_EMAIL', false);
         $user = User::factory()->create();
+        $user->is_active = true;
+        $user->save();
 
         $response = $this->post('/login', [
             'email' => $user->email,

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Exceptions\IncorrectPasswordException;
@@ -15,7 +16,10 @@ use App\Services\UserService;
 use App\Services\UserSettingService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Stmt\TryCatch;
 
 class UserSettingController extends Controller
 {
@@ -24,10 +28,11 @@ class UserSettingController extends Controller
     private $roleMasterService;
     private $mainBreadcrumbs;
 
-    public function __construct(UserService $userService,
-                                UserSettingService $userSettingService,
-                                RoleMasterService $roleMasterService)
-    {
+    public function __construct(
+        UserService $userService,
+        UserSettingService $userSettingService,
+        RoleMasterService $roleMasterService
+    ) {
         $this->userService = $userService;
         $this->userSettingService = $userSettingService;
         $this->roleMasterService = $roleMasterService;
@@ -44,6 +49,33 @@ class UserSettingController extends Controller
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Setting' => null]);
 
         return view('admin.pages.setting.index', compact('breadcrumbs'));
+    }
+
+    public function deactivateAccount(Request $request)
+    { // Validate that the checkbox is checked
+        DB::beginTransaction();
+        $request->validate([
+            'accountActivation' => 'required|accepted', // Ensure it's checked
+        ]);
+        $user = Auth::user();
+
+        try {
+            // Logic to deactivate the user's account
+            $this->userService->updateUser(["is_active" => false], $user->id);
+
+            // Log the user out
+            Auth::logout();
+            DB::commit();
+            $alert = AlertHelper::createAlert('success', 'User ' . $user->name . ' successfully deactivated');
+        } catch (\Exception $e) {
+            //throw $th;
+            Log::error('FAILED TO DEACTIVATE ACCOUNT, reason : ', ["reason" => $e->getMessage()]);
+            $alert = AlertHelper::createAlert('error', 'Data ' . $user->name . ' failed to be deactivated');
+            DB::rollBack();
+        }
+
+        // Redirect to the login page
+        return redirect(route('login'))->with(['alerts'        => [$alert]]); // Change this to your login route if different
     }
 
     /**
@@ -76,17 +108,15 @@ class UserSettingController extends Controller
         try {
             $this->userSettingService->changePassword($request->currentpassword, $request->newpassword);
             $alert = AlertHelper::createAlert('success', 'Your password successfully changed');
-
         } catch (IncorrectPasswordException $e) {
             // Handle the custom exception by returning a view with a custom error
             $alert = AlertHelper::createAlert('danger', ErrorHelper::makeErrorsText('WRONG_CURRENT_PASSWORD'));
         } catch (\Exception $e) {
             // Handle other exceptions
-            Log::error(ErrorHelper::makeErrorsText('GENERIC_ERROR')." Caused by ".$e);
+            Log::error(ErrorHelper::makeErrorsText('GENERIC_ERROR') . " Caused by " . $e);
             $alert = AlertHelper::createAlert('danger', ErrorHelper::makeErrorsText('GENERIC_ERROR'));
         }
 
         return redirect(route('user.setting.changePassword'))->with(['alerts' => [$alert]]);
-
     }
 }

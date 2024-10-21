@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             // Only users with the 'ROLE_USER' or 'ROLE_OPERATOR' role can access this route
             Route::get('/', [UserSettingController::class, 'index'])->name('user.setting.index');
+            Route::post('/', [UserSettingController::class, 'deactivateAccount'])->name('user.setting.deactivate');
 
             //change password section
             Route::get('/change-password', [UserSettingController::class, 'changePasswordPage'])->name('user.setting.changePassword');

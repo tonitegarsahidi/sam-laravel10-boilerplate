@@ -36,6 +36,10 @@
                             </div>
                         @endif
 
+                        @if (isset($alerts))
+                            @include('admin.components.notification.general', $alerts)
+                        @endif
+
                         <!-- Notification element -->
                         @if (session('status'))
                             <div class="alert alert-primary" role="alert">

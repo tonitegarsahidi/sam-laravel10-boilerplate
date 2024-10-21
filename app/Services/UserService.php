@@ -47,13 +47,15 @@ class UserService
         }
     }
 
-    public function updateUser(Request $request, $id)
+    public function updateUser($data, $id)
     {
         DB::beginTransaction();
         try {
             $user = User::findOrFail($id);
-            $this->userRepository->update($id, $request->validated());
-            $user->roles()->sync($request->input('roles'));
+            $this->userRepository->update($id, $data);
+            if (isset($data['roles'])) {
+                $user->roles()->sync($data['roles']);
+            }
             DB::commit();
             return $user;
         } catch (\Exception $exception) {

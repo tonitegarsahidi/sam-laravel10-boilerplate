@@ -35,9 +35,6 @@ class UserController extends Controller
         $sortField = session()->get('sort_field', $request->input('sort_field', 'id'));
         $sortOrder = session()->get('sort_order', $request->input('sort_order', 'asc'));
 
-        Log::debug('Sort Field: ', ['sort_field' => $sortField]);
-Log::debug('Sort Order: ', ['sort_order' => $sortOrder]);
-
         $perPage = $request->input('per_page', config('constant.CRUD.PER_PAGE'));
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
@@ -96,7 +93,7 @@ Log::debug('Sort Order: ', ['sort_order' => $sortOrder]);
 
     public function update(UserEditRequest $request, $id)
     {
-        $result = $this->userService->updateUser($request, $id);
+        $result = $this->userService->updateUser($request->validated(), $id);
 
 
         $alert = $result
