@@ -37,4 +37,9 @@ class SendEmailVerifyEmailJob implements ShouldQueue
         // $this->user->notify(new VerifyEmailWithQueue());
         Mail::to($this->user->email)->send(new CustomVerifyEmail($this->user));
     }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

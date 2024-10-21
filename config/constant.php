@@ -14,4 +14,13 @@ return [
         'PAGE' => 1,
         'SORT_BY'=> 'id',
     ],
+
+    'COUNTRIES' =>  [
+        'Australia', 'Bangladesh', 'Belarus', 'Brazil', 'Canada', 'China',
+        'France', 'Germany', 'India', 'Indonesia', 'Israel', 'Italy', 'Japan',
+        'Korea, Republic of', 'Mexico', 'Philippines', 'Russian Federation',
+        'South Africa', 'Thailand', 'Turkey', 'Ukraine', 'United Arab Emirates',
+        'United Kingdom', 'United States'
+    ],
+
 ];

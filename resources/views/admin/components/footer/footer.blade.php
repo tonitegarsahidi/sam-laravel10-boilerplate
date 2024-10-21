@@ -6,7 +6,7 @@
         <script>
           document.write(new Date().getFullYear());
         </script>
-        Template by ThemeSelection, and SamLaravel Boilerplate made with ❤️ by
+        Template Sneat by ThemeSelection, and SamLaravel Boilerplate made with ❤️ by
         <a href="https://ruangrimbun.com" target="_blank" class="footer-link fw-bolder">SamToni</a>
       </div>
       <div>

@@ -36,8 +36,8 @@
 <!-- / Layout wrapper -->
 
 <div class="buy-now no-print">
-    <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank"
-        class="btn btn-danger btn-buy-now">Upgrade to Pro</a>
+    <a href="https://halokes.id" target="_blank"
+        class="btn btn-danger btn-buy-now">Subscribe Now</a>
 </div>
 
 @include('admin.components.footer.end-footer')

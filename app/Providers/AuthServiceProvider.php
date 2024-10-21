@@ -30,7 +30,5 @@ class AuthServiceProvider extends ServiceProvider
         ResetPassword::toMailUsing(function ($notifiable, $token) {
             return (new CustomResetPassword($token))->toMail($notifiable);
         });
-
-        //
     }
 }

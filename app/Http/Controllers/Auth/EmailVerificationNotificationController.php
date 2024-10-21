@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Validator;
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * Send a new email verification notification.
+     * =================================================
+     *      Send a new email verification notification.
+     * =================================================
      */
     public function showForm(): View
     {
@@ -22,7 +24,9 @@ class EmailVerificationNotificationController extends Controller
     }
 
     /**
-     * Show Verification Success
+     * =================================================
+     *      Show Verification Success
+     * =================================================
      */
     public function showVerificationSuccess(): View
     {
@@ -30,7 +34,9 @@ class EmailVerificationNotificationController extends Controller
     }
 
     /**
-     * Show Verification Failed
+     * =================================================
+     *      Show Verification Failed\
+     * =================================================
      */
     public function showVerificationFailed(): View
     {
@@ -38,7 +44,9 @@ class EmailVerificationNotificationController extends Controller
     }
 
     /**
-     * Send a new email verification notification.
+     * =================================================
+     *      Send a new email verification notification.
+     * =================================================
      */
     public function store(Request $request): RedirectResponse
     {

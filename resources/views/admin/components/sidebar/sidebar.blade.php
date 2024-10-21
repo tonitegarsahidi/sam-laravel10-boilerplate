@@ -91,7 +91,7 @@
                 ],
                 [
                     'subMenuText' => 'Profile',
-                    'subMenuUrl' => route('user.setting.changeProfile'),
+                    'subMenuUrl' => route('user.profile.index'),
                 ],
 
                 [

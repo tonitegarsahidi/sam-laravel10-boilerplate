@@ -34,6 +34,10 @@ class UserController extends Controller
     {
         $sortField = session()->get('sort_field', $request->input('sort_field', 'id'));
         $sortOrder = session()->get('sort_order', $request->input('sort_order', 'asc'));
+
+        Log::debug('Sort Field: ', ['sort_field' => $sortField]);
+Log::debug('Sort Order: ', ['sort_order' => $sortOrder]);
+
         $perPage = $request->input('per_page', config('constant.CRUD.PER_PAGE'));
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
@@ -68,7 +72,7 @@ class UserController extends Controller
 
         return redirect()->route('admin.user.index')->with(['alerts'        => [$alert],
                                                             'sort_order'    => 'desc']);
-                                                            }
+    }
 
     public function detail(Request $request)
     {
@@ -117,12 +121,18 @@ class UserController extends Controller
     public function destroy(UserListRequest $request)
     {
         $user = $this->userService->getUserDetail($request->id);
-        $result = $this->userService->deleteUser($request->id);
+        if(!is_null($user)){
+            $result = $this->userService->deleteUser($request->id);
+        }
+        else{
+            $result = false;
+        }
+
 
 
         $alert = $result
         ? AlertHelper::createAlert('success', 'Data ' . $user->name . ' berhasil dihapus')
-        : AlertHelper::createAlert('danger', 'Oops! Data ' . $user->name . ' gagal dihapus');
+        : AlertHelper::createAlert('danger', 'Oops! Data gagal dihapus');
 
         return redirect()->route('admin.user.index')->with('alerts', [$alert]);
     }

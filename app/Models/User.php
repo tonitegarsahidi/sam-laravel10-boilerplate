@@ -7,13 +7,14 @@ namespace App\Models;
 use App\Jobs\SendEmailVerifyEmailJob;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $table = 'users';
 
@@ -71,6 +72,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function printRoles()
     {
         return $this->roles()->pluck('role_name')->implode(', ');
+    }
+
+    // Define the one-to-one relationship with UserProfile
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
     }
 
     public function listRoles()

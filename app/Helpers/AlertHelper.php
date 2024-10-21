@@ -16,17 +16,17 @@ class AlertHelper
         return ['type' => $type, 'message' => $message];
     }
 
-    /**
-     * Store the alert message in session.
-     *
-     * @param array $alert
-     */
-    public static function setAlert($alert)
-    {
-        $alerts = session()->get('alerts', []);
-        array_push($alerts, $alert);
-        session()->flash('alerts', $alerts);
-    }
+    // /**
+    //  * Store the alert message in session.
+    //  *
+    //  * @param array $alert
+    //  */
+    // public static function setAlert($alert)
+    // {
+    //     $alerts = session()->get('alerts', []);
+    //     array_push($alerts, $alert);
+    //     session()->flash('alerts', $alerts);
+    // }
 
     /**
      * Retrieve all alert messages from the session.

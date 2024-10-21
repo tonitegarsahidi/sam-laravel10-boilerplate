@@ -45,4 +45,25 @@ class AuthenticationTest extends TestCase
 
         $this->assertGuest();
     }
+
+
+    /**
+     * Test the logout functionality.
+     */
+    public function test_logout_functionality()
+    {
+        // Create a user and log them in
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        // Send a POST request to the logout route
+        $response = $this->post(route('logout'));
+
+        // Assert the response status
+        $response->assertStatus(302); // Typically a redirect after logout
+
+        // Assert that the user is logged out
+        $this->assertGuest();
+    }
 }
