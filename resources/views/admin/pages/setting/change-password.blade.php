@@ -1,5 +1,6 @@
 @extends('admin/template-base')
 
+@section('page-title', 'Change Passwords')
 
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">

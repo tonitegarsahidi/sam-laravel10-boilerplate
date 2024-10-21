@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Detail of User')
+@section('page-title', 'Demo Print Detail of User')
 
 @section('header-code')
 

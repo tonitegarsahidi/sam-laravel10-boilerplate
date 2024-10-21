@@ -40,11 +40,11 @@ class ErrorHelper
      * @param string $errorName
      * @return array
      */
-    public static function makeErrorDetails(string $errorName): array
-    {
-        if (isset(self::$errors[$errorName])) {
-            return self::$errors[$errorName];
-        }
-        return ['code' => 0, 'text' => 'Undefined error', 'http_status' => 500];
-    }
+    // public static function makeErrorDetails(string $errorName): array
+    // {
+    //     if (isset(self::$errors[$errorName])) {
+    //         return self::$errors[$errorName];
+    //     }
+    //     return ['code' => 0, 'text' => 'Undefined error', 'http_status' => 500];
+    // }
 }

@@ -1,5 +1,7 @@
 @extends('admin/template-base')
 
+@section('page-title', 'User Profile Settings')
+
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
 

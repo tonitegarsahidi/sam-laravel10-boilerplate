@@ -5,17 +5,22 @@ namespace App\Services;
 use App\Http\Requests\UserProfileUpdateRequest;
 use App\Models\UserProfile;
 use App\Repositories\UserProfileRepository;
+use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class UserProfileService
 {
+    private $userRepository;
     private $userProfileRepository;
     private $imageUploadService;
 
-    public function __construct(UserProfileRepository $userProfileRepository, ImageUploadService $imageUploadService)
+    public function __construct(UserProfileRepository $userProfileRepository,
+    UserRepository $userRepository,
+    ImageUploadService $imageUploadService)
     {
+        $this->userRepository = $userRepository;
         $this->userProfileRepository = $userProfileRepository;
         $this->imageUploadService = $imageUploadService;
     }
@@ -31,11 +36,24 @@ class UserProfileService
     }
 
 
+        /**
+     * ==============================================
+     * create new entry for user profile if none, update if any
+     * ==============================================
+     */
     public function updateOrCreate($userId, $validatedData)
     {
 
         try {
             DB::beginTransaction();
+
+            //update basic user data if available
+            $userData = array_merge([
+                "name"          => $validatedData['name'] ?? null,
+                "phone_number"  => $validatedData['phone_number'] ?? null,
+            ], $validatedData);
+            //update user data if fine
+            $this->userRepository->update($userId, $userData);
 
             //check if current user already has profile
             $userProfile = $this->userProfileRepository->getProfile($userId);

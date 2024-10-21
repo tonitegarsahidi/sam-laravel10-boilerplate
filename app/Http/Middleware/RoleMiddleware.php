@@ -17,7 +17,6 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        Log::debug("ISINYA ROLES", ["roles" => $roles]);
         // Check if the authenticated user has any of the required roles
         if (!$request->user() || !$request->user()->hasAnyRole($roles)) {
             abort(403, 'Unauthorized');

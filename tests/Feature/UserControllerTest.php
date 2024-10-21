@@ -218,9 +218,9 @@ class UserControllerTest extends TestCase
         $response->assertSessionHas('alerts.0.type', 'success');  // check the first alert type is 'success'
         $response->assertSessionHas('sort_order', 'desc');  // check if 'sort_order' is set to 'desc'
 
-        // Assert that the failure message "gagal ditambahkan" is present in the session alert message
+        // Assert that the failure message "success / failed to be added" is present in the session alert message
         $response->assertSessionHas('alerts.0.message', function ($message) {
-            return str_contains($message, 'berhasil dimasukkan');
+            return str_contains($message, 'successfully added');
         });
     }
 
@@ -262,9 +262,9 @@ class UserControllerTest extends TestCase
         $response->assertSessionHas('alerts.0.type', 'danger');  // check the first alert type is 'danger since it is failed'
         $response->assertSessionHas('sort_order', 'desc');  // check if 'sort_order' is set to 'desc'
 
-        // Assert that the failure message "gagal ditambahkan" is present in the session alert message
+        // Assert that the failure message "failed to be added" is present in the session alert message
         $response->assertSessionHas('alerts.0.message', function ($message) {
-            return str_contains($message, 'gagal ditambahkan');
+            return str_contains($message, 'failed to be added');
         });
     }
 
@@ -334,7 +334,7 @@ class UserControllerTest extends TestCase
 
         //assert contain alerts
         $response->assertSessionHas('alerts.0.message', function ($message) {
-            return str_contains($message, 'berhasil dihapus');
+            return str_contains($message, 'successfully deleted');
         });
     }
 
@@ -358,7 +358,7 @@ class UserControllerTest extends TestCase
 
         //assert contain alerts
         $response->assertSessionHas('alerts.0.message', function ($message) {
-            return str_contains($message, 'gagal dihapus');
+            return str_contains($message, 'failed to be deleted');
         });
     }
 
@@ -423,7 +423,7 @@ class UserControllerTest extends TestCase
 
         $payloadUpdatedUser = [
             'name' => 'UPDATED USER',
-            'email' => 'updateduser@halokes.id',
+            'email' => 'updateduser@samboilerplate.com',
             'phone_number' => '081234567890',
             'roles' => $rolesArrayId,
             'is_active' => false,
@@ -445,15 +445,15 @@ class UserControllerTest extends TestCase
         $response->assertSessionHas('alerts.0.type', 'success');  // check the first alert type is 'success'
         $response->assertSessionHas('sort_order', 'desc');  // check if 'sort_order' is set to 'desc'
 
-        // Assert that the failure message "gagal ditambahkan" is present in the session alert message
+        // Assert that the failure message "success / failed to be updated" is present in the session alert message
         $response->assertSessionHas('alerts.0.message', function ($message) {
-            return str_contains($message, 'berhasil diperbarui');
+            return str_contains($message, 'successfully updated');
         });
 
         //ACT 2
         $payloadUpdatedUserFailed = [
             'name' => 'UPDATED USER',
-            'email' => 'updateduser@halokes.id',
+            'email' => 'updateduser@samboilerplate.com',
             'phone_number' => '081234567890',
             'roles' => null,
             'is_active' => false,

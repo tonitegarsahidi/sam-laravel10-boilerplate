@@ -6,7 +6,7 @@
     @include('admin.components.sidebar.item', [
         'menuId' => 'menu-operator-pages',
         'menuText' => 'Supervisor',
-        'menuUrl' => url('/supervisor-page'),
+        'menuUrl' => route('supervisor-page'),
         'menuIcon' => 'bx bx-briefcase-alt',
         'subMenuData' => null,
     ])

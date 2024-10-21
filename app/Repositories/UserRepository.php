@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 
@@ -49,6 +50,19 @@ class UserRepository
             'phone_number'  => $data['phone_number'],
             'is_active'     => $data['is_active'],
         ]);
+    }
+
+    public function update($userId, $data)
+    {
+        // Find the user profile by user_id
+        $userProfile = User::where('id', $userId)->first();
+        if ($userProfile) {
+            // Update the profile with the provided data
+            $userProfile->update($data);
+            return $userProfile;
+        } else {
+            throw new Exception("User Profile not found");
+        }
     }
 
     public function syncRoles(User $user, $roles)

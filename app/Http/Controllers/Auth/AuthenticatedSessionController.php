@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\AlertHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -17,7 +18,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('admin.auth.login');
+        $alerts = AlertHelper::getAlerts();
+        return view('admin.auth.login', compact('alerts'));
     }
 
     /**

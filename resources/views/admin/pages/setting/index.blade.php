@@ -18,20 +18,23 @@
                   <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
                 </div>
               </div>
-              <form id="formAccountDeactivation" onsubmit="return false">
+              <form id="formAccountDeactivation" action="{{ route('user.setting.deactivate') }}" method="POST">
+                @csrf
                 <div class="form-check mb-3">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    name="accountActivation"
-                    id="accountActivation"
-                  />
-                  <label class="form-check-label" for="accountActivation"
-                    >I confirm my account deactivation</label
-                  >
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="accountActivation"
+                        id="accountActivation"
+                        required
+                    />
+                    <label class="form-check-label" for="accountActivation">
+                        I confirm my account deactivation
+                    </label>
                 </div>
                 <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
-              </form>
+            </form>
+
             </div>
           </div>
         </div>
@@ -43,10 +46,6 @@
 
 @section('footer-code')
 
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+
 
 @endsection

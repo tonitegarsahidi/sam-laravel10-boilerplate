@@ -15,7 +15,7 @@ class UserProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',  // Optional, max size 800KB
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5243',  // Optional, max size 5MB (you can change this)
             'name'            => 'required|string|max:255',
             'phone_number'    => 'nullable|string|max:20',
             'address'         => 'nullable|string|max:255',
