@@ -36,7 +36,7 @@
 <!-- / Layout wrapper -->
 
 <div class="buy-now no-print">
-    <a href="https://halokes.id" target="_blank"
+    <a href="https://samboilerplate.com" target="_blank"
         class="btn btn-danger btn-buy-now">Subscribe Now</a>
 </div>
 

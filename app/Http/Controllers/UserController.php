@@ -66,8 +66,8 @@ Log::debug('Sort Order: ', ['sort_order' => $sortOrder]);
         $result = $this->userService->addNewUser($request);
 
         $alert = $result
-        ? AlertHelper::createAlert('success', 'Data ' . $result->name . ' berhasil dimasukkan')
-        : AlertHelper::createAlert('danger', 'Data ' . $request->name . ' gagal ditambahkan');
+        ? AlertHelper::createAlert('success', 'Data ' . $result->name . ' successfully added')
+        : AlertHelper::createAlert('danger', 'Data ' . $request->name . ' failed to be added');
 
 
         return redirect()->route('admin.user.index')->with(['alerts'        => [$alert],
@@ -100,8 +100,8 @@ Log::debug('Sort Order: ', ['sort_order' => $sortOrder]);
 
 
         $alert = $result
-        ? AlertHelper::createAlert('success', 'Data ' . $result->name . ' berhasil diperbarui')
-        : AlertHelper::createAlert('danger', 'Data ' . $request->name . ' gagal diperbarui');
+        ? AlertHelper::createAlert('success', 'Data ' . $result->name . ' successfully updated')
+        : AlertHelper::createAlert('danger', 'Data ' . $request->name . ' failed to be updated');
 
         return redirect()->route('admin.user.index')->with(['alerts' => [$alert],
                                                             'sort_field'=> 'updated_at',
@@ -131,13 +131,13 @@ Log::debug('Sort Order: ', ['sort_order' => $sortOrder]);
 
 
         $alert = $result
-        ? AlertHelper::createAlert('success', 'Data ' . $user->name . ' berhasil dihapus')
-        : AlertHelper::createAlert('danger', 'Oops! Data gagal dihapus');
+        ? AlertHelper::createAlert('success', 'Data ' . $user->name . ' successfully deleted')
+        : AlertHelper::createAlert('danger', 'Oops! failed to be deleted');
 
         return redirect()->route('admin.user.index')->with('alerts', [$alert]);
     }
 
-    public function userDemoPage(Request $request)
+    public function userOnlyPage(Request $request)
     {
         return view('admin.pages.user.useronlypage', ['message' => 'Hello User, Thanks for using our products']);
     }

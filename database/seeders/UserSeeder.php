@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name' => 'Super Admin',
-                'email' => 'superadmin@boilerplate.com',
+                'email' => 'superadmin@samboilerplate.com',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Pak Bon Admin',
-                'email' => 'admin@boilerplate.com',
+                'email' => 'admin@samboilerplate.com',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Si Tegar Supervisor',
-                'email' => 'supervisor@boilerplate.com',
+                'email' => 'supervisor@samboilerplate.com',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Sam Didi Operator',
-                'email' => 'operator@boilerplate.com',
+                'email' => 'operator@samboilerplate.com',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Sam Toni User',
-                'email' => 'user@boilerplate.com',
+                'email' => 'user@samboilerplate.com',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),

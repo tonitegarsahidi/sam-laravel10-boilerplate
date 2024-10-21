@@ -6,7 +6,7 @@
   @include('admin.components.sidebar.item', [
       'menuId' => 'menu-operator-pages',
       'menuText' => 'Operator',
-      'menuUrl' => url('/operator-page'),
+      'menuUrl' => route('operator-page'),
       'menuIcon' => 'bx bx-train',
       'subMenuData' => null,
   ])
