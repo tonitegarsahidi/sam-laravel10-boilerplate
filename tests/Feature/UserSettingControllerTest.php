@@ -142,18 +142,6 @@ class UserSettingControllerTest extends TestCase
         $response4->assertStatus(200);
     }
 
-    public function test_access_user_change_profile_page_with_role_user_return_200(): void
-    {
-        $response1 = $this->actingAs($this->createAdminUser())          ->get(route('user.setting.changeProfile'));
-        $response2 = $this->actingAs($this->createOperatorUser())       ->get(route('user.setting.changeProfile'));
-        $response3 = $this->actingAs($this->createSupervisorUser())     ->get(route('user.setting.changeProfile'));
-        $response4 = $this->actingAs($this->createUserUser())           ->get(route('user.setting.changeProfile'));
-        $response1->assertStatus(200);
-        $response2->assertStatus(200);
-        $response3->assertStatus(200);
-        $response4->assertStatus(200);
-    }
-
 
      /**
      * Test successful password change for an admin user.

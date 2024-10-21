@@ -20,8 +20,8 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name' => 'Super Admin',
-                'email' => 'superadmin@halokes.my.id',
-                'password' => Hash::make('password'),
+                'email' => 'superadmin@boilerplate.com',
+                'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
                 'phone_number' => '0811111111111',
@@ -30,8 +30,8 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Pak Bon Admin',
-                'email' => 'admin@halokes.my.id',
-                'password' => Hash::make('password'),
+                'email' => 'admin@boilerplate.com',
+                'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
                 'phone_number' => '0811111111111',
@@ -40,8 +40,8 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Si Tegar Supervisor',
-                'email' => 'supervisor@halokes.my.id',
-                'password' => Hash::make('password'),
+                'email' => 'supervisor@boilerplate.com',
+                'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
                 'phone_number' => '0811111111111',
@@ -50,8 +50,8 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Sam Didi Operator',
-                'email' => 'operator@halokes.my.id',
-                'password' => Hash::make('password'),
+                'email' => 'operator@boilerplate.com',
+                'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
                 'phone_number' => '0811111111111',
@@ -60,8 +60,8 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Sam Toni User',
-                'email' => 'user@halokes.my.id',
-                'password' => Hash::make('password'),
+                'email' => 'user@boilerplate.com',
+                'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
                 'phone_number' => '0811111111111',

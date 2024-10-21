@@ -23,6 +23,13 @@ return new class extends Migration
             $table->string('phone_number')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            //used for auditing
+            $table->string('created_by')->nullable()->default(null);
+            $table->string('updated_by')->nullable()->default(null);
+
+            // Add soft deletes
+            $table->softDeletes();
         });
     }
 

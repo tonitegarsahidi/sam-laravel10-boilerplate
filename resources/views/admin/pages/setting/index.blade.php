@@ -4,50 +4,40 @@
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
-    <div class="container-xxl flex-grow-1 container-p-y">
+<div class="container-xxl flex-grow-1 container-p-y">
 
-        {{-- FOR BREADCRUMBS --}}
-        @include('admin.components.breadcrumb.simple', $breadcrumbs)
-
-        {{-- MAIN PARTS --}}
-
-        <div class="card">
-
-            {{-- FIRST ROW,  FOR TITLE AND ADD BUTTON --}}
-            <div class="d-flex justify-content-between">
-
-                <div class="bd-highlight">
-                    <h3 class="card-header">USER CONFIGURATION</h3>
+    @include('admin.components.breadcrumb.simple', $breadcrumbs)
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <h5 class="card-header">Delete Account</h5>
+            <div class="card-body">
+              <div class="mb-3 col-12 mb-0">
+                <div class="alert alert-warning">
+                  <h6 class="alert-heading fw-bold mb-1">Are you sure you want to delete your account?</h6>
+                  <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
                 </div>
-
-            </div>
-
-            <div class="row m-2">
-
-                <div class="col-md-8 col-xs-12">
-                    <div class="table-responsive text-nowrap">
-                        HELLO USER SETTING
-                    </div>
-
+              </div>
+              <form id="formAccountDeactivation" onsubmit="return false">
+                <div class="form-check mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="accountActivation"
+                    id="accountActivation"
+                  />
+                  <label class="form-check-label" for="accountActivation"
+                    >I confirm my account deactivation</label
+                  >
                 </div>
-
+                <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
+              </form>
             </div>
-
-
-
-
-            {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
-            <div class="m-4">
-                <a class="btn btn-primary me-2" href="{{ route('user.setting.changePassword') }}"
-                    title="update this user">
-                    <i class='tf-icons bx bx-pencil me-2'></i>Change Password</a>
-                <a class="btn btn-danger me-2" href="{{ route('user.setting.changeProfile') }}"
-                    title="delete user">
-                    <i class='tf-icons bx bx-trash me-2'></i>Update Profile</a>
-            </div>
-
+          </div>
         </div>
-    </div>
+      </div>
+
+</div>
 
 @endsection
 
