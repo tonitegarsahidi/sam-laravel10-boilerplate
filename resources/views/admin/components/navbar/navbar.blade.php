@@ -10,7 +10,7 @@
         <!-- Search -->
         <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
-               Halo Sam Laravel
+               Ahlan wa Sahlan,&nbsp; <strong>{{ auth()->user()->name }}</strong>, lets make awesome Apps..!!
             </div>
         </div>
         <!-- /Search -->
@@ -27,7 +27,9 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                        <img src="{{ auth()->user()->profile && auth()->user()->profile->profile_picture ? asset(auth()->user()->profile->profile_picture) : asset('assets/img/avatars/default.png') }}"
+                        alt
+                        class="w-px-40 h-auto rounded-circle" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -36,7 +38,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                        <img src="{{ auth()->user()->profile && auth()->user()->profile->profile_picture ? asset(auth()->user()->profile->profile_picture) : asset('assets/img/avatars/default.png') }}"  alt
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </div>
@@ -54,13 +56,13 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{route('user.profile.index')}}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{route('user.setting.index')}}">
                             <i class="bx bx-cog me-2"></i>
                             <span class="align-middle">Settings</span>
                         </a>
@@ -69,7 +71,7 @@
                         <a class="dropdown-item" href="#">
                             <span class="d-flex align-items-center align-middle">
                                 <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                                <span class="flex-grow-1 align-middle">Billing</span>
+                                <span class="flex-grow-1 align-middle">Message</span>
                                 <span
                                     class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
                             </span>

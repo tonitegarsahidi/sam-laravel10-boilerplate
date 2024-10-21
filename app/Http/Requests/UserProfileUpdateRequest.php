@@ -17,7 +17,6 @@ class UserProfileUpdateRequest extends FormRequest
         return [
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',  // Optional, max size 800KB
             'name'            => 'required|string|max:255',
-            'organization'    => 'nullable|string|max:255',
             'phone_number'    => 'nullable|string|max:20',
             'address'         => 'nullable|string|max:255',
             'city'            => 'nullable|string|max:100',
@@ -36,7 +35,6 @@ class UserProfileUpdateRequest extends FormRequest
             'profile_picture.max'          => 'The profile picture size must not exceed 5MB.',
             'name.required'                => 'Please enter your full name.',
             'name.max'                     => 'The name may not be greater than 255 characters.',
-            'organization.max'             => 'The organization name may not be greater than 255 characters.',
             'phone_number.max'             => 'The phone number may not be greater than 20 characters.',
             'address.max'                  => 'The address may not be greater than 255 characters.',
             'city.max'                     => 'The city name may not be greater than 100 characters.',

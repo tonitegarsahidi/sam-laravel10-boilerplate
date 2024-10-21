@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\AlertHelper;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserProfileUpdateRequest;
+use App\Services\ImageUploadService;
 use App\Services\UserProfileService;
 use App\Services\UserService;
 use Exception;
@@ -20,12 +21,14 @@ class UserProfileController extends Controller
 {
 
     private $userProfileService;
+    private $imageUploadService;
     private $mainBreadcrumbs;
 
 
-    public function __construct(UserProfileService $userProfileService)
+    public function __construct(UserProfileService $userProfileService, ImageUploadService $imageUploadService)
     {
         $this->userProfileService = $userProfileService;
+        $this->imageUploadService = $imageUploadService;
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
             'User Profile' => route('user.setting.index')
@@ -57,20 +60,32 @@ class UserProfileController extends Controller
     {
         // The validated data will be available via $request->validated()
         $validated = $request->validated();
+        $userId = Auth::user()->id;
 
-        // Get the current authenticated userId
-        $userid = Auth::user()->id;
+        // Handle the profile picture upload if a new file is provided
+        try {
+            if ($request->hasFile('profile_picture')) {
+                $path = $this->imageUploadService->uploadImage($request->file('profile_picture'), "profpic");
+                $validated['profile_picture'] = $path;
+            }
+            else{
+                $validated['profile_picture'] = null;
+            }
 
-        $result = $this->userProfileService->updateOrCreate($userid, $validated);
+            // Update or create user profile
+            $result = $this->userProfileService->updateOrCreate($userId, $validated);
 
+            // Create success or failure alert
+            $alert = $result
+                ? AlertHelper::createAlert('success', 'Your User Profile was successfully updated.')
+                : AlertHelper::createAlert('danger', 'Your User Profile failed to be updated.');
 
-        $alert = $result
-        ? AlertHelper::createAlert('success', 'Your User Profile successfully updated')
-        : AlertHelper::createAlert('danger', 'Your User Profile failed to be updated');
+        } catch (Exception $e) {
+            // Handle any exceptions (e.g. upload errors)
+            $alert = AlertHelper::createAlert('danger', 'An error occurred: ' . $e->getMessage());
+        }
 
-        // dd($result);
-
-        return redirect()->route('user.profile.index')->with(
-            ['alerts' => [$alert]]);
+        // Redirect back with the alert
+        return redirect()->route('user.profile.index')->with(['alerts' => [$alert]]);
     }
 }
