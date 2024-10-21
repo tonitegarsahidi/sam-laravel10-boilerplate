@@ -29,15 +29,7 @@ class UserProfileRepository
         $userProfile = UserProfile::where('user_id', $userId)->first();
         if ($userProfile) {
             // Update the profile with the provided data
-            $userProfile->update([
-                "date_of_birth"   => $data['date_of_birth'] ?? $userProfile->date_of_birth,
-                "gender"          => $data['gender'] ?? $userProfile->gender,
-                "address"         => $data['address'] ?? $userProfile->address,
-                "city"            => $data['city'] ?? $userProfile->city,
-                "country"         => $data['country'] ?? $userProfile->country,
-                "profile_picture" => $data['profile_picture'] ?? $userProfile->profile_picture,
-            ]);
-
+            $userProfile->update($data);
             return $userProfile;
         } else {
             throw new Exception("User Profile not found");

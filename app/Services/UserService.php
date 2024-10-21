@@ -52,7 +52,7 @@ class UserService
         DB::beginTransaction();
         try {
             $user = User::findOrFail($id);
-            $user->update($request->validated());
+            $this->userRepository->update($id, $request->validated());
             $user->roles()->sync($request->input('roles'));
             DB::commit();
             return $user;
