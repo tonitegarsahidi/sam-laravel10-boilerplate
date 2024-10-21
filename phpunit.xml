@@ -25,6 +25,8 @@
             <directory suffix=".php">./app/Exceptions</directory>
             <directory suffix=".php">./app/Console</directory>
             <directory suffix=".php">./app/Providers</directory>
+            <directory suffix=".php">./app/Notifications</directory>
+            <directory suffix=".php">./app/Mail</directory>
         </exclude>
 
         <!-- Output HTML coverage report -->
