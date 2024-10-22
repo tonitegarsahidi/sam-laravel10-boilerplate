@@ -1,3 +1,4 @@
+![Alt Text](public/assets/img/logo/logo-medium.png)
 # SAM Boilerplate 10
 
 No longer developing powerful apps from zero, SamBoilerplate is a ready-to-use foundation for building any applications which need admin-like functionality. Designed to help you get started faster without writing everything from scratch. 
