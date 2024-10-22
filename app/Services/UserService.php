@@ -32,8 +32,9 @@ class UserService
      *  list all user along with filter, sort, etc
      * =============================================
      */
-    public function listAllUser(int $perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllUser($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
     {
+        $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
         return $this->userRepository->getAllUsers($perPage, $sortField, $sortOrder, $keyword);
     }
 
