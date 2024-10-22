@@ -13,9 +13,8 @@
             <!-- Basic Layout -->
             <div class="col-xxl">
                 <div class="card mb-4">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Change Password</h5>
-                        <small class="text-muted float-end">* : must be filled</small>
+                    <div class="p-2 bd-highlight">
+                        <h3 class="card-header">Change Password</h3>
                     </div>
 
                     <div class="card-body">
@@ -32,7 +31,9 @@
 
                             <div class="row mb-8">
                                 <div class="col-sm-10">
+                                    <small class="text-muted float-end">* : must be filled</small>
                                     <h5>First.. lets confirm that this is you </h5>
+
                                 </div>
                             </div>
 

@@ -2,26 +2,17 @@
 
 namespace App\Services;
 
-use App\Http\Requests\UserProfileUpdateRequest;
-use App\Models\UserProfile;
-use App\Repositories\UserProfileRepository;
-use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 class ImageUploadService
 {
     protected $uploadDir = 'upload';
 
     /**
+     * =============================================
      * Upload an image to the specified folder with a prefix and UUID filename.
-     *
-     * @param \Illuminate\Http\UploadedFile $imageFile
-     * @param string $prefix
-     * @return string
-     * @throws \Exception
+     *=============================================
      */
     public function uploadImage($imageFile, $prefix)
     {
@@ -51,11 +42,9 @@ class ImageUploadService
     }
 
     /**
+     * =============================================
      * Delete an image file based on its URL.
-     *
-     * @param string $fileUrl
-     * @return bool
-     * @throws \Exception
+     * =============================================
      */
     public function deleteImage($fileUrl)
     {

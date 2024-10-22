@@ -3,15 +3,8 @@
 namespace App\Services;
 
 use App\Exceptions\IncorrectPasswordException;
-use App\Http\Requests\UserAddRequest;
-use App\Models\User;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Repositories\UserRepository;
-use App\Repositories\RoleUserRepository;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
