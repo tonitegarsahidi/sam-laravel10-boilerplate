@@ -90,6 +90,11 @@ class UserProfileService
         }
     }
 
+    /**
+     * =============================================
+     *  delete previously saved profile picture from disk
+     * =============================================
+     */
     public function deleteOldProfilePicture(string $fileUrl)
     {
         try {

@@ -21,7 +21,9 @@ use Illuminate\Support\Facades\Log;
 class RegisteredUserController extends Controller
 {
     /**
+     * ======================================
      * Display the registration view.
+     * ======================================
      */
     public function create(): View
     {
@@ -29,7 +31,13 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Display the neecActivation view.
+     * ======================================
+     * Display the neecActivation view (after registration).
+     * this is to info the user that
+     * they need to wait for activation from Admin
+     * before they can login and use the apps.
+     * you can change the setting on 'config/constan'
+     * ======================================
      */
     public function needActivation(): View
     {
@@ -37,9 +45,10 @@ class RegisteredUserController extends Controller
     }
 
     /**
+     * ============================================================
      * Handle an incoming registration request.
+     * ============================================================
      *
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -78,7 +87,7 @@ class RegisteredUserController extends Controller
             event(new Registered($user));
 
 
-
+            // HANDLE REDIRECTS AFTER USER REGISTER
             //if user auto active and no need to verify email
             if (config('constant.NEW_USER_STATUS_ACTIVE') && !config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
                 Auth::login($user);
@@ -86,14 +95,11 @@ class RegisteredUserController extends Controller
             }
             //if new user mechanism not auto active (need admin activation)
              else  if (!config('constant.NEW_USER_STATUS_ACTIVE')){
-
                 return redirect(route('register.needactivation'));
             } else if (config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
 
                 return redirect(route('verification.notice'));
             }
-
-
 
         } catch (Exception $e) {
             Log::error("error in registration : ", ["exception" => $e]);

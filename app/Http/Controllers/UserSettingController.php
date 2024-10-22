@@ -43,6 +43,13 @@ class UserSettingController extends Controller
         ];
     }
 
+    /**
+     * =============================================
+     * display user setting pages, currently
+     * only setting to deactivate current account
+     * add yours now!
+     * =============================================
+     */
 
     public function index()
     {
@@ -51,6 +58,11 @@ class UserSettingController extends Controller
         return view('admin.pages.setting.index', compact('breadcrumbs'));
     }
 
+    /**
+     * =============================================
+     * process deactivate and account
+     * =============================================
+     */
     public function deactivateAccount(Request $request)
     { // Validate that the checkbox is checked
         DB::beginTransaction();
@@ -66,9 +78,9 @@ class UserSettingController extends Controller
             // Log the user out
             Auth::logout();
             DB::commit();
+            //create alert
             $alert = AlertHelper::createAlert('success', 'User ' . $user->name . ' successfully deactivated');
         } catch (\Exception $e) {
-            //throw $th;
             Log::error('FAILED TO DEACTIVATE ACCOUNT, reason : ', ["reason" => $e->getMessage()]);
             $alert = AlertHelper::createAlert('error', 'Data ' . $user->name . ' failed to be deactivated');
             DB::rollBack();

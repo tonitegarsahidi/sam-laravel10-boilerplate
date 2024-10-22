@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\AlertHelper;
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserProfileUpdateRequest;
 use App\Services\ImageUploadService;
 use App\Services\UserProfileService;
-use App\Services\UserService;
 use Exception;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+    /**
+     * ################################################
+     *      THIS IS USERPROFILE CONTROLLER
+     * handles basic things for userprofile operations
+     * mostly on user avatar and user profile data.
+     * ################################################
+     */
 class UserProfileController extends Controller
 {
 
@@ -34,8 +35,12 @@ class UserProfileController extends Controller
             'User Profile' => route('user.setting.index')
         ];
     }
+
     /**
-     * Display the user's profile form.
+     * =============================================
+     * load user data and userProfile data (if any)
+     * then display it in form
+     * =============================================
      */
     public function index(Request $request): View
     {
@@ -54,7 +59,9 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Display the user's profile form.
+     * =============================================
+     *     process update user and userProfile data
+     * =============================================
      */
     public function updateOrCreate(UserProfileUpdateRequest $request)
     {
@@ -82,7 +89,7 @@ class UserProfileController extends Controller
 
         } catch (Exception $e) {
             // Handle any exceptions (e.g. upload errors)
-            $alert = AlertHelper::createAlert('danger', 'An error occurred: ' . $e->getMessage());
+            $alert = AlertHelper::createAlert('danger', 'Ooops An error occurred: ' . $e->getMessage());
         }
 
         // Redirect back with the alert

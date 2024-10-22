@@ -16,22 +16,42 @@ class UserService
     private $userRepository;
     private $roleUserRepository;
 
+    /**
+     * =============================================
+     *  constructor
+     * =============================================
+     */
     public function __construct(UserRepository $userRepository, RoleUserRepository $roleUserRepository)
     {
         $this->userRepository = $userRepository;
         $this->roleUserRepository = $roleUserRepository;
     }
 
+    /**
+     * =============================================
+     *  list all user along with filter, sort, etc
+     * =============================================
+     */
     public function listAllUser(int $perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
     {
         return $this->userRepository->getAllUsers($perPage, $sortField, $sortOrder, $keyword);
     }
 
+    /**
+     * =============================================
+     * get single user data
+     * =============================================
+     */
     public function getUserDetail(int $userId): ?User
     {
         return $this->userRepository->getUserById($userId);
     }
 
+    /**
+     * =============================================
+     * process add new user to database
+     * =============================================
+     */
     public function addNewUser(UserAddRequest $request)
     {
         DB::beginTransaction();
@@ -47,6 +67,11 @@ class UserService
         }
     }
 
+    /**
+     * =============================================
+     * process update user data
+     * =============================================
+     */
     public function updateUser($data, $id)
     {
         DB::beginTransaction();
@@ -65,6 +90,11 @@ class UserService
         }
     }
 
+    /**
+     * =============================================
+     * process delete user
+     * =============================================
+     */
     public function deleteUser(int $userId): ?bool
     {
         DB::beginTransaction();

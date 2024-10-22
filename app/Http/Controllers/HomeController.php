@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
 
+    /**
+     * =============================================
+     *      function which handle your / route
+     *  based on login / not login
+     * =============================================
+     */
     public function index(Request $request){
 
         //will redirect to dashboard if user already logged in

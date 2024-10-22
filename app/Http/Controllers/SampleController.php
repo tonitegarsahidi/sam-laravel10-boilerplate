@@ -4,10 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
+/**
+     * ################################################
+     *      THIS IS SAMPLE CONTROLLER
+     *  mostly used to display UI implementation.
+     *  the main UI for SamBoilerplate is from the Sneat Theme,
+     *  check or license about them (to remove credit in footer) in their website
+     * ################################################
+     */
 class SampleController extends Controller
 {
 
     private $mainBreadcrumbs;
+
+    /**
+     * =============================================
+     *      constructor
+     * =============================================
+     */
 
     public function __construct()
     {
@@ -19,7 +34,11 @@ class SampleController extends Controller
         ];
     }
 
-
+    /**
+     * =============================================
+     *      show sample page for UI tables
+     * =============================================
+     */
     public function tablePage(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Table' => null]);
@@ -28,6 +47,11 @@ class SampleController extends Controller
 
     }
 
+    /**
+     * =============================================
+     *  show sample page for UI Form
+     * =============================================
+     */
     public function formPage1(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Form 1' => null]);
@@ -36,6 +60,11 @@ class SampleController extends Controller
 
     }
 
+    /**
+     * =============================================
+     * show sample page for UI Form (2nd version)
+     * =============================================
+     */
     public function formPage2(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Form 2' => null]);
@@ -45,6 +74,11 @@ class SampleController extends Controller
     }
 
 
+    /**
+     * =============================================
+     *  show sample page for blank pages
+     * =============================================
+     */
     public function blank(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Blank' => null]);
@@ -53,8 +87,11 @@ class SampleController extends Controller
 
     }
 
-
-
+    /**
+     * =============================================
+     *  show sample page for UI text divider
+     * =============================================
+     */
     public function textDivider(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Text Divider' => null]);
@@ -63,6 +100,11 @@ class SampleController extends Controller
 
     }
 
+    /**
+     * =============================================
+     *      show sample page for UI cards
+     * =============================================
+     */
     public function cards(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Cards' => null]);
