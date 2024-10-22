@@ -44,7 +44,7 @@ class UserProfileController extends Controller
      */
     public function index(Request $request): View
     {
-        //list of countries
+        //list of countries example
         $countries = config('constant.COUNTRIES');
 
 
