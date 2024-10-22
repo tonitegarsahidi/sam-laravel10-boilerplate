@@ -48,15 +48,19 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th scope="col" class="bg-secondary text-white">Name</th>
+                                    <th scope="col" class="bg-dark text-white">Name</th>
                                     <td>{{ $data->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-secondary text-white">Email</th>
+                                    <th scope="col" class="bg-dark text-white">Email</th>
                                     <td>{{ $data->email }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-secondary text-white">Is Active</th>
+                                    <th scope="col" class="bg-dark text-white">Phone Number</th>
+                                    <td>{{ $data->phone_number }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Is Active</th>
                                     <td>
                                         @if ($data->is_active)
                                             <span class="badge rounded-pill bg-success"> Yes </span>
@@ -66,7 +70,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-secondary text-white">Role</th>
+                                    <th scope="col" class="bg-dark text-white">Role</th>
                                     <td>
                                         @foreach ($data->listRoles() as $role)
                                             @if (strcasecmp($role, 'ADMINISTRATOR') == 0)
@@ -76,16 +80,16 @@
                                                 <span class="badge rounded-pill bg-label-primary m-1"> {{ $role }}
                                                 </span>
                                             @endif
-                                            <br />
+                                            <br/>
                                         @endforeach
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-secondary text-white">Created At</th>
+                                    <th scope="col" class="bg-dark text-white">Created At</th>
                                     <td>{{ $data->created_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-secondary text-white">Updated At</th>
+                                    <th scope="col" class="bg-dark text-white">Updated At</th>
                                     <td>{{ $data->updated_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
                                 </tr>
                             </tbody>
