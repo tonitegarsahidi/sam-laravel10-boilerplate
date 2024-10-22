@@ -6,6 +6,7 @@ use App\Helpers\ErrorHelper;
 use App\Models\RoleMaster;
 use App\Models\RoleUser;
 use App\Models\User;
+use App\Services\UserService;
 use App\Services\UserSettingService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -241,6 +242,98 @@ class UserSettingControllerTest extends TestCase
             return $alert['type'] === 'danger' && $alert['message'] === ErrorHelper::makeErrorsText('GENERIC_ERROR');
         });
         $this->assertTrue(true);
+    }
+
+    /**
+     * Test that the account deactivation process works as expected.
+     */
+    public function test_deactivate_account()
+    {
+        // Create a user and log them in
+        $user = User::factory()->create(['is_active' => true]);
+        $this->actingAs($user);
+
+        // Mock the UserService to simulate user update behavior
+        $userServiceMock = Mockery::mock(UserService::class);
+        $userServiceMock->shouldReceive('updateUser')
+                        ->with(['is_active' => false], $user->id)
+                        ->once()
+                        ->andReturn(true);
+        $this->app->instance(UserService::class, $userServiceMock);
+
+        // Send a POST request to the deactivate account route
+        $response = $this->post(route('user.setting.deactivate'), [
+            'accountActivation' => 'on', // Checkbox input
+        ]);
+
+        // Assert that the user was logged out and redirected to the login page
+        $response->assertRedirect(route('login'));
+        $this->assertGuest(); // Ensure the user is logged out
+
+        // Verify that the database has the user deactivated
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'is_active' => false,
+        ]);
+    }
+
+    /**
+     * Test that deactivation fails if the checkbox is not checked.
+     */
+    public function test_deactivation_fails_if_checkbox_not_checked()
+    {
+        // Create a user and log them in
+        $user = User::factory()->create(['is_active' => true]);
+        $this->actingAs($user);
+
+        // Send a POST request without checking the checkbox
+        $response = $this->post(route('user.setting.deactivate'), [
+            'accountActivation' => null,
+        ]);
+
+        // Assert that validation failed and the user is not logged out
+        $response->assertSessionHasErrors('accountActivation');
+        $this->assertAuthenticatedAs($user); // Ensure the user is still logged in
+    }
+
+    /**
+     * Test that deactivation fails with an exception and logs the error.
+     */
+    public function test_deactivation_logs_error_on_failure()
+    {
+        // Create a user and log them in
+        $user = User::factory()->create(['is_active' => true]);
+        $this->actingAs($user);
+
+        // Mock the UserService to simulate an exception
+        $userServiceMock = Mockery::mock(UserService::class);
+        $userServiceMock->shouldReceive('updateUser')
+                        ->with(['is_active' => false], $user->id)
+                        ->once()
+                        ->andThrow(new \Exception('Failed to deactivate'));
+        $this->app->instance(UserService::class, $userServiceMock);
+
+        // Mock the Log facade to check if the error is logged
+        Log::shouldReceive('error')
+            ->once()
+            ->with('FAILED TO DEACTIVATE ACCOUNT, reason : ', Mockery::on(function ($data) {
+                return $data['reason'] === 'Failed to deactivate';
+            }));
+
+        // Send the request
+        $response = $this->post(route('user.setting.deactivate'), [
+            'accountActivation' => 'on', // Checkbox input
+        ]);
+
+        // Assert the user is redirected back with the error alert
+        $response->assertRedirect(route('login'));
+        $response->assertSessionHas('alerts');
+
+        // Ensure the user is still active in the database
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'is_active' => true, // Should not be deactivated due to the exception
+        ]);
     }
 
 

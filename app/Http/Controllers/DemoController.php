@@ -12,7 +12,7 @@ class DemoController extends Controller
     public function __construct()
     {
         $this->mainBreadcrumbs = [
-            'Demo' => route('demo'),
+            'Demo' => null,
             'Print Service' => route('demo.print'),
         ];
 
