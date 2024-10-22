@@ -251,3 +251,8 @@ Change user profiles, print preview, deactivate account, UI samples, etc.
 - **Comprehensive Documentation**: Step-by-step documentation to guide you through understanding and extending the features.
 
 With this boilerplate, you can focus on developing the core features of your application without wasting time building the basics from scratch. It's ideal for anyone looking to quickly build a feature-rich admin application!
+
+## Showcase
+
+#### Login
+![Login pages](public/assets/img/manual/auth/auth-admin-review.png)
