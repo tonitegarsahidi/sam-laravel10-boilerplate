@@ -250,21 +250,12 @@ class UserSettingControllerTest extends TestCase
     public function test_deactivate_account()
     {
         // Create a user and log them in
-        $user = User::factory()->create(['is_active' => true]);
-        $this->actingAs($user);
+        $user = $this->createAdminUser(); // Create an admin user
 
-        // Mock the UserService to simulate user update behavior
-        $userServiceMock = Mockery::mock(UserService::class);
-        $userServiceMock->shouldReceive('updateUser')
-                        ->with(['is_active' => false], $user->id)
-                        ->once()
-                        ->andReturn(true);
-        $this->app->instance(UserService::class, $userServiceMock);
-
-        // Send a POST request to the deactivate account route
-        $response = $this->post(route('user.setting.deactivate'), [
+        $response = $this->actingAs($user)->post(route('user.setting.deactivate'), [
             'accountActivation' => 'on', // Checkbox input
         ]);
+
 
         // Assert that the user was logged out and redirected to the login page
         $response->assertRedirect(route('login'));
@@ -283,7 +274,8 @@ class UserSettingControllerTest extends TestCase
     public function test_deactivation_fails_if_checkbox_not_checked()
     {
         // Create a user and log them in
-        $user = User::factory()->create(['is_active' => true]);
+        $user = $this->createAdminUser(); // Create an admin user
+
         $this->actingAs($user);
 
         // Send a POST request without checking the checkbox
@@ -302,7 +294,8 @@ class UserSettingControllerTest extends TestCase
     public function test_deactivation_logs_error_on_failure()
     {
         // Create a user and log them in
-        $user = User::factory()->create(['is_active' => true]);
+        $user = $this->createAdminUser(); // Create an admin user
+
         $this->actingAs($user);
 
         // Mock the UserService to simulate an exception

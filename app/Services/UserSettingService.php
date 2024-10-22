@@ -39,7 +39,7 @@ class UserSettingService
 
         // Check the type of $user
         if (!$user instanceof \App\Models\User) {
-            throw new Exception('The authenticated user is not an instance of the User model. Make sure you login', 40112);
+            throw new Exception('The authenticated user is not an instance of the User model. Make sure you login');
         }
 
        // Check if the current password matches the user's actual current password
