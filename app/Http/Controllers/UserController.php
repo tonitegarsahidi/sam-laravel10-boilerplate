@@ -99,6 +99,7 @@ class UserController extends Controller
             : AlertHelper::createAlert('danger', 'Data ' . $request->name . ' failed to be added');
 
 
+        if()
         return redirect()->route('admin.user.index')->with([
             'alerts'        => [$alert],
             'sort_order'    => 'desc'

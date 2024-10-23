@@ -14,10 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_profiles', function (Blueprint $table) {
-            $table->id();
+            // Use UUID for the primary key
+            $table->uuid('id')->primary();
 
-            // Foreign key to users table with cascade on delete
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            // Foreign key to users table using UUID, with cascade on delete
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
 
             // Nullable profile columns
             $table->date('date_of_birth')->nullable()->default(null);

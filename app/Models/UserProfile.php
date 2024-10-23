@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserProfile extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
 
     // Fillable attributes for mass assignment
     protected $fillable = [
@@ -22,6 +23,9 @@ class UserProfile extends Model
         'created_by',
         'updated_by',
     ];
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     // Define the one-to-one relationship with User
     public function user()
