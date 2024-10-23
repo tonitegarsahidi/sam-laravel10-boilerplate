@@ -32,11 +32,16 @@ sudo apt install php8.3 php8.3-cli php8.3-mbstring php8.3-xml php8.3-curl php8.3
 ### Initial Setup : 
 ```bash
 composer install
+```
+
+#### copy .env.example into .env files, then configure your database setting there
+
+```
 php artisan key:generate
 php artisan migrate:fresh && php artisan db:seed
 ```
 
-If you want to populate the User with around 100 sample of user data run
+*(Optional) If you want to populate the User with around 100 sample of user data run*
 ```bash
 php artisan db:seed --class=FakeUserSeeder
 ```
