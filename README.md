@@ -287,7 +287,7 @@ Here is some showcase related to Auth
 ![Resend Email verification success](public/assets/img/manual/auth/cropped/auth-verification-email-success.png)
 
 ##### Email 
-![Email verify](public/assets/img/manual/auth/email-verify.png)
+![Email verify](public/assets/img/manual/other/email-verify.png)
 
 
 
