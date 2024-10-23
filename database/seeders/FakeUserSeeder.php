@@ -26,7 +26,7 @@ class FakeUserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'is_active' => false,
                 'email_verified_at' => Carbon::now(),
-                'phone_number' => fake()->phoneNumber(),
+                'phone_number' => '+'.fake()->numerify('##').fake()->numerify('###########'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
