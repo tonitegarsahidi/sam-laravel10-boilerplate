@@ -76,13 +76,13 @@ There are 4 roles and 5 default users if you run php artisan db:seed as above.
 
 After seeding the database, the following default users will be available:
 
-| Email                          | Role       | Password    |
-|---------------------------------|------------|-------------|
-| superadmin@samboilerplate.com    | ROLE_ADMIN, ROLE_SUPERVISOR, ROLE_OPERATOR, ROLE_USER | *`password123`* |
-| admin@samboilerplate.com         | ROLE_ADMIN, ROLE_USER | *`password123`* |
-| supervisor@samboilerplate.com    | ROLE_SUPERVISOR, ROLE_USER  | *`password123`* |
-| operator@samboilerplate.com      | ROLE_OPERATOR, ROLE_USER  | *`password123`* |
-| user@samboilerplate.com          | ROLE_USER  | *`password123`* |
+| Email                         | Role                                                  | Password        |
+| ----------------------------- | ----------------------------------------------------- | --------------- |
+| superadmin@samboilerplate.com | ROLE_ADMIN, ROLE_SUPERVISOR, ROLE_OPERATOR, ROLE_USER | *`password123`* |
+| admin@samboilerplate.com      | ROLE_ADMIN, ROLE_USER                                 | *`password123`* |
+| supervisor@samboilerplate.com | ROLE_SUPERVISOR, ROLE_USER                            | *`password123`* |
+| operator@samboilerplate.com   | ROLE_OPERATOR, ROLE_USER                              | *`password123`* |
+| user@samboilerplate.com       | ROLE_USER                                             | *`password123`* |
 
 
 - Only admin and superadmin which has ROLE_ADMIN roles. 
@@ -254,5 +254,143 @@ With this boilerplate, you can focus on developing the core features of your app
 
 ## Showcase
 
+<!--========================== AUTH SYSTEM IS HERE ==========================  -->
+### Auth system
+Here is some showcase related to Auth
+
+#### User Registration
+![Register pages](public/assets/img/manual/auth/cropped/auth-registration.png)
+##### After Register need Email Verification
+![After register need email verification](public/assets/img/manual/auth/cropped/auth-confirm-email.png)
+##### After Register but Need Admin activation
+![Register pages need Admin Activation](public/assets/img/manual/auth/cropped/auth-admin-review.png)
+##### After Register but Need Admin activation and Email verification
+![Register pages need Admin Activation and email verify](public/assets/img/manual/auth/cropped/auth-registration-admin-verify.png)
+
+
+
 #### Login
-![Login pages](public/assets/img/manual/auth/auth-admin-review.png)
+![Login pages](public/assets/img/manual/auth/cropped/auth-login.png)
+##### Login Email not verified
+![Login Email not verified](public/assets/img/manual/auth/cropped/auth-verify-email-required.png)
+
+### Email Verification
+##### Resend email verification
+![Resend Email Verification](public/assets/img/manual/auth/cropped/auth-resend-notification.png)
+
+##### Resend Email verification success
+![Resend Email verification success](public/assets/img/manual/auth/cropped/auth-verification-email-success.png)
+
+##### Email 
+![Email verify](public/assets/img/manual/auth/email-verify.png)
+
+
+
+#### Forgot Password
+![Forgot password](public/assets/img/manual/auth/cropped/auth-forgot-password.png)
+##### Forgot password send success
+![Forgot password send success](public/assets/img/manual/auth/cropped/auth-forgot-password-send-success.png)
+
+<!--========================== DASHBOARD AND NAVIGATION ==========================  -->
+
+## Dashboard and Navigation
+Things you will find when you successfully login
+### Dashboard
+![Dashboard Pages](public/assets/img/manual/dashboard/backoffice-dashboard-2.png)
+### Top Right Menu
+![Top right menu](public/assets/img/manual/navigation/backoffice-navigation-top-menu.png)
+### Sidebar
+![Sidebar navigation](public/assets/img/manual/navigation/backoffice-navigation-sidebar.png)
+
+## Ultimate CRUD Example : User Management
+Showcase on ultimate CRUD in User management examples
+### List User (with fake data)
+![List user](public/assets/img/manual/crud//backoffice-crud-user-list-with-faker.png)
+
+#### Search User
+![Search User](public/assets/img/manual/crud/backoffice-crud-user-search.png)
+
+#### Sort User by Name Descending
+![Sort User by name descending](public/assets/img/manual/crud/backoffice-crud-user-list-sort-by-name-descending.png)
+
+#### Dynamic Per-Page Paging
+![Dynamic Paging](public/assets/img/manual/crud/backoffice-crud-user-list-dynamic-perpage-paging.png)
+
+#### Paging Page Element
+![Paging Elements](public/assets/img/manual/crud/backoffice-crud-user-list-paging.png)
+
+### View / Detail User
+![View / Detail user](public/assets/img/manual/crud/backoffice-crud-user-detail.png)
+
+
+### Add User
+![Add user](public/assets/img/manual/crud/backoffice-crud-add-user.png)
+
+
+### Edit User
+![Edit User](public/assets/img/manual/crud/backoffice-crud-edit-user.png)
+
+
+#### Edit User - validation error
+![Edit User Validation error](public/assets/img/manual/crud/backoffice-crud-user-edit-validation-error.png)
+
+### Delete User
+#### Confirm Before Delete
+![Delete User Confirm](public/assets/img/manual/crud/backoffice-crud-user-delete-confirm.png)
+#### Delete Success
+![Delete Success](public/assets/img/manual/crud/backoffice-crud-user-delete-success.png)
+
+
+## User Profile
+#### New User has no Profile
+![blank user profile](public/assets/img/manual/userprofile/backoffice-userprofile-blank.png)
+#### Filling User Profile form
+![Filling User Profile form](public/assets/img/manual/userprofile/backoffice-userprofile-filled.png)
+#### Update user profile Success
+![Update user profile Success](public/assets/img/manual/userprofile/backoffice-userprofile-update-success.png)
+#### User Profile - incorrect change image
+![User Profile - incorrect change image](public/assets/img/manual/userprofile/backoffice-userprofile-validation-error.png)
+
+
+
+## User Setting
+### Change Password
+![Change Password](public/assets/img/manual/usersetting/backoffice-user.setting-change-password.png)
+#### Change Password success
+![Change Password](public/assets/img/manual/usersetting/backoffice-usersetting-changepassword-success.png)
+### Deactivate Accounts
+![Deactivate Accounts 1](public/assets/img/manual/usersetting/backoffice-usersetting-disableaccount-page.png)
+#### Deactivate Accounts - mandatory checkbox
+![Deactivate Accounts 2](public/assets/img/manual/usersetting/backoffice-usersetting-disableaccount-page-checkbox-mandatory.png)
+#### Deactivate Accounts - success
+![Deactivate Accounts 3 ](public/assets/img/manual/usersetting/backoffice-usersetting-disableaccount-success.png)
+
+
+## Others
+### Demo Print pages 
+When you might need preview or print at the same time
+![Print A4](public/assets/img/manual/other/backoffice-user.setting.demoprint-pages.png)
+![Print A4 Preview](public/assets/img/manual/other/backoffice-user.setting.demoprint-pages-printdialog.png)
+
+### UI Samples 
+These UI samples all from the theme. You can see more on their site. See our footer for their themes.
+#### Demo UI Cards
+![Demo UI Card](public/assets/img/manual/other/backoffice-sampleui-card.png)
+#### Demo UI Table
+![Demo UI Table](public/assets/img/manual/other/back0ffice-demoui-table.png)
+#### Demo UI Form 1
+![Demo UI Form 1](public/assets/img/manual/other/back0ffice-demoui-form1.png)
+#### Demo UI Form 2
+![Demo UI Form 2](public/assets/img/manual/other/back0ffice-demoui-form2.png)
+#### Demo UI Blank
+![Demo UI Blank](public/assets/img/manual/other/back0ffice-demoui-blank.png)
+
+
+
+## Landing Pages
+SamBoilerplate mostly is about admin / back office pages. This landing page is just a bonus
+![Landing pages](public/assets/img/manual/other/landing-page.png)
+
+---
+## Thank You
+and lets build great apps!
