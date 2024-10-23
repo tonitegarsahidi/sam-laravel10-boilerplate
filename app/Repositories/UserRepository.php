@@ -72,10 +72,9 @@ class UserRepository
         RoleUser::where('user_id', $user->id)->delete();
 
         //create new roles for this user
-        foreach ($roles as $roleItem) {
-            RoleUser::create([$user->id, $roleItem->id]);
+        foreach ($roles as $roleId) {
+            RoleUser::create(['user_id' => $user->id, 'role_id' => $roleId]);
         }
-        //$user->roles()->sync($roles);
     }
 
     public function deleteUserById($userId): ?bool

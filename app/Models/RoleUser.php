@@ -17,9 +17,16 @@ class RoleUser extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    public function roleMaster()
+    // Corrected relationship to reference the Role model
+    public function role()
     {
-        return $this->belongsToMany(RoleUser::class, 'role_user');
+        return $this->belongsTo(RoleMaster::class, 'role_id');
+    }
+
+    // Define a relationship back to the User model
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 }
