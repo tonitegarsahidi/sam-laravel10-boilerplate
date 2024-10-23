@@ -391,6 +391,15 @@ These UI samples all from the theme. You can see more on their site. See our foo
 SamBoilerplate mostly is about admin / back office pages. This landing page is just a bonus
 ![Landing pages](public/assets/img/manual/other/landing-page.png)
 
+
+## Code Quality and Test Unit
+Coding style (I love comments!)
+![coding style](public/assets/img/manual/other/code-quality-standard.png)
+Run your Unit test
+![Unit Test](public/assets/img/manual/unittest/unit%20test%20running.png)
+Our minimum Quality Standard is 80% Code Coverage
+![Code Coverage](public/assets/img/manual/unittest/code%20coverage.png)
+
 ---
 ## Thank You
 and lets build great apps!
