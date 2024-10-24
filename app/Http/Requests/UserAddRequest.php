@@ -23,7 +23,7 @@ class UserAddRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'phone_number' => 'nullable|regex:/^[0-9\+]+$/',
             'is_active' => 'required|boolean',
             'roles' => 'required|array|min:1',

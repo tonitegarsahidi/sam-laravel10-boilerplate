@@ -7,6 +7,7 @@ use App\Models\RoleMaster;
 use App\Models\RoleUser;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Services\UserService;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -17,9 +18,17 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class RegisteredUserController extends Controller
 {
+
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
     /**
      * ======================================
      * Display the registration view.
@@ -53,7 +62,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', Rules\Password::defaults()],
@@ -63,24 +72,23 @@ class RegisteredUserController extends Controller
         ]);
 
 
+        //start insert operation
         try {
             DB::beginTransaction();
 
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'is_active' => config('constant.NEW_USER_STATUS_ACTIVE'),
-            ]);
-
-            //find the roles ID
+            //find the roles ID (defaults role)
             $roleId = RoleMaster::where('role_code', '=', config('constant.NEW_USER_DEFAULT_ROLES'))->first("id")->id;
 
-            //add the default role to the new user
-            RoleUser::create([
-                'user_id'   => $user->id,
-                'role_id'   => $roleId,
-            ]);
+            //insert into database
+            $user = $this->userService->addNewUser(
+                [
+                    'name' => $validatedData["name"],
+                    'email' => $validatedData["email"],
+                    'password' => Hash::make($validatedData["password"]),
+                    'is_active' => config('constant.NEW_USER_STATUS_ACTIVE'),
+                    'roles'     => [$roleId]
+                ]
+            );
 
             DB::commit();
 
@@ -94,13 +102,12 @@ class RegisteredUserController extends Controller
                 return redirect(RouteServiceProvider::HOME);
             }
             //if new user mechanism not auto active (need admin activation)
-             else  if (!config('constant.NEW_USER_STATUS_ACTIVE')){
+            else  if (!config('constant.NEW_USER_STATUS_ACTIVE')) {
                 return redirect(route('register.needactivation'));
             } else if (config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
 
                 return redirect(route('verification.notice'));
             }
-
         } catch (Exception $e) {
             Log::error("error in registration : ", ["exception" => $e]);
             DB::rollback();
