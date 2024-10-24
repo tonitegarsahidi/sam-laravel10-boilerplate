@@ -37,7 +37,7 @@ class UserRepository
         return User::where('email', $username)->exists();
     }
 
-    public function getUserById(int $userId): ?User
+    public function getUserById($userId): ?User
     {
         return User::with('roles')->find($userId);
     }
@@ -71,6 +71,7 @@ class UserRepository
         }
     }
     public function deleteUserById(int $userId): ?bool
+
     {
         try {
             $user = User::findOrFail($userId); // Find the user by ID

@@ -43,7 +43,7 @@ class UserService
      * get single user data
      * =============================================
      */
-    public function getUserDetail(int $userId): ?User
+    public function getUserDetail($userId): ?User
     {
         return $this->userRepository->getUserById($userId);
     }
@@ -89,9 +89,11 @@ class UserService
         DB::beginTransaction();
         try {
             $user = User::findOrFail($id);
+
             $this->userRepository->update($id, $validatedData);
             if (isset($validatedData['roles'])) {
                 $this->userRepository->syncRoles($user, $validatedData['roles']);
+
             }
             DB::commit();
             return $user;
@@ -107,7 +109,7 @@ class UserService
      * process delete user
      * =============================================
      */
-    public function deleteUser(int $userId): ?bool
+    public function deleteUser($userId): ?bool
     {
         DB::beginTransaction();
         try {
