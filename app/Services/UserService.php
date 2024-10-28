@@ -43,9 +43,20 @@ class UserService
      * get single user data
      * =============================================
      */
-    public function getUserDetail(int $userId): ?User
+    public function getUserDetail($userId): ?User
     {
         return $this->userRepository->getUserById($userId);
+    }
+
+
+    /**
+     * =============================================
+     * Check if certain username is exists or not
+     * YOU CAN ALSO BLACKLIST some email in this logic
+     * =============================================
+     */
+    public function checkUserExist(string $email): bool{
+        return $this->userRepository->isUsernameExist($email);
     }
 
     /**
@@ -53,12 +64,12 @@ class UserService
      * process add new user to database
      * =============================================
      */
-    public function addNewUser(UserAddRequest $request)
+    public function addNewUser(array $validatedData)
     {
         DB::beginTransaction();
         try {
-            $user = $this->userRepository->createUser($request->validated());
-            $this->userRepository->syncRoles($user, $request->input('roles'));
+            $user = $this->userRepository->createUser($validatedData);
+            $this->userRepository->syncRoles($user, $validatedData['roles']);
             DB::commit();
             return $user;
         } catch (\Exception $exception) {
@@ -73,14 +84,16 @@ class UserService
      * process update user data
      * =============================================
      */
-    public function updateUser($data, $id)
+    public function updateUser(array $validatedData, $id)
     {
         DB::beginTransaction();
         try {
             $user = User::findOrFail($id);
-            $this->userRepository->update($id, $data);
-            if (isset($data['roles'])) {
-                $user->roles()->sync($data['roles']);
+
+            $this->userRepository->update($id, $validatedData);
+            if (isset($validatedData['roles'])) {
+                $this->userRepository->syncRoles($user, $validatedData['roles']);
+
             }
             DB::commit();
             return $user;
@@ -96,7 +109,7 @@ class UserService
      * process delete user
      * =============================================
      */
-    public function deleteUser(int $userId): ?bool
+    public function deleteUser($userId): ?bool
     {
         DB::beginTransaction();
         try {
