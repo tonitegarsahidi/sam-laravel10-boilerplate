@@ -2,14 +2,12 @@
 
 namespace App\Services;
 
-use App\Http\Requests\UserAddRequest;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\UserRepository;
 use App\Repositories\RoleUserRepository;
-use Illuminate\Http\Request;
 
 class UserService
 {
