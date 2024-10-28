@@ -9,6 +9,7 @@ use App\Services\RoleMasterService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
+use Illuminate\Validation\ValidationException;
 
     /**
      * ################################################
@@ -92,11 +93,18 @@ class UserController extends Controller
      */
     public function store(UserAddRequest $request)
     {
-        $result = $this->userService->addNewUser($request);
+        $validatedData = $request->validated();
+        if($this->userService->checkUserExist($validatedData["email"])){
+            throw ValidationException::withMessages([
+                'email' => 'The email address already exists.'
+            ]);
+        }
+        $result = $this->userService->addNewUser($validatedData);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data ' . $result->name . ' successfully added')
             : AlertHelper::createAlert('danger', 'Data ' . $request->name . ' failed to be added');
+
 
 
         return redirect()->route('admin.user.index')->with([

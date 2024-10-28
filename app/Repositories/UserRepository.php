@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\RoleUser;
 use App\Models\User;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -36,20 +37,14 @@ class UserRepository
         return User::where('email', $username)->exists();
     }
 
-    public function getUserById(int $userId): ?User
+    public function getUserById($userId): ?User
     {
         return User::with('roles')->find($userId);
     }
 
     public function createUser($data)
     {
-        return User::create([
-            'name'          => $data['name'],
-            'email'         => $data['email'],
-            'password'      => Hash::make($data['password']),
-            'phone_number'  => $data['phone_number'],
-            'is_active'     => $data['is_active'],
-        ]);
+        return User::create($data);
     }
 
     public function update($userId, $data)
@@ -67,10 +62,16 @@ class UserRepository
 
     public function syncRoles(User $user, $roles)
     {
-        $user->roles()->sync($roles);
-    }
+        //delete all roles by this user
+        RoleUser::where('user_id', $user->id)->delete();
 
+        //create new roles for this user
+        foreach ($roles as $roleId) {
+            RoleUser::create(['user_id' => $user->id, 'role_id' => $roleId]);
+        }
+    }
     public function deleteUserById(int $userId): ?bool
+
     {
         try {
             $user = User::findOrFail($userId); // Find the user by ID
