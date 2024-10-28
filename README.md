@@ -1,22 +1,17 @@
 ![Alt Text](public/assets/img/logo/logo-medium.png)
-# SAM Boilerplate 10
+# SAMBoilerplate 11
 
 No longer developing powerful apps from zero, SamBoilerplate is a ready-to-use foundation for building any applications which need admin-like functionality. Designed to help you get started faster without writing everything from scratch. 
 This boilerplate is tailored for developers who want a solid base to customise and expand according to their needs.
 
 [Access the demo here](http://samboilerplate.halokes.id)
 
-
-**This apps is solely purposed only for Laravel 10**
-I know I know, why not Laravel 11? My only reason to start from Laravel 10 is that Laravel 10 is the LTS version. Which will receive support from Laravel for key updates and patches. 
-Anyway, upgrading to Laravel 11 is easy. And maybe if I am really mood, I will release the SamBoilerplate 11 for Laravel 11 also.
-
 ***
 ## Getting Started
 
 To run this application, you need the following:
 
-- **PHP 8.1 or higher** (Recommended: PHP 8.2 or higher)
+- **PHP 8.2 or higher** (I personally Recommend: PHP 8.3 or higher)
 - PHP extensions required by Laravel:
   - `mbstring`, `xml`, `curl`, `mysql`, `zip`, `bcmath`, `json`, `gd`
 - **Composer**: [Install Composer](https://getcomposer.org/)
@@ -30,16 +25,19 @@ sudo apt install php8.3 php8.3-cli php8.3-mbstring php8.3-xml php8.3-curl php8.3
 ```
 
 ### Initial Setup : 
+1. In your terminal run
 ```bash
 composer install
 ```
 
-#### copy .env.example into .env files, then configure your database setting there
+2. copy .env.example into .env files, then configure your database setting there
 
+3. In your terminal run again : 
 ```
 php artisan key:generate
 php artisan migrate:fresh && php artisan db:seed
 ```
+1. SamBoilerplate 11 now should be ready. 
 
 *(Optional) If you want to populate the User with around 100 sample of user data run*
 ```bash
@@ -47,15 +45,14 @@ php artisan db:seed --class=FakeUserSeeder
 ```
 
 ### Running : 
-
+1. In your terminal run : 
 ```bash
 php artisan serve
 ```
 
-Then you can access it in : http://localhost:8000 
+2. Then you can access it in : `http://localhost:8000` via your browser 
 
-The 8000 is depend on you configuration port 
-If you want to run in another port (e.g. port 9999) 
+3. The `8000` is depend on you configuration port. If you want to run in another port (e.g. port 9999) you can run : 
 
 ```bash
 php artisan serve --port=9999
@@ -73,12 +70,11 @@ Or if you want to produce code coverage
 php artisan test –coverage
 ```
 
-Default Credential 
-There are 4 roles and 5 default users if you run php artisan db:seed as above. 
 
 ***
-# Default Credentials
 
+# Default Credentials
+There are 4 roles and 5 default users if you run `php artisan db:seed` as above. 
 After seeding the database, the following default users will be available:
 
 | Email                         | Role                                                  | Password        |
@@ -93,7 +89,7 @@ After seeding the database, the following default users will be available:
 - Only admin and superadmin which has ROLE_ADMIN roles. 
 - ALL user above has ROLE_USER by default. 
 - A user can have none to all roles available
-- User superadmin can access anything!
+- User superadmin can access anything since he has ALL THE ROLES!
 
 #### Role in Routing
 You can restrict certain action based on Role on the routes files. Below is the example how to restric certain routes only able to be accessed by ROLE_ADMIN
@@ -202,7 +198,7 @@ My code is mostly on Laravel side. However, most of the UI here is using Sneat T
 Buying my license didn't mean you buy their license. Please check their license plan in 
 
 ***
-## Key Features Of SamBoilerplate 10
+## Key Features Of SamBoilerplate 11
 
 ### Ultimate CRUD
 You already know CRUD, but we level up standard CRUD into **Ultimate CRUD** principles. You can find the example of our Ultimate CRUD in our example for **User Management Ultimate CRUD**.
