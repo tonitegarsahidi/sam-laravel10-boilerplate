@@ -2,6 +2,8 @@
 
 return [
 
+    'SAMBOILERPLATE_VERSION'    => "11.4.1",
+
     'DEFAULT_PAGINATION_PERPAGE'    => 25,
     'keytoken' => env('KEY_TOKEN'),
 

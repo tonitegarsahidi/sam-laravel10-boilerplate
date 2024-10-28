@@ -38,6 +38,10 @@
                     <li class="nav-item">
                         <a class="btn btn-light" href="{{ route('register') }}">Register</a>
                     </li>
+                    &nbsp;
+                    <li class="nav-item">
+                        <a class="btn btn-dark btn-sm" href="https://github.com/tonitegarsahidi/samboilerplate-11" target="_blank" >Documentation**</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -52,7 +56,7 @@
                 </div>
                 <div class="col-md-6">
                     <h1 class="display-4 text-right">Hello, Developer!</h1>
-                    <p class="text-right">Sure you can modify me as you wants later.</p>
+                    <p class="text-right">Sure you can modify me as you wants later. I am version : {{ config('constant.SAMBOILERPLATE_VERSION') }}</p>
                 </div>
             </div>
         </div>
