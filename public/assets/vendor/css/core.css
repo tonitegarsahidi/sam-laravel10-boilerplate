@@ -15097,7 +15097,8 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   font-size: 0.9375rem;
 }
 .menu-vertical .menu-item.active:not(.open) > .menu-link {
-  font-weight: 600;
+  font-weight: 700;
+  color: #696cff;
 }
 .menu-vertical .menu-item .menu-toggle {
   padding-right: calc(1rem + 1.26em);
