@@ -19,7 +19,7 @@ class SendResetPasswordEmailJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param int $userId
+     * @param $userId
      */
     public function __construct($userId)
     {

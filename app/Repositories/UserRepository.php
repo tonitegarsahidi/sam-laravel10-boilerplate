@@ -70,7 +70,7 @@ class UserRepository
             RoleUser::create(['user_id' => $user->id, 'role_id' => $roleId]);
         }
     }
-    public function deleteUserById(int $userId): ?bool
+    public function deleteUserById($userId): ?bool
 
     {
         try {
