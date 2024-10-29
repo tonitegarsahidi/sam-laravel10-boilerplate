@@ -4,7 +4,10 @@
 No longer developing powerful apps from zero, SamBoilerplate is a ready-to-use foundation for building any applications which need admin-like functionality. Designed to help you get started faster without writing everything from scratch. 
 This boilerplate is tailored for developers who want a solid base to customise and expand according to their needs.
 
-[Access the demo here](http://samboilerplate.halokes.id)
+[*Access the demo here*](http://samboilerplate.halokes.id)
+***
+Current version 11.4.1 
+See our [Changelog](changelog.md)
 
 ***
 ## Getting Started
