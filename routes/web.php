@@ -101,3 +101,8 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__ . '/auth.php';
+
+if(config('saas.SAAS_ACTIVATED')){
+    require __DIR__ . '/saas.php';
+}
+
