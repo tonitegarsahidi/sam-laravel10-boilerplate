@@ -6,6 +6,42 @@ This boilerplate is tailored for developers who want a solid base to customise a
 
 [Access the demo here](http://samboilerplate.halokes.id)
 
+## Key Features
+1. **Ultimate CRUD**
+You already know CRUD, but we level up standard CRUD into Ultimate CRUD principles. You can found the example of our UltimateCRUD in our example for User Management Ultimate CRUD.
+List Pages : A page which  list all of the available users. Each rows will shows basic user’s data. Along with link to detail, edit, and delete data. 
+The Ultimate CRUD is this is not just a list of data. But here you can : 
+   - **Search Data** : there is a search form wher you can quickly search for any user by part of their name or email.
+   - **Dynamic Paging** : you can define how many data per pages, along with easily navigate between pages
+   - **Sortable** : You can sort the data by any column here, 
+   - **CreateUser** : a standard user creation
+   - **Read User** : view user in more detailed than in List pages.
+   - **Update User** : 
+   - **Delete User** : User will be shown delete confirmation page, before he actually deletes the data. 
+
+2. **Blade template based Engine**
+I  know some of you fluent with Vue, or possibly want to use Laravel Livewire. But I understand that not all of you want them and simply just want something that works simple and fast. That’s why we use all Blade based template in here. 
+3. **Admin Layout Bootstrap Themed**
+Most application often need “admin template”. In here we choose Sneat AdminTemplate which based on Bootstrap Framework. 
+4. **Modern Design Pattern**
+We follow modern design in software development : Controller Service Repository. Separating request handling from logic and from DB layer. 
+5. **Queue Email Delivery**
+Get rid of blocking journey using queue. The auth email delivery is now use Queue. Simply change the queue=sync to 'database' or any your queue choice
+6. **Unit Test**
+Yeah, we already implement some the unit test which you can simply run with “php artisan test” as usual. or with “php artisan test –coverage” to get code coverage. We set our standard to be above 80% code coverage (currently 90%+) code coverage. 
+7. **Complete Authentication (Auth)**  :
+The authentication system basically uses Laravel Breeze, but fully modified to work with Blade templates instead of the default Vite, providing a more straightforward template management experience. Some Pre-built features include : 
+    - Login page,
+   - Register Page, 
+   - Email Verification
+   - Password Reset
+8. **Role Based User Authentication**
+A user is defined by its roles. A user can have multiple roles. Any routes or a blade features can be protected or be shown based on roles that a user has. Default setup have 4 roles, admin, supervisor, operator, and user. There is also an example of a super admin user where you can have all of these roles at once!
+9. **Easy Configuration**
+We put most of configuration setting in constant.php You can configure like if users need to verify their email before able to login, or if a newly registered user is not able to login until an admin activate his account, etc.
+10.  **Others** : Change User Profiles, change password,  Print Preview, Deactivate account, UI samples, etc. 
+
+
 ***
 ## Getting Started
 
