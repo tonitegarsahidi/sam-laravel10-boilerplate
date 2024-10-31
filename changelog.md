@@ -6,6 +6,7 @@ This is just a changelog tracker, I don't like breaking changes.... and hopefull
 #### version 11.4.2 (ongoing)
 - *fix: submenu active visibility* 64b3ba8
 current page submenu item now will be highligted and the parent will be expanded on first open
+- *doc: add key features*
 
 #### version 11.4.1 (29 October 2024)
 - Bismillah, First public reveal in community group and my own Linked In
