@@ -1,15 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Saas;
 
-use App\Models\Saas\SubscriptionMaster;
-use App\Models\SubscriptionHistory;
-use App\Models\SubscriptionUser;
-use App\Models\User;
+use App\Models\Saas\SubscriptionHistory;
+use App\Models\Saas\SubscriptionUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SubscriptionHistory>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Saas\SubscriptionHistory>
  */
 class SubscriptionHistoryFactory extends Factory
 {

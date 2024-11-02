@@ -85,7 +85,6 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Alias
-                                    @include('components.arrow-sort', ['field' => 'alias', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
 
@@ -97,7 +96,6 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Package Name
-                                    @include('components.arrow-sort', ['field' => 'package_name', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
@@ -108,7 +106,6 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Package Description
-                                    @include('components.arrow-sort', ['field' => 'package_description', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th><a
@@ -118,7 +115,6 @@
                                             'keyword' => $keyword
                                         ]) }}">
                                     Is Active
-                                    @include('components.arrow-sort', ['field' => 'is_active', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a></th>
                             <th>
                                 <a
@@ -128,8 +124,6 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Price ({{config('saas.CURRENCY_SYMBOL')}})
-                                    @include('components.arrow-sort', ['field' => 'package_price', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
-
                                 </a>
                             </th>
                             <th></th>

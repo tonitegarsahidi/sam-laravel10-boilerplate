@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Saas\SubscriptionMasterController;
+use App\Http\Controllers\Saas\SubscriptionUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     //PACKAGES RELATED
-    Route::prefix('/packages')
+    Route::prefix('/subscription')
         ->middleware('role:ROLE_ADMIN,ROLE_SUPERVISOR')
         ->group(function () {
+
+
+            Route::prefix('/package')
+            ->group(function () {
             Route::get('/',     [SubscriptionMasterController::class, 'index'])         ->name('subscription.packages.index');
 
             Route::get('/add',  [SubscriptionMasterController::class, 'create'])        ->name('subscription.packages.add');
@@ -30,5 +35,28 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/delete/{id}', [SubscriptionMasterController::class, 'deleteConfirm'])         ->name('subscription.packages.delete');
             Route::delete('/delete/{id}', [SubscriptionMasterController::class, 'destroy'])         ->name('subscription.packages.destroy');
+
+            });
+            //SUBSCRIPTION RELATED
+            Route::prefix('/user')
+            ->group(function () {
+                Route::get('/',     [SubscriptionUserController::class, 'index'])         ->name('subscription.user.index');
+
+                Route::get('/add',  [SubscriptionUserController::class, 'create'])        ->name('subscription.user.add');
+                Route::post('/add', [SubscriptionUserController::class, 'store'])         ->name('subscription.user.store');
+
+                Route::get('/{id}', [SubscriptionUserController::class, 'detail'])        ->name('subscription.user.detail');
+
+                Route::get('/edit/{id}', [SubscriptionUserController::class, 'edit'])         ->name('subscription.user.edit');
+                Route::put('/edit/{id}', [SubscriptionUserController::class, 'update'])         ->name('subscription.user.update');
+
+                // No you can't delete here
+                // delete mean unsubscribe
+                Route::get('/delete/{id}', [SubscriptionUserController::class, 'deleteConfirm'])         ->name('subscription.user.delete');
+                Route::delete('/delete/{id}', [SubscriptionUserController::class, 'destroy'])         ->name('subscription.user.destroy');
+            });
+
         });
+
+
 });

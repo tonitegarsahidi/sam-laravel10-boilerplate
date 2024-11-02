@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Saas;
 
 use App\Models\Saas\SubscriptionMaster;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SubscriptionUser extends Model
+class SubscriptionHistory extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'subscription_user';
+    protected $table = 'subscription_history';
 
     protected $fillable = [
         'user',
         'package',
-        'start_date',
-        'expired_date',
-        'is_suspended',
+        'package_price_snapshot',
+        'payment_reference_id',
         'created_by',
         'updated_by',
     ];
@@ -33,8 +33,9 @@ class SubscriptionUser extends Model
         return $this->belongsTo(SubscriptionMaster::class, 'package', 'id');
     }
 
-    public function histories()
-    {
-        return $this->hasMany(SubscriptionHistory::class, 'subscription_user_id');
-    }
+
+public function subscriptionUser()
+{
+    return $this->belongsTo(SubscriptionUser::class, 'subscription_user_id');
+}
 }

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('subscription_user', function (Blueprint $table) {
             $table->id();
-            $table->uuid('user')->index();
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('package')->constrained('subscription_master')->onDelete('cascade');
+            $table->uuid('user_id')->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('package_id')->constrained('subscription_master')->onDelete('cascade');
             $table->dateTime('start_date')->nullable();
             $table->dateTime('expired_date')->nullable();
             $table->boolean('is_suspended')->default(false);
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['user', 'package'], 'unique_user_package');
+            $table->unique(['user_id', 'package_id'], 'unique_user_package');
         });
     }
 

@@ -1,6 +1,6 @@
 @extends('admin/template-base')
 
-@section('page-title', 'List of Packages')
+@section('page-title', 'List of User\'s Subscription')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -17,12 +17,12 @@
             <div class="d-flex justify-content-between">
 
                 <div class="p-2 bd-highlight">
-                    <h3 class="card-header">List of Package</h3>
+                    <h3 class="card-header">List of User Subsription</h3>
                 </div>
                 <div class="p-2">
-                    <a class="btn btn-primary" href="{{ route('subscription.packages.add') }}">
+                    <a class="btn btn-primary" href="{{ route('subscription.user.add') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
-                        Add New Package
+                        Add New Subscription
                     </a>
                 </div>
 
@@ -64,34 +64,20 @@
                     {{-- TABLE HEADER --}}
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>
-                                No
-                            </th>
-                            <th>
-                                <a
-                                    href="{{ route('subscription.packages.index', [
-                                        'sort_field' => 'id',
+                                <a href="{{ route('subscription.user.index', [
+                                        'sort_field' => 'email',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Id
-                                </a>
-                            </th>
-                            <th>
-                                <a
-                                    href="{{ route('subscription.packages.index', [
-                                        'sort_field' => 'alias',
-                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
-                                        'keyword' => $keyword,
-                                    ]) }}">
-                                    Alias
-                                    @include('components.arrow-sort', ['field' => 'alias', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    User
+                                    @include('components.arrow-sort', ['field' => 'email', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
 
                             <th>
-                                <a
-                                    href="{{ route('subscription.packages.index', [
+                                <a href="{{ route('subscription.user.index', [
                                         'sort_field' => 'package_name',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
@@ -100,36 +86,37 @@
                                     @include('components.arrow-sort', ['field' => 'package_name', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
+
                             <th>
-                                <a
-                                    href="{{ route('subscription.packages.index', [
-                                        'sort_field' => 'package_description',
+                                <a href="{{ route('subscription.user.index', [
+                                        'sort_field' => 'start_date',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Package Description
-                                    @include('components.arrow-sort', ['field' => 'package_description', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    Start Date
+                                    @include('components.arrow-sort', ['field' => 'start_date', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th><a
-                                    href="{{ route('subscription.packages.index', [
-                                            'sort_field' => 'is_active',
-                                            'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
-                                            'keyword' => $keyword
-                                        ]) }}">
-                                    Is Active
-                                    @include('components.arrow-sort', ['field' => 'is_active', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
-                                </a></th>
+
                             <th>
-                                <a
-                                    href="{{ route('subscription.packages.index', [
-                                        'sort_field' => 'package_price',
+                                <a href="{{ route('subscription.user.index', [
+                                        'sort_field' => 'expired_date',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Price ({{config('saas.CURRENCY_SYMBOL')}})
-                                    @include('components.arrow-sort', ['field' => 'package_price', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    Expired Date
+                                    @include('components.arrow-sort', ['field' => 'expired_date', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
 
+                            <th>
+                                <a href="{{ route('subscription.user.index', [
+                                        'sort_field' => 'is_suspended',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Is Active
+                                    @include('components.arrow-sort', ['field' => 'is_suspended', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th></th>
@@ -139,42 +126,43 @@
                     </thead>
 
 
+
                     <tbody>
                         @php
                             $startNumber = $perPage * ($page - 1) + 1;
                         @endphp
-                        @foreach ($packages as $package)
+                        @foreach ($subscriptions as $subscription)
+
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>{{ $package->id }}</td>
-                                <td>{{ $package->alias }}</td>
-                                <td>{{ $package->package_name }}</td>
-                                <td>{{ $package->package_description }}</td>
+                                <td>{{ $subscription->user->email }}</td>
+                                {{-- <td>{{ $subscription->user->name }}</td> --}}
+                                <td>{{ $subscription->package->package_name }}</td>
+                                <td>{{ $subscription->start_date }}</td>
+                                <td>{{ $subscription->expired_date }}</td>
                                 <td>
-                                    @if ($package->is_active)
+                                    @if (!$subscription->is_suspended)
                                         <span class="badge rounded-pill bg-success"> Yes </span>
                                     @else
                                         <span class="badge rounded-pill bg-danger"> No </span>
                                     @endif
                                 </td>
-                                <td class="text-end">{{$package->package_price}}</td>
-
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
-                                    <a class="action-icon" href="{{ route('subscription.packages.detail', ['id' => $package->id]) }}"
+                                    <a class="action-icon" href="{{ route('subscription.user.detail', ['id' => $subscription->id]) }}"
                                         title="detail">
                                         <i class='bx bx-search'></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('subscription.packages.edit', ['id' => $package->id]) }}"
+                                    <a class="action-icon" href="{{ route('subscription.user.edit', ['id' => $subscription->id]) }}"
                                         title="edit">
                                         <i class='bx bx-pencil'></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('subscription.packages.delete', ['id' => $package->id]) }}"
+                                    <a class="action-icon" href="{{ route('subscription.user.delete', ['id' => $subscription->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>
                                     </a>
@@ -188,7 +176,7 @@
 
                 <div class="row">
                     <div class="col-md-10 mx-auto">
-                        {{ $packages->onEachSide(5)->links('admin.components.paginator.default') }}
+                        {{ $subscriptions->onEachSide(5)->links('admin.components.paginator.default') }}
                     </div>
                 </div>
 

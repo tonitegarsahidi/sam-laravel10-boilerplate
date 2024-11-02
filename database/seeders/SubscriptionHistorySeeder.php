@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\SubscriptionHistory;
+use App\Models\Saas\SubscriptionHistory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
