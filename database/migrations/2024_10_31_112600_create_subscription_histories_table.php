@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('subscription_user_id')->constrained('subscription_user')->onDelete('cascade');
 
             $table->decimal('package_price_snapshot', 10, 2);
-            $table->unsignedBigInteger('payment_reference_id')->nullable();
+            $table->smallInteger('subscription_action')->default(1);
+            $table->string('payment_reference')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

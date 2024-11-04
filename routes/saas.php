@@ -52,8 +52,8 @@ Route::middleware('auth')->group(function () {
 
                 // No you can't delete here
                 // delete mean unsubscribe
-                Route::get('/delete/{id}', [SubscriptionUserController::class, 'deleteConfirm'])         ->name('subscription.user.delete');
-                Route::delete('/delete/{id}', [SubscriptionUserController::class, 'destroy'])         ->name('subscription.user.destroy');
+                Route::get('/suspend/{id}', [SubscriptionUserController::class, 'suspend'])         ->name('subscription.user.suspend');
+                Route::get('/unsuspend/{id}', [SubscriptionUserController::class, 'unsuspend'])         ->name('subscription.user.unsuspend');
             });
 
         });

@@ -17,8 +17,9 @@ class SubscriptionHistory extends Model
     protected $fillable = [
         'user',
         'package',
+        'subscription_action',
         'package_price_snapshot',
-        'payment_reference_id',
+        'payment_reference',
         'created_by',
         'updated_by',
     ];

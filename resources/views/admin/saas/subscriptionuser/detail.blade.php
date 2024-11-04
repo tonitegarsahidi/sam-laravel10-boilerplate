@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Detail of User')
+@section('page-title', 'Detail of User Subscription')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-between">
 
                 <div class="bd-highlight">
-                    <h3 class="card-header">Detail of User with id : {{ $data->id }}</h3>
+                    <h3 class="card-header">Detail of Subscription with id : {{ $subscription->id }}</h3>
                 </div>
 
             </div>
@@ -29,52 +29,48 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Alias</th>
-                                    <td>{{ $data->alias }}</td>
+                                    <th scope="col" class="bg-dark text-white">Subscriber Name</th>
+                                    <td>{{ $subscription->user->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Package Name</th>
-                                    <td>{{ $data->package_name }}</td>
+                                    <th scope="col" class="bg-dark text-white">Email</th>
+                                    <td>{{ $subscription->user->email }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Description</th>
-                                    <td>{{ $data->package_description }}</td>
+                                    <th scope="col" class="bg-dark text-white">Package Detail</th>
+                                    <td>{{ $subscription->package->package_name }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Price</th>
-                                    <td>{{config('saas.CURRENCY_SYMBOL')}} {{ $data->package_price }}</td>
+                                    <th scope="col" class="bg-dark text-white">Start Date</th>
+                                    <td>{{ $subscription->start_date }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Is Active</th>
-                                    <td>
-                                        @if ($data->is_active)
-                                            <span class="badge rounded-pill bg-success"> Yes </span>
+                                    <th scope="col" class="bg-dark text-white">Expired Date</th>
+                                    <td> {{is_null($subscription->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $subscription->expired_date}}
+                                        @if (is_null($subscription->expired_date) || $subscription->expired_date > now())
+                                            <span class="badge rounded-pill bg-success"> Active </span>
                                         @else
-                                            <span class="badge rounded-pill bg-danger"> No </span>
+                                            <span class="badge rounded-pill bg-danger"> Expired </span>
+                                        @endif
+                                </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Is Suspended</th>
+                                    <td>
+                                        @if ($subscription->is_suspended)
+                                            <span class="badge rounded-pill bg-danger"> Yes </span>
+                                        @else
+                                            <span class="badge rounded-pill bg-success"> No </span>
                                         @endif
                                     </td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Is Visible</th>
-                                    <td>
-                                        @if ($data->is_visible)
-                                            <span class="badge rounded-pill bg-success"> Yes </span>
-                                        @else
-                                            <span class="badge rounded-pill bg-danger"> No </span>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Package Duration</th>
-                                    <td>{{ $data->package_duration_days }} days</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Created At</th>
-                                    <td>{{ $data->created_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
+                                    <td>{{ $subscription->created_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}<br/> by {{$subscription->created_by}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Updated At</th>
-                                    <td>{{ $data->updated_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
+                                    <td>{{ $subscription->updated_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}<br/> by {{$subscription->created_by}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -87,19 +83,78 @@
 
 
 
+
             {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
             <div class="m-4">
                 <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
-                <a class="btn btn-primary me-2" href="{{ route('subscription.packages.edit', ['id' => $data->id]) }}"
+                <a class="btn btn-primary me-2" href="{{ route('subscription.user.edit', ['id' => $subscription->id]) }}"
                     title="update this user">
                     <i class='tf-icons bx bx-pencil me-2'></i>Edit</a>
-                <a class="btn btn-danger me-2" href="{{ route('subscription.packages.delete', ['id' => $data->id]) }}"
-                    title="delete user">
-                    <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
+                @if (!$subscription->is_suspended)
+                <a class="btn btn-danger me-2" href="{{ route('subscription.user.suspend', ['id' => $subscription->id]) }}"
+                    title="Suspend user">
+                    <i class='tf-icons bx bx-stop me-2'></i>Suspend</a>
+                @else
+                <a class="btn btn-success me-2" href="{{ route('subscription.user.unsuspend', ['id' => $subscription->id]) }}"
+                    title="Unsuspend user">
+                    <i class='tf-icons bx bx-play me-2'></i>Unsuspend</a>
+                @endif
+
+            </div>
+
+
+            {{-- SUBSCRIPTION HISTORY --}}
+
+            <div class="row m-2">
+                <div class="d-flex justify-content-between">
+
+                    <div class="bd-highlight">
+                        <h3 class="card-header">Subscription History</h3>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="table-responsive text-nowrap">
+                        @php
+                            $startNumber = 1;
+                        @endphp
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No.</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Action</th>
+                                    <th class="text-center">Price Snapshot ({{config('saas.CURRENCY_SYMBOL')}})</th>
+                                    <th class="text-center">Payment Reference</th>
+                                    <th class="text-center">Created by</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($subscription->histories as $history)
+                                    <tr>
+                                        <td>{{ $startNumber++ }}</td>
+                                        <td>{{ $history->created_at }}</td>
+                                        <td>{{ config('saas.SUBSCRIPTION_HISTORY_ACTION')[$history->subscription_action] ?? 'Unknown Action' }}</td>
+                                        <td class="text-end">{{ number_format($history->package_price_snapshot, 2, ',', '.') }}</td>
+                                        <td>{{ is_null($history->payment_reference) ? "N/A" :  $history->payment_reference}}</td>
+                                        <td>{{ $history->created_by }}</td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                </div>
+
             </div>
 
         </div>
+
+
     </div>
 
 @endsection

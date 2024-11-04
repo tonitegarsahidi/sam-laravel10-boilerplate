@@ -23,7 +23,7 @@ class SubscriptionUserController extends Controller
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
             'Subscription' => route('subscription.user.index'),
-            'Subscription' => route('subscription.user.index'),
+            'User' => route('subscription.user.index'),
         ];
     }
 
@@ -64,7 +64,7 @@ class SubscriptionUserController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
 
-        return view('admin.saas.SubscriptionUser.add', compact('breadcrumbs'));
+        return view('admin.saas.subscriptionuser.add', compact('breadcrumbs'));
     }
 
     /**
@@ -97,13 +97,13 @@ class SubscriptionUserController extends Controller
      */
     public function detail(Request $request)
     {
-        $data = $this->subscriptionUserService->getPackageDetail($request->id);
+        $subscription = $this->subscriptionUserService->getPackageDetail($request->id);
 
         // dd($data);
-        if($data){
+        if($subscription){
             $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
-            return view('admin.saas.SubscriptionUser.detail', compact('breadcrumbs', 'data'));
+            return view('admin.saas.subscriptionuser.detail', compact('breadcrumbs', 'subscription'));
         }
         else{
             $alert = AlertHelper::createAlert('danger', 'Error : Cannot View Detail, Oops! no such data with that ID : ' . $request->id);
@@ -126,7 +126,7 @@ class SubscriptionUserController extends Controller
         if ($package) {
             $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
-            return view('admin.saas.SubscriptionUser.edit', compact('breadcrumbs', 'package'));
+            return view('admin.saas.subscriptionuser.edit', compact('breadcrumbs', 'package'));
         } else {
             $alert = AlertHelper::createAlert('danger', 'Error : Cannot edit, Oops! no such data with that ID : ' . $request->id);
 
@@ -168,7 +168,7 @@ class SubscriptionUserController extends Controller
         $data = $this->subscriptionUserService->getPackageDetail($request->id);
         if ($data) {
             $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Delete' => null]);
-            return view('admin.saas.SubscriptionUser.delete-confirm', compact('breadcrumbs', 'data', 'isDeleteable'));
+            return view('admin.saas.subscriptionuser.delete-confirm', compact('breadcrumbs', 'data', 'isDeleteable'));
         } else {
             $alert = AlertHelper::createAlert('danger', 'Error : Cannot delete, Oops! no such data with that ID : ' . $request->id);
 

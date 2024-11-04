@@ -13,6 +13,6 @@ class SubscriptionHistorySeeder extends Seeder
      */
     public function run(): void
     {
-        SubscriptionHistory::factory()->count(40)->create();
+        // SubscriptionHistory::factory()->count(40)->create();
     }
 }

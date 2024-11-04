@@ -5,7 +5,6 @@
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
-
         {{-- FOR BREADCRUMBS --}}
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
@@ -41,7 +40,8 @@
                     <form action="{{ url()->full() }}" method="get" class="d-flex align-items-center">
                         <i class="bx bx-search fs-4 lh-0"></i>
                         <input type="text" class="form-control border-1 shadow-none bg-light bg-gradient"
-                            placeholder="Search id, alias, name, description, price.." aria-label="Search id, alias, name, description, price..." name="keyword"
+                            placeholder="Search email, package name, and date..."
+                            aria-label="Search id, alias, name, description, price..." name="keyword"
                             value="{{ isset($keyword) ? $keyword : '' }}" />
                         <input type="hidden" name="sort_order" value="{{ request()->input('sort_order') }}" />
                         <input type="hidden" name="sort_field" value="{{ request()->input('sort_field') }}" />
@@ -66,57 +66,82 @@
                         <tr>
                             <th>No</th>
                             <th>
-                                <a href="{{ route('subscription.user.index', [
+                                <a
+                                    href="{{ route('subscription.user.index', [
                                         'sort_field' => 'email',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     User
-                                    @include('components.arrow-sort', ['field' => 'email', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', [
+                                        'field' => 'email',
+                                        'sortField' => $sortField,
+                                        'sortOrder' => $sortOrder,
+                                    ])
                                 </a>
                             </th>
 
                             <th>
-                                <a href="{{ route('subscription.user.index', [
+                                <a
+                                    href="{{ route('subscription.user.index', [
                                         'sort_field' => 'package_name',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Package Name
-                                    @include('components.arrow-sort', ['field' => 'package_name', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', [
+                                        'field' => 'package_name',
+                                        'sortField' => $sortField,
+                                        'sortOrder' => $sortOrder,
+                                    ])
                                 </a>
                             </th>
 
                             <th>
-                                <a href="{{ route('subscription.user.index', [
+                                <a
+                                    href="{{ route('subscription.user.index', [
                                         'sort_field' => 'start_date',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Start Date
-                                    @include('components.arrow-sort', ['field' => 'start_date', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', [
+                                        'field' => 'start_date',
+                                        'sortField' => $sortField,
+                                        'sortOrder' => $sortOrder,
+                                    ])
                                 </a>
                             </th>
 
                             <th>
-                                <a href="{{ route('subscription.user.index', [
+                                <a
+                                    href="{{ route('subscription.user.index', [
                                         'sort_field' => 'expired_date',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Expired Date
-                                    @include('components.arrow-sort', ['field' => 'expired_date', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', [
+                                        'field' => 'expired_date',
+                                        'sortField' => $sortField,
+                                        'sortOrder' => $sortOrder,
+                                    ])
                                 </a>
                             </th>
 
                             <th>
-                                <a href="{{ route('subscription.user.index', [
+                                <a
+                                    href="{{ route('subscription.user.index', [
                                         'sort_field' => 'is_suspended',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Is Active
-                                    @include('components.arrow-sort', ['field' => 'is_suspended', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    Is Suspended
+                                    @include('components.arrow-sort', [
+                                        'field' => 'is_suspended',
+                                        'sortField' => $sortField,
+                                        'sortOrder' => $sortOrder,
+                                    ])
                                 </a>
                             </th>
                             <th></th>
@@ -132,37 +157,49 @@
                             $startNumber = $perPage * ($page - 1) + 1;
                         @endphp
                         @foreach ($subscriptions as $subscription)
-
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>{{ $subscription->user->email }}</td>
-                                {{-- <td>{{ $subscription->user->name }}</td> --}}
-                                <td>{{ $subscription->package->package_name }}</td>
-                                <td>{{ $subscription->start_date }}</td>
-                                <td>{{ $subscription->expired_date }}</td>
                                 <td>
-                                    @if (!$subscription->is_suspended)
-                                        <span class="badge rounded-pill bg-success"> Yes </span>
+                                    <a href="{{route('admin.user.detail', $subscription->userId)}}" target="_blank">
+                                        {{ $subscription->email }}
+                                    </a>
+                                </td>
+                                {{-- <td>{{ $subscription->user->name }}</td> --}}
+                                <td>{{ $subscription->package }}</td>
+                                <td>{{ $subscription->start_date }}</td>
+                                <td>{{is_null($subscription->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $subscription->expired_date}}
+                                    @if (is_null($subscription->expired_date) || $subscription->expired_date > now())
+                                        <span class="badge rounded-pill bg-success"> Active </span>
                                     @else
-                                        <span class="badge rounded-pill bg-danger"> No </span>
+                                        <span class="badge rounded-pill bg-danger"> Expired </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($subscription->is_suspended)
+                                        <span class="badge rounded-pill bg-danger"> Yes </span>
+                                    @else
+                                        <span class="badge rounded-pill bg-success"> No </span>
                                     @endif
                                 </td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
-                                    <a class="action-icon" href="{{ route('subscription.user.detail', ['id' => $subscription->id]) }}"
+                                    <a class="action-icon"
+                                        href="{{ route('subscription.user.detail', ['id' => $subscription->id]) }}"
                                         title="detail">
                                         <i class='bx bx-search'></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('subscription.user.edit', ['id' => $subscription->id]) }}"
+                                    <a class="action-icon"
+                                        href="{{ route('subscription.user.edit', ['id' => $subscription->id]) }}"
                                         title="edit">
                                         <i class='bx bx-pencil'></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('subscription.user.delete', ['id' => $subscription->id]) }}"
+                                    <a class="action-icon"
+                                        href="{{ route('subscription.user.delete', ['id' => $subscription->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>
                                     </a>

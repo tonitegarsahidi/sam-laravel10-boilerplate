@@ -36,6 +36,6 @@ class SubscriptionUser extends Model
 
     public function histories()
     {
-        return $this->hasMany(SubscriptionHistory::class, 'subscription_user_id');
+        return $this->hasMany(SubscriptionHistory::class, 'subscription_user_id')->orderBy('created_at', 'desc');;
     }
 }

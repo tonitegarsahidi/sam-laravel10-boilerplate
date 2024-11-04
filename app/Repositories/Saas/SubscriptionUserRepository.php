@@ -13,7 +13,16 @@ class SubscriptionUserRepository
         $queryResult = SubscriptionUser::query()
 
             ->join('users', 'subscription_user.user_id', '=', 'users.id')
-            ->join('subscription_master', 'subscription_user.package_id', '=', 'subscription_master.id');
+            ->join('subscription_master', 'subscription_user.package_id', '=', 'subscription_master.id')
+            ->select([
+                'subscription_user.id as id', // Alias to avoid ambiguity
+                'subscription_user.expired_date',
+                'subscription_user.start_date',
+                'subscription_user.is_suspended',
+                'users.email as email',
+                'users.id as userId',
+                'subscription_master.package_name as package',
+            ]);
 
         if (!is_null($sortField) && !is_null($sortOrder)) {
             $queryResult->orderBy($sortField, $sortOrder);
@@ -23,6 +32,7 @@ class SubscriptionUserRepository
 
         if (!is_null($keyword)) {
             $queryResult->whereRaw('lower(users.email) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                ->orWhereRaw('lower(users.name) LIKE ?', ['%' . strtolower($keyword) . '%'])
                 ->orWhereRaw('lower(subscription_master.package_name) LIKE ?', ['%' . strtolower($keyword) . '%'])
                 ->orWhereRaw('DATE_FORMAT(subscription_user.expired_date, "%Y-%m-%d") LIKE ?', ['%' . $keyword . '%'])
                 ->orWhereRaw('DATE_FORMAT(subscription_user.start_date, "%Y-%m-%d") LIKE ?', ['%' . $keyword . '%']);

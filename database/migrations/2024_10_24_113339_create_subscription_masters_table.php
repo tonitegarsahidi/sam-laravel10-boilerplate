@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('alias')->unique();
             $table->string('package_name');
             $table->text('package_description');
-            $table->decimal('package_price', 8, 2);
+            $table->decimal('package_price', 18, 2);
             $table->boolean('is_active')->default(true);
             $table->boolean('is_visible')->default(true);
             $table->integer('package_duration_days');
