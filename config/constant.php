@@ -15,6 +15,7 @@ return [
         'PER_PAGE' => 25,
         'PAGE' => 1,
         'SORT_BY'=> 'id',
+        'DISPLAY_TIMESTAMPS'    => true,
     ],
 
     'COUNTRIES' => [
