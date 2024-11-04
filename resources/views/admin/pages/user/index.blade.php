@@ -1,6 +1,6 @@
 @extends('admin/template-base')
 
-@section('page-title', "List of Users")
+@section('page-title', 'List of Users')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -13,16 +13,16 @@
 
         <div class="card">
 
-            {{-- FIRST ROW,  FOR TITLE AND ADD BUTTON--}}
+            {{-- FIRST ROW,  FOR TITLE AND ADD BUTTON --}}
             <div class="d-flex justify-content-between">
 
                 <div class="p-2 bd-highlight">
                     <h3 class="card-header">List of User</h3>
                 </div>
                 <div class="p-2">
-                    <a class="btn btn-primary" href="{{route('admin.user.add')}}">
+                    <a class="btn btn-primary" href="{{ route('admin.user.add') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
-                         Add New User
+                        Add New User
                     </a>
                 </div>
 
@@ -53,7 +53,7 @@
 
             {{-- THIRD ROW, FOR THE MAIN DATA PART --}}
             {{-- //to display any error if any --}}
-            @if(isset($alerts))
+            @if (isset($alerts))
                 @include('admin.components.notification.general', $alerts)
             @endif
 
@@ -65,7 +65,7 @@
                     <thead>
                         <tr>
                             <th>
-                                    No
+                                No
                             </th>
                             <th>
                                 <a
@@ -75,17 +75,28 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Name
+                                    @include('components.arrow-sort', [
+                                        'field' => 'name',
+                                        'sortField' => $sortField,
+                                        'sortOrder' => $sortOrder,
+                                    ])
                                 </a>
                             </th>
                             <th>
                                 <a
-                                    href="{{ route('admin.user.index', ['sort_field' => 'email', 'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc', 'keyword' => $keyword]) }}">
+                                    href="{{ route('admin.user.index', [
+                                        'sort_field' => 'email',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
                                     Email
+                                    @include('components.arrow-sort', ['field' => 'email', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th><a
                                     href="{{ route('admin.user.index', ['sort_field' => 'is_active', 'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc', 'keyword' => $keyword]) }}">
                                     Is Active
+                                    @include('components.arrow-sort', ['field' => 'is_active', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a></th>
                             <th>Roles</th>
                             <th></th>
