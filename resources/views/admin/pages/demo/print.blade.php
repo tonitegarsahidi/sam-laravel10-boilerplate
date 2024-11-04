@@ -139,7 +139,7 @@
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Name</th>
+                                    <th style="width: 250px;"  scope="col" class="bg-dark text-white">Name</th>
                                     <td>{{ $data->name }}</td>
                                 </tr>
                                 <tr>
@@ -177,16 +177,12 @@
                                         @endforeach
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Created At</th>
-                                    <td>{{ $data->created_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Updated At</th>
-                                    <td>{{ $data->updated_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
-                                </tr>
                             </tbody>
                         </table>
+
+                        @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
+                            @include('components.crud-timestamps', $data)
+                        @endif
                     </div>
 
                 </div>
