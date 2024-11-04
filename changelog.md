@@ -6,6 +6,8 @@ This is just a changelog tracker, I don't like breaking changes.... and hopefull
 #### version 11.4.2 (ongoing)
 - *fix: submenu active visibility* 64b3ba8
 current page submenu item now will be highligted and the parent will be expanded on first open
+- *fix: separate timestamps and audit person in separate blade components*
+- *feat: add sorting mark on ultimate crud list*
 - *doc: add key features*
 
 #### version 11.4.1 (29 October 2024)
