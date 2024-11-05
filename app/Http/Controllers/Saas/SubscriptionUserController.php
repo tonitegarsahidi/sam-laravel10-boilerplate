@@ -97,13 +97,13 @@ class SubscriptionUserController extends Controller
      */
     public function detail(Request $request)
     {
-        $subscription = $this->subscriptionUserService->getPackageDetail($request->id);
+        $data = $this->subscriptionUserService->getPackageDetail($request->id);
 
         // dd($data);
-        if($subscription){
+        if($data){
             $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
-            return view('admin.saas.subscriptionuser.detail', compact('breadcrumbs', 'subscription'));
+            return view('admin.saas.subscriptionuser.detail', compact('breadcrumbs', 'data'));
         }
         else{
             $alert = AlertHelper::createAlert('danger', 'Error : Cannot View Detail, Oops! no such data with that ID : ' . $request->id);

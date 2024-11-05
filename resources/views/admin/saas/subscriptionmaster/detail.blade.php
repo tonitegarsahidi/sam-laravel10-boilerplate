@@ -68,16 +68,12 @@
                                     <th scope="col" class="bg-dark text-white">Package Duration</th>
                                     <td>{{ $data->package_duration_days }} days</td>
                                 </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Created At</th>
-                                    <td>{{ $data->created_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}<br/> by {{$data->created_by}}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Updated At</th>
-                                    <td>{{ $data->updated_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}<br/> by {{$data->created_by}}</td>
-                                </tr>
                             </tbody>
                         </table>
+
+                        @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
+                            @include('components.crud-timestamps', $data)
+                        @endif
                     </div>
 
                 </div>

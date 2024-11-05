@@ -160,14 +160,14 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>
-                                    <a href="{{route('admin.user.detail', $subscription->userId)}}" target="_blank">
+                                    <a href="{{ route('admin.user.detail', $subscription->userId) }}" target="_blank">
                                         {{ $subscription->email }}
                                     </a>
                                 </td>
                                 {{-- <td>{{ $subscription->user->name }}</td> --}}
                                 <td>{{ $subscription->package }}</td>
                                 <td>{{ $subscription->start_date }}</td>
-                                <td>{{is_null($subscription->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $subscription->expired_date}}
+                                <td>{{ is_null($subscription->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $subscription->expired_date }}
                                     @if (is_null($subscription->expired_date) || $subscription->expired_date > now())
                                         <span class="badge rounded-pill bg-success"> Active </span>
                                     @else
@@ -198,11 +198,20 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon"
-                                        href="{{ route('subscription.user.delete', ['id' => $subscription->id]) }}"
-                                        title="delete">
-                                        <i class='bx bx-trash'></i>
-                                    </a>
+                                    @if ($subscription->is_suspended)
+                                        <a class="action-icon"
+                                            href="{{ route('subscription.user.unsuspend', ['id' => $subscription->id]) }}"
+                                            title="unsuspend">
+                                            <i class='bx bx-play text-success'></i>
+                                        </a>
+                                    @else
+                                        <a class="action-icon"
+                                            href="{{ route('subscription.user.suspend', ['id' => $subscription->id]) }}"
+                                            title="suspend">
+                                            <i class='bx bxs-piano text-danger'></i>
+                                        </a>
+                                    @endif
+
                                 </td>
                             </tr>
                         @endforeach

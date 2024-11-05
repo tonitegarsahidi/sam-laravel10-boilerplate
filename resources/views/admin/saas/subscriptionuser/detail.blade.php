@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-between">
 
                 <div class="bd-highlight">
-                    <h3 class="card-header">Detail of Subscription with id : {{ $subscription->id }}</h3>
+                    <h3 class="card-header">Detail of Subscription with id : {{ $data->id }}</h3>
                 </div>
 
             </div>
@@ -30,24 +30,24 @@
                             <tbody>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Subscriber Name</th>
-                                    <td>{{ $subscription->user->name }}</td>
+                                    <td>{{ $data->user->name }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Email</th>
-                                    <td>{{ $subscription->user->email }}</td>
+                                    <td>{{ $data->user->email }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Package Detail</th>
-                                    <td>{{ $subscription->package->package_name }}</td>
+                                    <td>{{ $data->package->package_name }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Start Date</th>
-                                    <td>{{ $subscription->start_date }}</td>
+                                    <td>{{ $data->start_date }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Expired Date</th>
-                                    <td> {{is_null($subscription->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $subscription->expired_date}}
-                                        @if (is_null($subscription->expired_date) || $subscription->expired_date > now())
+                                    <td> {{is_null($data->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $data->expired_date}}
+                                        @if (is_null($data->expired_date) || $data->expired_date > now())
                                             <span class="badge rounded-pill bg-success"> Active </span>
                                         @else
                                             <span class="badge rounded-pill bg-danger"> Expired </span>
@@ -57,23 +57,19 @@
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Is Suspended</th>
                                     <td>
-                                        @if ($subscription->is_suspended)
+                                        @if ($data->is_suspended)
                                             <span class="badge rounded-pill bg-danger"> Yes </span>
                                         @else
                                             <span class="badge rounded-pill bg-success"> No </span>
                                         @endif
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Created At</th>
-                                    <td>{{ $subscription->created_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}<br/> by {{$subscription->created_by}}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Updated At</th>
-                                    <td>{{ $subscription->updated_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}<br/> by {{$subscription->created_by}}</td>
-                                </tr>
                             </tbody>
                         </table>
+
+                        @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
+                            @include('components.crud-timestamps', $data)
+                        @endif
                     </div>
 
                 </div>
@@ -88,15 +84,15 @@
             <div class="m-4">
                 <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
-                <a class="btn btn-primary me-2" href="{{ route('subscription.user.edit', ['id' => $subscription->id]) }}"
+                <a class="btn btn-primary me-2" href="{{ route('subscription.user.edit', ['id' => $data->id]) }}"
                     title="update this user">
                     <i class='tf-icons bx bx-pencil me-2'></i>Edit</a>
-                @if (!$subscription->is_suspended)
-                <a class="btn btn-danger me-2" href="{{ route('subscription.user.suspend', ['id' => $subscription->id]) }}"
+                @if (!$data->is_suspended)
+                <a class="btn btn-danger me-2" href="{{ route('subscription.user.suspend', ['id' => $data->id]) }}"
                     title="Suspend user">
-                    <i class='tf-icons bx bx-stop me-2'></i>Suspend</a>
+                    <i class='tf-icons bx bx-pause me-2'></i>Suspend</a>
                 @else
-                <a class="btn btn-success me-2" href="{{ route('subscription.user.unsuspend', ['id' => $subscription->id]) }}"
+                <a class="btn btn-success me-2" href="{{ route('subscription.user.unsuspend', ['id' => $data->id]) }}"
                     title="Unsuspend user">
                     <i class='tf-icons bx bx-play me-2'></i>Unsuspend</a>
                 @endif
@@ -132,7 +128,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($subscription->histories as $history)
+                                @foreach ($data->histories as $history)
                                     <tr>
                                         <td>{{ $startNumber++ }}</td>
                                         <td>{{ $history->created_at }}</td>
