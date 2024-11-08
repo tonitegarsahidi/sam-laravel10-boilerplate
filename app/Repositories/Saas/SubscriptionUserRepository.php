@@ -50,17 +50,30 @@ class SubscriptionUserRepository
     }
 
 
-    public function getPackageById($id): ?SubscriptionUser
+    public function getSubscriptionById($id): ?SubscriptionUser
     {
         return SubscriptionUser::find($id);
     }
 
-    public function createPackage($data)
+    public function createSubscription($data)
     {
         return SubscriptionUser::create($data);
     }
 
-    public function updatePackage($id, $data)
+    //will Return null if none
+    public function findByUserIdAndPackageId($userId, $packageId): ?SubscriptionUser{
+        return SubscriptionUser::where('user_id', $userId)->where("package_id", $packageId)->first();
+    }
+
+    /**============================================
+     * UPDATE THE USER'S SUBSCRIPTION
+     * used for :
+     * - suspend,
+     * - unsuspend,
+     * - unsubscribe
+     * ============================================
+     */
+    public function updateSubscription($id, $data)
     {
         // Find the data based on the id
         $updatedData = SubscriptionUser::where('id', $id)->first();
@@ -71,20 +84,9 @@ class SubscriptionUserRepository
             $updatedData->update($data);
             return $updatedData;
         } else {
-            throw new Exception("Subsription Master data not found");
+            throw new Exception("Subsription User data not found");
         }
     }
 
 
-    public function deletePackageById($id): ?bool
-    {
-        try {
-            $user = SubscriptionUser::findOrFail($id); // Find the data by ID
-            $user->delete(); // Delete the data
-            return true; // Return true on successful deletion
-        } catch (\Exception $e) {
-            // Handle any exceptions, such as data not found
-            throw new Exception("Subsription Master data not found");
-        }
-    }
 }

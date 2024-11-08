@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\Saas\SubscriptionUserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class SubscriptionUserService
 {
@@ -26,7 +27,7 @@ class SubscriptionUserService
 
     /**
      * =============================================
-     *  list all package along with filter, sort, etc
+     *  list all susbcription along with filter, sort, etc
      * =============================================
      */
     public function listAllSubscription($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
@@ -38,12 +39,37 @@ class SubscriptionUserService
 
     /**
      * =============================================
-     * get single package data
+     * get single subscription data
      * =============================================
      */
-    public function getPackageDetail($packageId): ?SubscriptionUser
+    public function getSubscriptionDetail($subscriptionUserId): ?SubscriptionUser
     {
-        return $this->subscriptionUserRepository->getPackageById($packageId);
+        return $this->subscriptionUserRepository->getSubscriptionById($subscriptionUserId);
+    }
+
+    /**
+     * =============================================
+     * suspend / unsuspend
+     * 1 : suspend (default)
+     * 2 : unsuspend
+     * =============================================
+     */
+    public function suspendUnsuspend($subscriptionUserId, $action = 1): ?SubscriptionUser
+    {
+        $isSuspended = $action == 1 ? true : false;
+        return $this->subscriptionUserRepository->updateSubscription($subscriptionUserId, ["is_suspended" => $isSuspended]);
+    }
+
+    /**
+     * =============================================
+     * suspend / unsuspend
+     * 1 : suspend (default)
+     * 2 : unsuspend
+     * =============================================
+     */
+    public function unsubscribe($subscriptionUserId): ?SubscriptionUser
+    {
+        return $this->subscriptionUserRepository->updateSubscription($subscriptionUserId, ["expired_date" => Carbon::now()]);
     }
 
 

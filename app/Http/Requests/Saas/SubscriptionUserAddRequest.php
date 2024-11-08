@@ -4,7 +4,7 @@ namespace App\Http\Requests\Saas;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubscriptionMasterAddRequest extends FormRequest
+class SubscriptionUserAddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

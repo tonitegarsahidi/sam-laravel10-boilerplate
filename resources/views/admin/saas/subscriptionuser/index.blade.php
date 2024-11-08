@@ -57,6 +57,22 @@
                 @include('admin.components.notification.general', $alerts)
             @endif
 
+            <!-- Notification element -->
+            @if ($errors->any() || session('loginError'))
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    @endif
+                    @if (session('loginError'))
+                        <li>{{ session('loginError') }}</li>
+                    @endif
+                </ul>
+            </div>
+        @endif
+
             <div class="table-responsive text-nowrap">
                 <!-- Table data with Striped Rows -->
                 <table class="table table-striped table-hover align-middle">
@@ -191,24 +207,33 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon"
-                                        href="{{ route('subscription.user.edit', ['id' => $subscription->id]) }}"
-                                        title="edit">
-                                        <i class='bx bx-pencil'></i>
-                                    </a>
+                                    @if (is_null($subscription->expired_date) || $subscription->expired_date > now())
+                                        <a class="action-icon"
+                                            href="{{ route('subscription.user.unsubscribe', ['id' => $subscription->id]) }}"
+                                            title="Unsubscribe">
+                                            <i class='bx bx-trash'></i>
+                                        </a>
+                                    @else
+                                        <a class="action-icon"
+                                            href="{{ route('subscription.user.resubscribe', ['id' => $subscription->id]) }}"
+                                            title="Top Up Subscription">
+                                            <i class='bx bx-bus-school'></i>
+                                        </a>
+                                    @endif
+
                                 </td>
                                 <td>
                                     @if ($subscription->is_suspended)
                                         <a class="action-icon"
                                             href="{{ route('subscription.user.unsuspend', ['id' => $subscription->id]) }}"
                                             title="unsuspend">
-                                            <i class='bx bx-play text-success'></i>
+                                            <i class='bx bx-play-circle'></i>
                                         </a>
                                     @else
                                         <a class="action-icon"
                                             href="{{ route('subscription.user.suspend', ['id' => $subscription->id]) }}"
                                             title="suspend">
-                                            <i class='bx bxs-piano text-danger'></i>
+                                            <i class='bx bx-pause-circle'></i>
                                         </a>
                                     @endif
 

@@ -7,8 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Saas\SubscriptionUserAddRequest;
 use App\Http\Requests\Saas\SubscriptionUserEditRequest;
 use App\Http\Requests\Saas\SubscriptionUserListRequest;
+use App\Http\Requests\Saas\SubscriptionUserSuspendRequest;
 use App\Services\Saas\SubscriptionUserService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class SubscriptionUserController extends Controller
@@ -56,6 +59,67 @@ class SubscriptionUserController extends Controller
 
     /**
      * =============================================
+     *      see the detail of single Subscription
+     * =============================================
+     */
+    public function detail(Request $request)
+    {
+        $data = $this->subscriptionUserService->getSubscriptionDetail($request->id);
+
+        // dd($data);
+        if($data){
+            $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
+
+            return view('admin.saas.subscriptionuser.detail', compact('breadcrumbs', 'data'));
+        }
+        else{
+            $alert = AlertHelper::createAlert('danger', 'Error : Cannot View SubscriptionDetail, Oops! no such data with that ID : ' . $request->id);
+
+            return redirect()->route('subscription.user.index')->with('alerts', [$alert]);
+        }
+
+    }
+
+    /**
+     * =============================================
+     *      see the detail of single Subscription
+     * =============================================
+     */
+    public function suspend($id, $suspendAction = 1)
+    {
+        $action = $suspendAction == 1 ? "suspend" : "unsuspend";
+        $subscriptionData = $this->subscriptionUserService->getSubscriptionDetail($id);
+        $userEmail =  $subscriptionData ->user->email;
+        $userPackage =  $subscriptionData ->package->package_name;
+        try{
+            $data = $this->subscriptionUserService->suspendUnsuspend($id, $suspendAction);
+            if(!$data){
+                throw new Exception("failed to ".$action." data, returned data is null / false from repository ");
+            }
+            $alert = AlertHelper::createAlert('success', 'Success '.$action.' data with ID : ' . $id ." (".$userEmail." - ".$userPackage.")");
+        }
+        catch(Exception $e){
+            Log::error("Error suspend / unsuspend caused by ", [
+                "subscriptionId"    => $id,
+                "cause" => $e->getMessage()
+            ]);
+            $alert = AlertHelper::createAlert('danger', 'Error : Failed to '.$action.' data with ID : ' . $id." (".$userEmail." - ".$userPackage.")");
+        }
+
+        return redirect()->route('subscription.user.index')->with([
+            'alerts' => [$alert],
+            'sort_field' => 'subscription_user.updated_at',
+            'sort_order' => 'desc'
+        ]);
+    }
+
+    public function unsuspend($id){
+        return $this->suspend($id, 2);
+    }
+
+
+    /**
+     * =============================================
      *      display "add new package" pages
      * =============================================
      */
@@ -88,30 +152,6 @@ class SubscriptionUserController extends Controller
             'alerts'        => [$alert],
             'sort_order'    => 'desc'
         ]);
-    }
-
-    /**
-     * =============================================
-     *      see the detail of single package entity
-     * =============================================
-     */
-    public function detail(Request $request)
-    {
-        $data = $this->subscriptionUserService->getPackageDetail($request->id);
-
-        // dd($data);
-        if($data){
-            $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
-
-            return view('admin.saas.subscriptionuser.detail', compact('breadcrumbs', 'data'));
-        }
-        else{
-            $alert = AlertHelper::createAlert('danger', 'Error : Cannot View Detail, Oops! no such data with that ID : ' . $request->id);
-
-            return redirect()->route('subscription.user.index')->with('alerts', [$alert]);
-        }
-
-
     }
 
     /**

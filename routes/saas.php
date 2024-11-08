@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
 
                 // No you can't delete here
                 // delete mean unsubscribe
+                Route::get('/resubscribe/{id}', [SubscriptionUserController::class, 'resubscribe'])         ->name('subscription.user.resubscribe');
+                Route::get('/unsubscribe/{id}', [SubscriptionUserController::class, 'suspend'])         ->name('subscription.user.unsubscribe');
                 Route::get('/suspend/{id}', [SubscriptionUserController::class, 'suspend'])         ->name('subscription.user.suspend');
                 Route::get('/unsuspend/{id}', [SubscriptionUserController::class, 'unsuspend'])         ->name('subscription.user.unsuspend');
             });
