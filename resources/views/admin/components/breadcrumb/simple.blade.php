@@ -5,7 +5,7 @@
     @foreach ($breadcrumbs as $label => $url)
         <span class="text-muted fw-light" @if ($loop->last) active @endif
             @if (!$loop->last) aria-current="page" @endif>
-            @if ($loop->last)
+            @if ($loop->last && is_null($url))
                 {{ $label }}
             @else
                 <a href="{{ $url }}">{{ $label }}</a> /

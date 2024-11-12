@@ -55,13 +55,23 @@ class SubscriptionUserRepository
         return SubscriptionUser::find($id);
     }
 
-    public function createSubscription($data)
+    public function createSubscription($userId, $packageId, $startDate, $expiredDate = null, $isSuspended = false, $initiator = "system")
     {
+        $data = [
+            "user_id"       => $userId,
+            "package_id"    => $packageId,
+            "start_date"    => $startDate,
+            "expired_date"  => $expiredDate,
+            "is_suspended"  => $isSuspended,
+            "created_by"    => $initiator,
+            "updated_by"    => $initiator,
+        ];
         return SubscriptionUser::create($data);
     }
 
     //will Return null if none
-    public function findByUserIdAndPackageId($userId, $packageId): ?SubscriptionUser{
+    public function findByUserIdAndPackageId($userId, $packageId): ?SubscriptionUser
+    {
         return SubscriptionUser::where('user_id', $userId)->where("package_id", $packageId)->first();
     }
 
@@ -73,7 +83,7 @@ class SubscriptionUserRepository
      * - unsubscribe
      * ============================================
      */
-    public function updateSubscription($id, $data)
+    public function updateSubscription($id, $data, $initiator = "system")
     {
         // Find the data based on the id
         $updatedData = SubscriptionUser::where('id', $id)->first();
@@ -87,6 +97,4 @@ class SubscriptionUserRepository
             throw new Exception("Subsription User data not found");
         }
     }
-
-
 }

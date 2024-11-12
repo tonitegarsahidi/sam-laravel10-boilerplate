@@ -42,20 +42,20 @@ Route::middleware('auth')->group(function () {
             ->group(function () {
                 Route::get('/',     [SubscriptionUserController::class, 'index'])         ->name('subscription.user.index');
 
-                Route::get('/add',  [SubscriptionUserController::class, 'create'])        ->name('subscription.user.add');
-                Route::post('/add', [SubscriptionUserController::class, 'store'])         ->name('subscription.user.store');
 
-                Route::get('/{id}', [SubscriptionUserController::class, 'detail'])        ->name('subscription.user.detail');
-
-                Route::get('/edit/{id}', [SubscriptionUserController::class, 'edit'])         ->name('subscription.user.edit');
-                Route::put('/edit/{id}', [SubscriptionUserController::class, 'update'])         ->name('subscription.user.update');
 
                 // No you can't delete here
                 // delete mean unsubscribe
-                Route::get('/resubscribe/{id}', [SubscriptionUserController::class, 'resubscribe'])         ->name('subscription.user.resubscribe');
-                Route::get('/unsubscribe/{id}', [SubscriptionUserController::class, 'suspend'])         ->name('subscription.user.unsubscribe');
+                Route::get('/subscribe', [SubscriptionUserController::class, 'create'])         ->name('subscription.user.add');
+                Route::post('/subscribe', [SubscriptionUserController::class, 'store'])         ->name('subscription.user.store');
+
+                Route::get('/unsubscribe/{id}', [SubscriptionUserController::class, 'unsubscribe'])         ->name('subscription.user.unsubscribe');
                 Route::get('/suspend/{id}', [SubscriptionUserController::class, 'suspend'])         ->name('subscription.user.suspend');
                 Route::get('/unsuspend/{id}', [SubscriptionUserController::class, 'unsuspend'])         ->name('subscription.user.unsuspend');
+
+                Route::get('/resubscribe/{id}', [SubscriptionUserController::class, 'resubscribe'])         ->name('subscription.user.resubscribe');
+
+                Route::get('/{id}', [SubscriptionUserController::class, 'detail'])        ->name('subscription.user.detail');
             });
 
         });

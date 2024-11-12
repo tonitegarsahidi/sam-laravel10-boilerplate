@@ -16,7 +16,7 @@ return new class extends Migration
             // Reference to subscription_user
             $table->foreignId('subscription_user_id')->constrained('subscription_user')->onDelete('cascade');
 
-            $table->decimal('package_price_snapshot', 10, 2);
+            $table->decimal('package_price_snapshot', 10, 2)->nullable();
             $table->smallInteger('subscription_action')->default(1);
             $table->string('payment_reference')->nullable();
             $table->string('created_by')->nullable();

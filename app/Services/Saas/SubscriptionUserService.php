@@ -2,27 +2,43 @@
 
 namespace App\Services\Saas;
 
+use App\Helpers\SaasHelper;
 use App\Models\Package;
 use App\Models\Saas\SubscriptionUser;
+use App\Repositories\Saas\SubscriptionHistoryRepository;
+use App\Repositories\Saas\SubscriptionMasterRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\Saas\SubscriptionUserRepository;
+use App\Repositories\UserRepository;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionUserService
 {
+    private $subscriptionMasterRepository;
     private $subscriptionUserRepository;
+    private $subscriptionHistoryRepository;
+    private $userRepository;
 
     /**
      * =============================================
      *  constructor
      * =============================================
      */
-    public function __construct(SubscriptionUserRepository $subscriptionUserRepository)
-    {
+    public function __construct(
+        SubscriptionUserRepository $subscriptionUserRepository,
+        SubscriptionHistoryRepository $subscriptionHistoryRepository,
+        SubscriptionMasterRepository $subscriptionMasterRepository,
+        UserRepository $userRepository
+    ) {
         $this->subscriptionUserRepository = $subscriptionUserRepository;
+        $this->subscriptionHistoryRepository = $subscriptionHistoryRepository;
+        $this->subscriptionMasterRepository = $subscriptionMasterRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -49,105 +65,174 @@ class SubscriptionUserService
 
     /**
      * =============================================
-     * suspend / unsuspend
+     * suspend / unsuspend subscription
      * 1 : suspend (default)
      * 2 : unsuspend
      * =============================================
      */
-    public function suspendUnsuspend($subscriptionUserId, $action = 1): ?SubscriptionUser
-    {
-        $isSuspended = $action == 1 ? true : false;
-        return $this->subscriptionUserRepository->updateSubscription($subscriptionUserId, ["is_suspended" => $isSuspended]);
-    }
-
-    /**
-     * =============================================
-     * suspend / unsuspend
-     * 1 : suspend (default)
-     * 2 : unsuspend
-     * =============================================
-     */
-    public function unsubscribe($subscriptionUserId): ?SubscriptionUser
-    {
-        return $this->subscriptionUserRepository->updateSubscription($subscriptionUserId, ["expired_date" => Carbon::now()]);
-    }
-
-
-
-    /**
-     * =============================================
-     * process add new package to database
-     * =============================================
-     */
-    public function addNewPackage(array $validatedData)
+    public function suspendUnsuspend($subscriptionId, $action = 1, $initiator = "system"): ?SubscriptionUser
     {
         DB::beginTransaction();
         try {
-            $package = $this->subscriptionUserRepository->createPackage($validatedData);
-            DB::commit();
-            return $package;
-        } catch (\Exception $exception) {
+            $isSuspended = $action == 1 ? true : false;
+            $historyAction = $action == 1 ? "SUSPEND" : "UNSUSPEND";
+            //add into history
+            $this->subscriptionHistoryRepository->addNewSubscriptionHistory(
+                $subscriptionId,
+                SaasHelper::getSubscriptionActionKey($historyAction),
+                null,
+                null,
+                $initiator
+            );
+            //update subscription
+            $result = $this->subscriptionUserRepository->updateSubscription(
+                $subscriptionId,
+                ["is_suspended" => $isSuspended, "updated_by"  => $initiator]
+            );
+        } catch (Exception $e) {
+            Log::error("Error suspend / unsuspend, caused by ", [
+                "subscriptionId"    => $subscriptionId,
+                "error"     => $e->getMessage(),
+            ]);
             DB::rollBack();
-            Log::error("Failed to save package data to database: {$exception->getMessage()}");
             return null;
         }
+
+        DB::commit();
+        return $result;
     }
 
     /**
      * =============================================
-     * process update package data
+     * UNSUBSCRIBE
      * =============================================
      */
-    public function updatePackage(array $validatedData, $id)
+    public function unsubscribe($subscriptionId, $initiator = "system"): ?SubscriptionUser
     {
         DB::beginTransaction();
         try {
+            //add into history
+            $this->subscriptionHistoryRepository->addNewSubscriptionHistory(
+                $subscriptionId,
+                SaasHelper::getSubscriptionActionKey("UNSUBSCRIBE"),
+                null,
+                null,
+                $initiator
+            );
 
-            $updatedPackage = $this->subscriptionUserRepository->updatePackage($id, $validatedData);
-
-            DB::commit();
-            return $updatedPackage;
-        } catch (\Exception $exception) {
+            // do your logic about unsubscribe here
+            // for me unsubs mean set the expired date to right now
+            $result =  $this->subscriptionUserRepository->updateSubscription(
+                $subscriptionId,
+                ["expired_date" => Carbon::now(), "updated_by"  => $initiator]
+            );
+        } catch (Exception $e) {
+            Log::error("Error unsubsribe, caused by ", [
+                "subscriptionId"    => $subscriptionId,
+                "error"             => $e->getMessage(),
+            ]);
             DB::rollBack();
-            Log::error("Failed to update package in the database: {$exception->getMessage()}");
             return null;
         }
-    }
 
+        DB::commit();
+        return $result;
+    }
 
     /**
      * =============================================
-     * process CHECK IF A package can be deleted
+     *      ADD NEW SUBSCRIPTION / RESUBSCRIBE
      * =============================================
      */
-    public function isDeleteable($packageId): ?bool{
-
-        // PUT YOUR LOGIC ABOUT A DATA CAN BE DELETED OR NOT HERE
-
-        return true;
-    }
-
-
-    /**
-     * =============================================
-     * process delete package
-     * =============================================
-     */
-    public function deletePackage($packageId): ?bool
+    public function subscribe($userId, $packageId, $paymentReference = "manual", $isRecurring = false, $initiator = "system"): ?SubscriptionUser
     {
         DB::beginTransaction();
         try {
-            if(!$this->isDeleteable($packageId)){
-                throw("This data cannot be deleted");
+            //get the package detail
+            $package = $this->subscriptionMasterRepository->getPackageById($packageId);
+            if (is_null($package)) {
+                throw new Exception("Invalid package Id : $packageId",);
             }
 
-            $this->subscriptionUserRepository->deletePackageById($packageId);
+            //check if user is valid and exists
+            $user = $this->userRepository->getUserById($userId);
+            if (is_null($user)) {
+                throw new Exception("Invalid user Id : $userId",);
+            }
+
+            //check if subscription for this user is already exists or not
+            $subscriptionData = $this->subscriptionUserRepository->findByUserIdAndPackageId($userId, $packageId);
+
+            //create new subscription if not exists
+            if (is_null($subscriptionData)) {
+                $expiredDate = $isRecurring ? NULL : $this->calculateNewExpiredDate(Carbon::now(), $package->package_duration_days);
+                $subscriptionData = $this->subscriptionUserRepository->createSubscription($userId, $packageId, Carbon::now(), $expiredDate, false, $initiator);
+            } else {
+                //update expired date if already exists
+                // check fist if current subscription is still active
+                if($subscriptionData->isExpired()){
+                    Log::debug("SUBSCRIPTION INI EXPIRED LOH, KOK BISA? ", [
+                        "EXPIRED_DATE"    => $subscriptionData->expired_date,
+                        "ISEXPIRED?"    => ($subscriptionData->expired_date > now()),
+                    ]);
+                    $startDate  =   Carbon::now();
+                }
+                else{
+                    Log::debug("SUBSCRIPTION INI TIDAK EXPIRED");
+                    $startDate  = $subscriptionData->expired_date;
+                }
+
+                $newExpiredDate = $isRecurring ? NULL : $this->calculateNewExpiredDate($startDate, $package->package_duration_days);
+
+                $subscriptionData = $this->subscriptionUserRepository->updateSubscription($subscriptionData->id, [
+                    "start_date"  =>  $startDate,
+                    "expired_date"  =>  $newExpiredDate,
+                    "updated_by"    =>  $initiator
+                ]);
+            }
+
+            //add into subscription history
+            $this->subscriptionHistoryRepository->addNewSubscriptionHistory(
+                $subscriptionData->id,
+                SaasHelper::getSubscriptionActionKey("SUBSCRIBE"),
+                $package->package_price,
+                $paymentReference,
+                $initiator
+            );
+
             DB::commit();
-            return true;
-        } catch (\Exception $exception) {
+            return $subscriptionData;
+
+        } catch (Exception $e) {
+            Log::error("Error creating new subscription, caused by ", [
+                "userId"            => $userId,
+                "packageId"         => $packageId,
+                "isRecurring"       => $isRecurring,
+                "paymentReference"  => $paymentReference,
+                "initiator"         => $initiator,
+                "error"             => $e->getMessage(),
+            ]);
             DB::rollBack();
-            Log::error("Failed to delete package with id $packageId: {$exception->getMessage()}");
-            return false;
+            return null;
         }
+    }
+
+    private function calculateNewExpiredDate($oldExpiredDate, $durationDays)
+    {
+        // Convert the old expiration date to a Carbon instance
+        $oldDate = Carbon::parse($oldExpiredDate);
+
+        // Add the duration days to the old expiration date
+        $newExpiredDate = $oldDate->addDays($durationDays);
+
+        Log::debug("CALCULATING NEW EXPIRED DATE", [
+            "oldExpiredDate"    => $oldExpiredDate,
+            "oldDate"           => $oldDate,
+            "durationDays"      => $durationDays,
+            "newExpiredDate"    => $newExpiredDate,
+        ]);
+
+        // Return the new expiration date
+        return $newExpiredDate;
     }
 }

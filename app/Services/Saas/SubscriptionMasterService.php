@@ -29,7 +29,7 @@ class SubscriptionMasterService
      *  list all package along with filter, sort, etc
      * =============================================
      */
-    public function listAllPackage($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllPackage($perPage = null, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
 

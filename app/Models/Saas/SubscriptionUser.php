@@ -15,13 +15,18 @@ class SubscriptionUser extends Model
     protected $table = 'subscription_user';
 
     protected $fillable = [
-        'user',
-        'package',
+        'user_id',
+        'package_id',
         'start_date',
         'expired_date',
         'is_suspended',
         'created_by',
         'updated_by',
+    ];
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'expired_date' => 'datetime',
     ];
 
     public function user()
@@ -38,4 +43,10 @@ class SubscriptionUser extends Model
     {
         return $this->hasMany(SubscriptionHistory::class, 'subscription_user_id')->orderBy('created_at', 'desc');;
     }
+
+    public function isExpired()
+    {
+        return !(is_null($this->expired_date) || $this->expired_date > now());
+    }
+
 }

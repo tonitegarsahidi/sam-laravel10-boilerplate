@@ -25,6 +25,11 @@
             <div class="row m-2">
 
                 <div class="col-md-8 col-xs-12">
+
+                    @if (isset($alerts))
+                        @include('admin.components.notification.general', $alerts)
+                    @endif
+
                     <div class="table-responsive text-nowrap">
                         <table class="table table-hover">
                             <tbody>
@@ -46,13 +51,13 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Expired Date</th>
-                                    <td> {{is_null($data->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $data->expired_date}}
+                                    <td> {{ is_null($data->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $data->expired_date->isoFormat(config('constant.DATE_FORMAT.LONG')) }}
                                         @if (is_null($data->expired_date) || $data->expired_date > now())
                                             <span class="badge rounded-pill bg-success"> Active </span>
                                         @else
                                             <span class="badge rounded-pill bg-danger"> Expired </span>
                                         @endif
-                                </td>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Is Suspended</th>
@@ -84,17 +89,30 @@
             <div class="m-4">
                 <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
-                <a class="btn btn-primary me-2" href="{{ route('subscription.user.edit', ['id' => $data->id]) }}"
-                    title="update this user">
-                    <i class='tf-icons bx bx-pencil me-2'></i>Edit</a>
-                @if (!$data->is_suspended)
-                <a class="btn btn-danger me-2" href="{{ route('subscription.user.suspend', ['id' => $data->id]) }}"
-                    title="Suspend user">
-                    <i class='tf-icons bx bx-pause me-2'></i>Suspend</a>
+
+                {{-- SUBS OR UNSUBS BUTTON --}}
+                @if ($data->isExpired())
+                    <a class="btn btn-primary me-2" href="{{ route('subscription.user.resubscribe', ['id' => $data->id]) }}"
+                        title="update this user">
+                        <i class='tf-icons bx bx-pencil me-2'></i>Resubscribe</a>
                 @else
-                <a class="btn btn-success me-2" href="{{ route('subscription.user.unsuspend', ['id' => $data->id]) }}"
-                    title="Unsuspend user">
-                    <i class='tf-icons bx bx-play me-2'></i>Unsuspend</a>
+                    <a class="btn btn-primary me-2" href="{{ route('subscription.user.unsubscribe', ['id' => $data->id]) }}"
+                        title="update this user">
+                        <i class='tf-icons bx bx-trash me-2'></i>Unsubscribe</a>
+                @endif
+
+
+
+
+                {{-- SUSPEND or UNSUSPEND Button --}}
+                @if (!$data->is_suspended)
+                    <a class="btn btn-danger me-2" href="{{ route('subscription.user.suspend', ['id' => $data->id]) }}"
+                        title="Suspend user">
+                        <i class='tf-icons bx bx-pause me-2'></i>Suspend</a>
+                @else
+                    <a class="btn btn-success me-2" href="{{ route('subscription.user.unsuspend', ['id' => $data->id]) }}"
+                        title="Unsuspend user">
+                        <i class='tf-icons bx bx-play me-2'></i>Unsuspend</a>
                 @endif
 
             </div>
@@ -122,7 +140,7 @@
                                     <th class="text-center">No.</th>
                                     <th class="text-center">Date</th>
                                     <th class="text-center">Action</th>
-                                    <th class="text-center">Price Snapshot ({{config('saas.CURRENCY_SYMBOL')}})</th>
+                                    <th class="text-center">Price Snapshot ({{ config('saas.CURRENCY_SYMBOL') }})</th>
                                     <th class="text-center">Payment Reference</th>
                                     <th class="text-center">Created by</th>
                                 </tr>
@@ -132,9 +150,12 @@
                                     <tr>
                                         <td>{{ $startNumber++ }}</td>
                                         <td>{{ $history->created_at }}</td>
-                                        <td>{{ config('saas.SUBSCRIPTION_HISTORY_ACTION')[$history->subscription_action] ?? 'Unknown Action' }}</td>
-                                        <td class="text-end">{{ number_format($history->package_price_snapshot, 2, ',', '.') }}</td>
-                                        <td>{{ is_null($history->payment_reference) ? "N/A" :  $history->payment_reference}}</td>
+                                        <td>{{ config('saas.SUBSCRIPTION_HISTORY_ACTION')[$history->subscription_action] ?? 'Unknown Action' }}
+                                        </td>
+                                        <td class="text-end">
+                                            {{ number_format($history->package_price_snapshot, 2, ',', '.') }}</td>
+                                        <td>{{ is_null($history->payment_reference) ? 'N/A' : $history->payment_reference }}
+                                        </td>
                                         <td>{{ $history->created_by }}</td>
                                     </tr>
                                 @endforeach
@@ -142,8 +163,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                 </div>
 
             </div>

@@ -184,10 +184,10 @@
                                 <td>{{ $subscription->package }}</td>
                                 <td>{{ $subscription->start_date }}</td>
                                 <td>{{ is_null($subscription->expired_date) ? config('saas.EXPIRED_DATE_NULL') : $subscription->expired_date }}
-                                    @if (is_null($subscription->expired_date) || $subscription->expired_date > now())
-                                        <span class="badge rounded-pill bg-success"> Active </span>
-                                    @else
+                                    @if ($subscription->isExpired())
                                         <span class="badge rounded-pill bg-danger"> Expired </span>
+                                    @else
+                                        <span class="badge rounded-pill bg-success"> Active </span>
                                     @endif
                                 </td>
                                 <td>
@@ -206,8 +206,9 @@
                                         <i class='bx bx-search'></i>
                                     </a>
                                 </td>
+                                {{-- =========== UNSUBSCRIBE OR NOT BASED ON IS EXPIRED OR NOT ============ --}}
                                 <td>
-                                    @if (is_null($subscription->expired_date) || $subscription->expired_date > now())
+                                    @if ($subscription->isExpired())
                                         <a class="action-icon"
                                             href="{{ route('subscription.user.unsubscribe', ['id' => $subscription->id]) }}"
                                             title="Unsubscribe">

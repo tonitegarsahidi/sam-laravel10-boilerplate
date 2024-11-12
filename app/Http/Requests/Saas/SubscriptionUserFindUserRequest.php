@@ -4,7 +4,7 @@ namespace App\Http\Requests\Saas;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubscriptionUserAddRequest extends FormRequest
+class SubscriptionUserFindUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,21 +23,14 @@ class SubscriptionUserAddRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user' => 'required',
-            'package' => 'required',
+            "per_page" => "nullable|integer",
+            "page" => "nullable|integer",
+            "sort_order" => "nullable|string|in:ASC,DESC,asc,desc",
+            "sort_field" => "nullable|string|in:NAME,id,name,email,is_active,created_at",
+            "keyword" => "nullable|string",
+            "user" => "nullable|string",
         ];
     }
 
-    /**
-     * Get custom error messages for validation.
-     *
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'user.required' => 'The user field is required.',
-            'package.required' => 'The package field is required.',
-        ];
-    }
+
 }

@@ -5,78 +5,30 @@ namespace App\Repositories\Saas;
 use App\Models\Saas\SubscriptionHistory;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class SubscriptionHistoryRepository
 {
-    public function getAllPackages(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null): LengthAwarePaginator
+
+    public function addNewSubscriptionHistory(  $subscriptionId,
+                                                $subscriptionAction,
+                                                $packagePriceSnapshot = null,
+                                                $paymentReference = null,
+                                                $initiator = "system") : SubscriptionHistory
     {
-        $queryResult = SubscriptionHistory::query();
+        $data = [
+            "subscription_user_id"  => $subscriptionId,
+            "subscription_action"  => $subscriptionAction,
+            "package_price_snapshot"  => $packagePriceSnapshot,
+            "payment_reference"  => $paymentReference,
+            "created_by"  => $initiator,
+            "updated_by"  => $initiator,
+        ];
 
-        if (!is_null($sortField) && !is_null($sortOrder)) {
-            $queryResult->orderBy($sortField, $sortOrder);
-        } else {
-            $queryResult->orderBy("is_active", "desc");
-        }
+        Log::debug("isinya data subscription history ", ["data"  => $data]);
 
-        if (!is_null($keyword)) {
-            $queryResult->whereRaw('lower(alias) LIKE ?', ['%' . strtolower($keyword) . '%'])
-                ->orWhereRaw('lower(package_name) LIKE ?', ['%' . strtolower($keyword) . '%'])
-                ->orWhereRaw('lower(package_description) LIKE ?', ['%' . strtolower($keyword) . '%']);
-
-            // For numeric columns, use direct comparison
-            if (is_numeric($keyword)) {
-                $queryResult->orWhere('id', $keyword)
-                    ->orWhere('package_price', $keyword);
-            }
-        }
-
-        $paginator = $queryResult->paginate($perPage);
-        $paginator->withQueryString();
-
-        return $paginator;
-    }
-
-    public function findOrFail($id)
-    {
-        return SubscriptionHistory::findOrFail($id);
-    }
-
-
-    public function getPackageById($id): ?SubscriptionHistory
-    {
-        return SubscriptionHistory::find($id);
-    }
-
-    public function createPackage($data)
-    {
         return SubscriptionHistory::create($data);
     }
 
-    public function updatePackage($id, $data)
-    {
-        // Find the data based on the id
-        $updatedData = SubscriptionHistory::where('id', $id)->first();
 
-        // if data with such id exists
-        if ($updatedData) {
-            // Update the profile with the provided data
-            $updatedData->update($data);
-            return $updatedData;
-        } else {
-            throw new Exception("Subsription Master data not found");
-        }
-    }
-
-
-    public function deletePackageById($id): ?bool
-    {
-        try {
-            $user = SubscriptionHistory::findOrFail($id); // Find the data by ID
-            $user->delete(); // Delete the data
-            return true; // Return true on successful deletion
-        } catch (\Exception $e) {
-            // Handle any exceptions, such as data not found
-            throw new Exception("Subsription Master data not found");
-        }
-    }
 }

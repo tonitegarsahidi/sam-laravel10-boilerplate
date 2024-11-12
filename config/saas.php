@@ -10,10 +10,10 @@ return [
     'EXPIRED_DATE_NULL'    => 'Unlimited',
 
     'SUBSCRIPTION_HISTORY_ACTION'   => [
-        "1"  => "Susbcribe",
-        "2"  => "Suspension",
-        "3"  => "Unsuspension",
-        "10"  => "Unsubscribe",
+        "1"  => "SUBSCRIBE",
+        "2"  => "SUSPEND",
+        "3"  => "UNSUSPEND",
+        "10"  => "UNSUBSCRIBE",
     ]
 
 ];
