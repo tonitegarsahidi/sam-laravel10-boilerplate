@@ -47,7 +47,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Start Date</th>
-                                    <td>{{ $data->start_date }}</td>
+                                    <td>{{ $data->start_date->isoFormat(config('constant.DATE_FORMAT.LONG')) }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Expired Date</th>
