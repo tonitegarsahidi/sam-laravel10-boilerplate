@@ -1,5 +1,7 @@
 @extends('admin/template-base')
 
+@section('page-title', 'Add New User')
+
 
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">

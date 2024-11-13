@@ -1,5 +1,7 @@
 @extends('admin.template-blank')
 
+@section('page-title', 'Forgot Password')
+
 @section('header-code')
     <!-- Page CSS -->
     <!-- Page -->
