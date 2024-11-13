@@ -1,5 +1,7 @@
 @extends('admin.template-blank')
 
+@section('page-title', 'Ooops Verification Failed')
+
 @section('header-code')
     <!-- Page CSS -->
     <!-- Page -->

@@ -1,5 +1,7 @@
 @extends('admin.template-blank')
 
+@section('page-title', 'Not receiving our email?')
+
 @section('header-code')
     <!-- Page CSS -->
     <!-- Page -->
