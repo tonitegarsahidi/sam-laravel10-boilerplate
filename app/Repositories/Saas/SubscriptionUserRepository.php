@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class SubscriptionUserRepository
 {
-    public function getAllSubscription(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null): LengthAwarePaginator
+    public function getAllSubscription(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null, String $userId = null): LengthAwarePaginator
     {
         $queryResult = SubscriptionUser::query()
 
@@ -21,8 +21,12 @@ class SubscriptionUserRepository
                 'subscription_user.is_suspended',
                 'users.email as email',
                 'users.id as userId',
+                'subscription_master.id as packageId',
                 'subscription_master.package_name as package',
             ]);
+        if(!is_null($userId)){
+            $queryResult->where('users.id', $userId);
+        }
 
         if (!is_null($sortField) && !is_null($sortOrder)) {
             $queryResult->orderBy($sortField, $sortOrder);

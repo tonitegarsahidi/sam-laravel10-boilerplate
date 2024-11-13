@@ -27,6 +27,7 @@ class SubscriptionUserListRequest extends FormRequest
             "sort_order" => "nullable|string|in:ASC,DESC,asc,desc",
             "sort_field" => "nullable|string|in:email,package_name,start_date,expired_date,is_suspended",
             "keyword" => "nullable|string",
+            "userId" => "nullable|uuid",
         ];
     }
 }

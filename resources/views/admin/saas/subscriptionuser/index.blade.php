@@ -16,7 +16,14 @@
             <div class="d-flex justify-content-between">
 
                 <div class="p-2 bd-highlight">
-                    <h3 class="card-header">List of User Subsription</h3>
+                    @if (isset($userId))
+                    <h4 class="card-header">Subscription for User {{ $userId }} <a class="" href="{{ route('subscription.user.index') }}">
+                       <small> (See for all User)</small>
+                    </a></h4>
+
+                    @else
+                    <h3 class="card-header">List of User Subscription</h3>
+                    @endif
                 </div>
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{ route('subscription.user.add') }}">
@@ -208,7 +215,7 @@
                                 </td>
                                 {{-- =========== UNSUBSCRIBE OR NOT BASED ON IS EXPIRED OR NOT ============ --}}
                                 <td>
-                                    @if ($subscription->isExpired())
+                                    @if (!$subscription->isExpired())
                                         <a class="action-icon"
                                             href="{{ route('subscription.user.unsubscribe', ['id' => $subscription->id]) }}"
                                             title="Unsubscribe">
@@ -216,9 +223,9 @@
                                         </a>
                                     @else
                                         <a class="action-icon"
-                                            href="{{ route('subscription.user.resubscribe', ['id' => $subscription->id]) }}"
+                                            href="{{ route('subscription.user.add', ['user' => $subscription->userId, "package" => $subscription->packageId]) }}"
                                             title="Top Up Subscription">
-                                            <i class='bx bx-bus-school'></i>
+                                            <i class='bx bxs-plus-square'></i>
                                         </a>
                                     @endif
 

@@ -46,11 +46,11 @@ class SubscriptionUserService
      *  list all susbcription along with filter, sort, etc
      * =============================================
      */
-    public function listAllSubscription($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllSubscription($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null, string $userId = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
 
-        return $this->subscriptionUserRepository->getAllSubscription($perPage, $sortField, $sortOrder, $keyword);
+        return $this->subscriptionUserRepository->getAllSubscription($perPage, $sortField, $sortOrder, $keyword, $userId);
     }
 
     /**

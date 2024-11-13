@@ -53,14 +53,15 @@ class SubscriptionUserController extends Controller
         $perPage = $request->input('per_page', config('constant.CRUD.PER_PAGE'));
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
+        $userId = $request->input('userId');
 
-        $subscriptions = $this->subscriptionUserService->listAllSubscription($perPage, $sortField, $sortOrder, $keyword);
+        $subscriptions = $this->subscriptionUserService->listAllSubscription($perPage, $sortField, $sortOrder, $keyword, $userId);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
         $alerts = AlertHelper::getAlerts();
 
-        return view('admin.saas.subscriptionuser.index', compact('subscriptions', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword', 'alerts'));
+        return view('admin.saas.subscriptionuser.index', compact('subscriptions', 'userId', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword', 'alerts'));
     }
 
     /**
@@ -97,7 +98,7 @@ class SubscriptionUserController extends Controller
         $userEmail =  $subscriptionData->user->email;
         $userPackage =  $subscriptionData->package->package_name;
         try {
-            $data = $this->subscriptionUserService->suspendUnsuspend($subscriptionId, $suspendAction);
+            $data = $this->subscriptionUserService->suspendUnsuspend($subscriptionId, $suspendAction, Auth::user()->id);
             if (!$data) {
                 throw new Exception("failed to " . $action . " data, returned data is null / false from repository ");
             }
@@ -134,7 +135,7 @@ class SubscriptionUserController extends Controller
         $userEmail =  $subscriptionData->user->email;
         $userPackage =  $subscriptionData->package->package_name;
         try {
-            $data = $this->subscriptionUserService->unsubscribe($subscriptionId);
+            $data = $this->subscriptionUserService->unsubscribe($subscriptionId, Auth::user()->id);
             if (!$data) {
                 throw new Exception("failed to Unsubscribe, returned data is null / false from repository ");
             }
@@ -208,21 +209,29 @@ class SubscriptionUserController extends Controller
             $findUsers = null;
             //find users first
             $userFound = $this->userService->getUserDetail($request->user);
+
+            // if user is not found or invalid users
             if (!$userFound) {
-                $alerts = [...$alerts, AlertHelper::createAlert('danger', 'Error : Invalid user Id : ' . $request->user)];
+                $alert =  AlertHelper::createAlert('danger', 'Error : Invalid user Id : ' . $request->user);
                 $userFound = null;
+                return redirect()->route('subscription.user.index')->with([
+                    'alerts' => [$alert]
+                ]);
             }
 
             if (!$userFound->is_active) {
                 $alerts = [...$alerts, AlertHelper::createAlert('danger', 'This user is inactive state, you cannot subscribe this')];
             }
 
+            // IF package params is set
+            $selectedPackage = $request->package;
+
             $package = $this->subscriptionMasterService->listAllPackage(100000);
 
             $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add (Step 2/2 : Choose Package)' => null]);
 
 
-            return view('admin.saas.subscriptionuser.add', compact('userIsSet', 'alerts', 'userFound', 'package', 'breadcrumbs'));
+            return view('admin.saas.subscriptionuser.add', compact('userIsSet','selectedPackage', 'alerts', 'userFound', 'package', 'breadcrumbs'));
         } else {
             $userFound = null;
 

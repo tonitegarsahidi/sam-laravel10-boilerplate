@@ -1,5 +1,6 @@
 @extends('admin/template-base')
 
+@section('page-title', 'Add Subscription - Select Package')
 
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -107,7 +108,12 @@
                                         @endif
 
                                         @foreach ($package as $item)
+                                            @if ($selectedPackage == $item->id)
+                                            <option value="{{ $item->id }}" selected>{{ $item->package_name }}</option>
+                                            @else
                                             <option value="{{ $item->id }}">{{ $item->package_name }}</option>
+                                            @endif
+
                                         @endforeach
                                         </select>
                                     </div>
@@ -116,7 +122,7 @@
                                 @if (!$disabled)
                                     <div class="row justify-content-end">
                                         <div class="col-sm-10">
-                                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                                            <button type="submit" class="btn btn-primary">Add Subscription</button>
                                         </div>
                                     </div>
                                 @endif

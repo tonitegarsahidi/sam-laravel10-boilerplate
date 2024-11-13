@@ -101,9 +101,6 @@
                         <i class='tf-icons bx bx-trash me-2'></i>Unsubscribe</a>
                 @endif
 
-
-
-
                 {{-- SUSPEND or UNSUSPEND Button --}}
                 @if (!$data->is_suspended)
                     <a class="btn btn-danger me-2" href="{{ route('subscription.user.suspend', ['id' => $data->id]) }}"
@@ -114,6 +111,11 @@
                         title="Unsuspend user">
                         <i class='tf-icons bx bx-play me-2'></i>Unsuspend</a>
                 @endif
+
+                {{-- NEW SUBSCRIPTION BUTTON --}}
+                <a class="btn btn-success me-2" href="{{ route('subscription.user.add', ['user' => $data->user_id]) }}"
+                    title="Suspend user">
+                    <i class='tf-icons bx bx-plus me-2'></i>New Subscription</a>
 
             </div>
 

@@ -29,7 +29,7 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th  style="width: 250px;"  scope="col" class="bg-dark text-white">Name</th>
+                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Name</th>
                                     <td>{{ $data->name }}</td>
                                 </tr>
                                 <tr>
@@ -61,7 +61,7 @@
                                                 <span class="badge rounded-pill bg-label-primary m-1"> {{ $role }}
                                                 </span>
                                             @endif
-                                            <br/>
+                                            <br />
                                         @endforeach
                                     </td>
                                 </tr>
@@ -91,6 +91,9 @@
                 <a class="btn btn-danger me-2" href="{{ route('admin.user.delete', ['id' => $data->id]) }}"
                     title="delete user">
                     <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
+                <a class="btn btn-dark me-2" href="{{ route('subscription.user.index', ['userId' => $data->id]) }}"
+                    title="show subscription">
+                    <i class='tf-icons bx bx-receipt me-2'></i>See Subscription</a>
             </div>
 
         </div>
