@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
 
 class FakeUserSeeder extends Seeder
 {
@@ -19,14 +20,16 @@ class FakeUserSeeder extends Seeder
     public function run()
     {
 
-        for ($i = 0; $i < 100; $i++) {
+        $faker = Faker::create('id_ID'); // Use 'id_ID' for Indonesian locale
+
+        for ($i = 0; $i < 25; $i++) {
             $user = User::create([
-                'name' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
+                'name' => $faker->name,
+                'email' => $faker->unique()->safeEmail(),
                 'password' => Hash::make('password'),
-                'is_active' => false,
+                'is_active' => true,
                 'email_verified_at' => Carbon::now(),
-                'phone_number' => '+'.fake()->numerify('##').fake()->numerify('###########'),
+                'phone_number' => '+62'.$faker->numerify('###########'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

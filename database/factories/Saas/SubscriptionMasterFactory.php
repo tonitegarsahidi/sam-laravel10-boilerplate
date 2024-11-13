@@ -4,6 +4,7 @@ namespace Database\Factories\Saas;
 
 use App\Models\Saas\SubscriptionMaster;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Saas\SubscriptionMaster>
@@ -25,7 +26,8 @@ class SubscriptionMasterFactory extends Factory
     public function definition()
     {
         $packageName = $this->faker->words(3, true);
-        $alias = $this->faker->words(1, true);
+        $alias = strtolower(substr(str_replace(' ', '', $packageName), 0, 10));
+
         return [
             'package_name' => $packageName,
             'alias' => $alias,

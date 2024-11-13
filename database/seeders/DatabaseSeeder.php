@@ -20,10 +20,14 @@ class DatabaseSeeder extends Seeder
             RoleMasterSeeder::class,
             RoleUserSeeder::class,
 
-            //Saas
-            SubscriptionMasterSeeder::class,
+            FakeUserSeeder::class,
 
-            // FakeUserSeeder::class,
+            //Saas related to Subscription
+            SubscriptionMasterSeeder::class,
+            SubscriptionUserSeeder::class,
+            SubscriptionHistorySeeder::class,
+
+
         ]);
 
         // \App\Models\User::factory(10)->create();

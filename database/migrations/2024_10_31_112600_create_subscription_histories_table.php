@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subscription_master', function (Blueprint $table) {
+        Schema::create('subscription_history', function (Blueprint $table) {
             $table->id();
-            $table->string('alias')->unique();
-            $table->string('package_name');
-            $table->text('package_description');
-            $table->decimal('package_price', 18, 2);
-            $table->boolean('is_active')->default(true);
-            $table->boolean('is_visible')->default(true);
-            $table->integer('package_duration_days');
+            // Reference to subscription_user
+            $table->foreignId('subscription_user_id')->constrained('subscription_user')->onDelete('cascade');
+
+            $table->decimal('package_price_snapshot', 10, 2)->nullable();
+            $table->smallInteger('subscription_action')->default(1);
+            $table->string('payment_reference')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subscription_master');
+        Schema::dropIfExists('subscription_history');
     }
 };

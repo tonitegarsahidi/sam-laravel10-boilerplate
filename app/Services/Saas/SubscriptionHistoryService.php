@@ -3,25 +3,25 @@
 namespace App\Services\Saas;
 
 use App\Models\Package;
-use App\Models\Saas\SubscriptionMaster;
+use App\Models\Saas\SubscriptionHistory;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\Saas\SubscriptionMasterRepository;
+use App\Repositories\Saas\SubscriptionHistoryRepository;
 use Illuminate\Http\Request;
 
-class SubscriptionMasterService
+class SubscriptionHistoryService
 {
-    private $subscriptionMasterRepository;
+    private $SubscriptionHistoryRepository;
 
     /**
      * =============================================
      *  constructor
      * =============================================
      */
-    public function __construct(SubscriptionMasterRepository $SubscriptionMasterRepository)
+    public function __construct(SubscriptionHistoryRepository $SubscriptionHistoryRepository)
     {
-        $this->subscriptionMasterRepository = $SubscriptionMasterRepository;
+        $this->SubscriptionHistoryRepository = $SubscriptionHistoryRepository;
     }
 
     /**
@@ -29,11 +29,11 @@ class SubscriptionMasterService
      *  list all package along with filter, sort, etc
      * =============================================
      */
-    public function listAllPackage($perPage = null, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllPackage($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
 
-        return $this->subscriptionMasterRepository->getAllPackages($perPage, $sortField, $sortOrder, $keyword);
+        return $this->SubscriptionHistoryRepository->getAllPackages($perPage, $sortField, $sortOrder, $keyword);
     }
 
     /**
@@ -41,9 +41,9 @@ class SubscriptionMasterService
      * get single package data
      * =============================================
      */
-    public function getPackageDetail($packageId): ?SubscriptionMaster
+    public function getPackageDetail($packageId): ?SubscriptionHistory
     {
-        return $this->subscriptionMasterRepository->getPackageById($packageId);
+        return $this->SubscriptionHistoryRepository->getPackageById($packageId);
     }
 
 
@@ -57,7 +57,7 @@ class SubscriptionMasterService
     {
         DB::beginTransaction();
         try {
-            $package = $this->subscriptionMasterRepository->createPackage($validatedData);
+            $package = $this->SubscriptionHistoryRepository->createPackage($validatedData);
             DB::commit();
             return $package;
         } catch (\Exception $exception) {
@@ -77,7 +77,7 @@ class SubscriptionMasterService
         DB::beginTransaction();
         try {
 
-            $updatedPackage = $this->subscriptionMasterRepository->updatePackage($id, $validatedData);
+            $updatedPackage = $this->SubscriptionHistoryRepository->updatePackage($id, $validatedData);
 
             DB::commit();
             return $updatedPackage;
@@ -115,7 +115,7 @@ class SubscriptionMasterService
                 throw("This data cannot be deleted");
             }
 
-            $this->subscriptionMasterRepository->deletePackageById($packageId);
+            $this->SubscriptionHistoryRepository->deletePackageById($packageId);
             DB::commit();
             return true;
         } catch (\Exception $exception) {

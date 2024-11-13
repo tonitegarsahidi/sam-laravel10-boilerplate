@@ -85,7 +85,6 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Alias
-                                    @include('components.arrow-sort', ['field' => 'alias', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
 
@@ -97,10 +96,9 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Package Name
-                                    @include('components.arrow-sort', ['field' => 'package_name', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th  style="max-width: 40%;">
+                            <th>
                                 <a
                                     href="{{ route('subscription.packages.index', [
                                         'sort_field' => 'package_description',
@@ -108,7 +106,6 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Package Description
-                                    @include('components.arrow-sort', ['field' => 'package_description', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th><a
@@ -118,7 +115,6 @@
                                             'keyword' => $keyword
                                         ]) }}">
                                     Is Active
-                                    @include('components.arrow-sort', ['field' => 'is_active', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a></th>
                             <th>
                                 <a
@@ -128,8 +124,6 @@
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Price ({{config('saas.CURRENCY_SYMBOL')}})
-                                    @include('components.arrow-sort', ['field' => 'package_price', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
-
                                 </a>
                             </th>
                             <th></th>
@@ -149,7 +143,7 @@
                                 <td>{{ $package->id }}</td>
                                 <td>{{ $package->alias }}</td>
                                 <td>{{ $package->package_name }}</td>
-                                <td  style="max-width: 400px;word-wrap: break-word; white-space: normal;">{{ $package->package_description }}</td>
+                                <td>{{ $package->package_description }}</td>
                                 <td>
                                     @if ($package->is_active)
                                         <span class="badge rounded-pill bg-success"> Yes </span>
@@ -157,7 +151,7 @@
                                         <span class="badge rounded-pill bg-danger"> No </span>
                                     @endif
                                 </td>
-                                <td class="text-end">{{ number_format($package->package_price, 2, ',', '.') }}</td>
+                                <td class="text-end">{{$package->package_price}}</td>
 
 
                                 {{-- ============ CRUD LINK ICON =============  --}}

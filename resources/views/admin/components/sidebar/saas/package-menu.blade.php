@@ -15,10 +15,10 @@
             'subMenuText' => 'Package',
             'subMenuUrl' => route('subscription.packages.index'),
         ],
-        // [
-        //     'subMenuText' => 'Profile',
-        //     'subMenuUrl' => route('user.profile.index'),
-        // ],
+        [
+            'subMenuText' => 'Subscription',
+            'subMenuUrl' => route('subscription.user.index'),
+        ],
 
         // [
         //     'subMenuText' => 'Change Password',

@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Detail of User')
+@section('page-title', 'Detail of Package with id '.$data->id)
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-between">
 
                 <div class="bd-highlight">
-                    <h3 class="card-header">Detail of User with id : {{ $data->id }}</h3>
+                    <h3 class="card-header">Detail of Package with id : {{ $data->id }}</h3>
                 </div>
 
             </div>
@@ -38,11 +38,11 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Description</th>
-                                    <td>{{ $data->package_description }}</td>
+                                    <td style="max-width: 400px;word-wrap: break-word; white-space: normal;">{{ $data->package_description }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Price</th>
-                                    <td>{{config('saas.CURRENCY_SYMBOL')}} {{ $data->package_price }}</td>
+                                    <td>{{config('saas.CURRENCY_SYMBOL')}} {{ number_format($data->package_price, 2, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Is Active</th>
@@ -68,16 +68,12 @@
                                     <th scope="col" class="bg-dark text-white">Package Duration</th>
                                     <td>{{ $data->package_duration_days }} days</td>
                                 </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Created At</th>
-                                    <td>{{ $data->created_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Updated At</th>
-                                    <td>{{ $data->updated_at->isoFormat('dddd, D MMMM Y - HH:mm:ss') }}</td>
-                                </tr>
                             </tbody>
                         </table>
+
+                        @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
+                            @include('components.crud-timestamps', $data)
+                        @endif
                     </div>
 
                 </div>

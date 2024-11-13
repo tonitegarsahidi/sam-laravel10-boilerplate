@@ -75,7 +75,6 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
 
-
         ];
 
         DB::table('users')->insert($users);

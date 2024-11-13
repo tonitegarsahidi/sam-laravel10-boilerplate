@@ -272,7 +272,7 @@ class SubscriptionMasterControllerTest extends TestCase
         $response->assertViewIs('admin.saas.subscriptionmaster.detail');
         $response->assertSee($firstPackage->alias);
         $response->assertSee($firstPackage->package_name);
-        $response->assertSee($firstPackage->package_price);
+        $response->assertSee(number_format($firstPackage->package_price, 2, ',', '.'));
         $response->assertSee($firstPackage->package_description);
         $response->assertSee($firstPackage->package_duration_days);
     }

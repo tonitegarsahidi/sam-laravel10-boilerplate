@@ -18,6 +18,17 @@ return [
         'DISPLAY_TIMESTAMPS'    => true,
     ],
 
+    // here you format your date format
+    'DATE_FORMAT' => [
+        "LONG"  => 'dddd, D MMMM Y - HH:mm:ss',
+        "MEDIUM"  => 'D MMMM Y - HH:mm:ss',
+        "SHORT"  => 'D-M-Y - HH:mm:ss',
+    ],
+    // date locality, like day and months name, used in AppServiceProvider
+    'DATE_LOCALITY' => 'EN',
+
+    // Sure you can move this to database if you want, and make relations
+    // I prefer this quick ways haha
     'COUNTRIES' => [
     'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina',
     'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh',
