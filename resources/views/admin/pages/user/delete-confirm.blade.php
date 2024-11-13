@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Detail of User')
+@section('page-title', 'Confirm Delete User')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')

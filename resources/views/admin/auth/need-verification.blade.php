@@ -1,5 +1,7 @@
 @extends('admin.template-blank')
 
+@section('page-title', 'Email Verification Needed')
+
 @section('header-code')
     <!-- Page CSS -->
     <!-- Page -->
