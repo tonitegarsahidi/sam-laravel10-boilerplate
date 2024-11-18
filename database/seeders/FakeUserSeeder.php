@@ -19,7 +19,7 @@ class FakeUserSeeder extends Seeder
     public function run()
     {
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 50; $i++) {
 
               // Generate a name
         $name = fake()->name();
