@@ -9,6 +9,8 @@ current page submenu item now will be highligted and the parent will be expanded
 - *fix: separate timestamps and audit person in separate blade components*
 - *feat: add sorting mark on ultimate crud list*
 - *doc: add key features*
+- *fix: correct some page title head on user CRUD*
+- *fix: make email in fakeuserseeder to reflects the name not random different email"
 
 #### version 11.4.1 (29 October 2024)
 - Bismillah, First public reveal in community group and my own Linked In

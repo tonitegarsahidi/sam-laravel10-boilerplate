@@ -20,13 +20,23 @@ class FakeUserSeeder extends Seeder
     {
 
         for ($i = 0; $i < 100; $i++) {
+
+              // Generate a name
+        $name = fake()->name();
+
+        // Convert the name to a more email-friendly format
+        $emailName = strtolower(str_replace(' ', '.', preg_replace('/[^a-zA-Z\s]/', '', $name)));
+
+        // Combine with a domain to create the email
+        $email = $emailName . '@samboilerplate.com';
+
             $user = User::create([
-                'name' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
+                'name' => $name,
+                'email' => $email,
                 'password' => Hash::make('password'),
                 'is_active' => false,
                 'email_verified_at' => Carbon::now(),
-                'phone_number' => '+'.fake()->numerify('##').fake()->numerify('###########'),
+                'phone_number' => '+62'.fake()->numerify('###########'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
