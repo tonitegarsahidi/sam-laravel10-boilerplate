@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
 
 class FakeUserSeeder extends Seeder
 {
@@ -19,24 +20,26 @@ class FakeUserSeeder extends Seeder
     public function run()
     {
 
-        for ($i = 0; $i < 50; $i++) {
+        $faker = Faker::create('id_ID'); // Use 'id_ID' for Indonesian locale
 
-              // Generate a name
-        $name = fake()->name();
+        for ($i = 0; $i < 25; $i++) {
+          
+             // Generate a name
+            $name = faker->name();
 
-        // Convert the name to a more email-friendly format
-        $emailName = strtolower(str_replace(' ', '.', preg_replace('/[^a-zA-Z\s]/', '', $name)));
+            // Convert the name to a more email-friendly format
+            $emailName = strtolower(str_replace(' ', '.', preg_replace('/[^a-zA-Z\s]/', '', $name)));
 
-        // Combine with a domain to create the email
-        $email = $emailName . '@samboilerplate.com';
+            // Combine with a domain to create the email
+            $email = $emailName . '@samboilerplate.com';
 
             $user = User::create([
-                'name' => $name,
+                 'name' => $name,
                 'email' => $email,
                 'password' => Hash::make('password'),
-                'is_active' => false,
+                'is_active' => true,
                 'email_verified_at' => Carbon::now(),
-                'phone_number' => '+62'.fake()->numerify('###########'),
+                'phone_number' => '+62'.$faker->numerify('###########'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

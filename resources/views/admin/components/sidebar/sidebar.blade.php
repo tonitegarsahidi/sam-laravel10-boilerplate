@@ -28,6 +28,14 @@
             'subMenuData' => null,
         ])
 
+        {{-- =============================================== --}}
+        {{-- SAAS SPECIFIC MENU --}}
+        {{-- =============================================== --}}
+        @if (config('saas.SAAS_ACTIVATED'))
+            @include('admin.components.sidebar.saas.package-menu')
+        @endif
+
+
 
         {{-- =============================================== --}}
         {{-- ROLE SPECIFIC MENU --}}

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -19,6 +20,7 @@ class UserSeeder extends Seeder
         // Insert users
         $users = [
             [
+                'id' => Str::uuid(),
                 'name' => 'Super Admin',
                 'email' => 'superadmin@samboilerplate.com',
                 'password' => Hash::make('password123'),
@@ -29,6 +31,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'id' => Str::uuid(),
                 'name' => 'Pak Bon Admin',
                 'email' => 'admin@samboilerplate.com',
                 'password' => Hash::make('password123'),
@@ -39,6 +42,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'id' => Str::uuid(),
                 'name' => 'Si Tegar Supervisor',
                 'email' => 'supervisor@samboilerplate.com',
                 'password' => Hash::make('password123'),
@@ -49,6 +53,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'id' => Str::uuid(),
                 'name' => 'Sam Didi Operator',
                 'email' => 'operator@samboilerplate.com',
                 'password' => Hash::make('password123'),
@@ -59,6 +64,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'id' => Str::uuid(),
                 'name' => 'Sam Toni User',
                 'email' => 'user@samboilerplate.com',
                 'password' => Hash::make('password123'),
@@ -68,7 +74,6 @@ class UserSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-
 
         ];
 

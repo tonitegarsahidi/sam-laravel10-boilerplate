@@ -20,6 +20,11 @@ class DatabaseSeeder extends Seeder
             RoleMasterSeeder::class,
             RoleUserSeeder::class,
             FakeUserSeeder::class,
+
+            //Saas related to Subscription
+            SubscriptionMasterSeeder::class,
+            SubscriptionUserSeeder::class,
+            SubscriptionHistorySeeder::class,
         ]);
     }
 }
